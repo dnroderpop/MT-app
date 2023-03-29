@@ -13,5 +13,15 @@ namespace MT
         {
             InitializeComponent();
         }
+
+        private void Register_tapped(object sender, EventArgs e)
+        {
+            DisplayAlert("Register throw here", "register me sir", "Cancel");
+        }
+
+        private void login_click(object sender, EventArgs e)
+        {
+            DisplayAlert("Username "+ text_userlogin.Text,"Password " + text_passlogin.Text, "Cancel");
+        }
     }
 }
