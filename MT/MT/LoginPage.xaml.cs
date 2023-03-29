@@ -4,19 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration.AndroidSpecific.AppCompat;
 
 namespace MT
 {
-    public partial class MainPage : ContentPage
+    public partial class LoginPage : ContentPage
     {
-        public MainPage()
+        public LoginPage()
         {
             InitializeComponent();
         }
 
         private void Register_tapped(object sender, EventArgs e)
         {
-            DisplayAlert("Register throw here", "register me sir", "Cancel");
+            Navigation.PushAsync(new RegisterPage(), true);
         }
 
         private void login_click(object sender, EventArgs e)
