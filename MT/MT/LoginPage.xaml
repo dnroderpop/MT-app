@@ -3,23 +3,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:MT"
              x:Class="MT.LoginPage"
-             NavigationPage.HasNavigationBar="False"
-             BackgroundColor="Orange">
+             NavigationPage.HasNavigationBar="False">
 
     <StackLayout Margin="24,0,24,24">
         <ScrollView VerticalOptions="FillAndExpand" >
             <StackLayout VerticalOptions="CenterAndExpand" Margin="32,0,32,0">
                 <!-- Place new controls here -->
-                <Label Text="Mang Tinapay Commi Order" 
-                   FontSize="24" 
-                   Margin="0,32,0,32"
-                   FontFamily="Roboto,Arial" 
-                   FontAttributes="Bold" 
-                   TextColor="White"
-                   HorizontalOptions="Center"
-                   VerticalOptions="CenterAndExpand"/>
-                <Entry x:Name="text_userlogin" Placeholder="Username"/>
-                <Entry x:Name="text_passlogin" Placeholder="Password" IsPassword="True"/>
+                <Label Text="Mang Tinapay Commi Order
+                       Logo Here" 
+                        FontSize="24" 
+                        Margin="0,32,0,32"
+                        HorizontalTextAlignment="Center"
+                        FontFamily="Roboto,Arial" 
+                        FontAttributes="Bold"
+                        HorizontalOptions="Center"
+                        VerticalOptions="CenterAndExpand"/>
+                
+                <Entry x:Name="login_username" Placeholder="Username"/>
+                <Entry x:Name="login_password"  Placeholder="Password" IsPassword="True"/>
                 <Button Text="Login" Background="Transparent" BorderColor="Green" BorderWidth="1" CornerRadius="25" Margin="0,12,0,0" Clicked="login_click"/>
                 <Label HorizontalTextAlignment="Center">
                     <Label.FormattedText>

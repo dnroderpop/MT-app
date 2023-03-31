@@ -4,7 +4,7 @@
              x:Class="MT.RegisterPage" Title="Register">
     
     <ContentPage.Content>
-        <StackLayout Padding="24,0,24,24" BackgroundColor="Orange">
+        <StackLayout Padding="24,0,24,24">
             <ScrollView VerticalOptions="CenterAndExpand" >
                 <StackLayout VerticalOptions="CenterAndExpand" Margin="32,0,32,0">
                     <!-- Place new controls here -->

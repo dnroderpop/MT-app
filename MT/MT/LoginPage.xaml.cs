@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using MT.ViewModels;
 using Xamarin.Forms.PlatformConfiguration.AndroidSpecific.AppCompat;
 
 namespace MT
@@ -13,6 +14,12 @@ namespace MT
         public LoginPage()
         {
             InitializeComponent();
+
+            loginpage loginpage = new loginpage();
+
+            login_username.BindingContext = loginpage;
+            login_username.SetBinding(ContentProperty, loginpage.username);
+            login_password.SetBinding(ContentProperty, loginpage.password);
         }
 
         private void Register_tapped(object sender, EventArgs e)
@@ -22,7 +29,7 @@ namespace MT
 
         private void login_click(object sender, EventArgs e)
         {
-            DisplayAlert("Username "+ text_userlogin.Text,"Password " + text_passlogin.Text, "Cancel");
+            DisplayAlert("Username",login_username.Text + " " + login_password.Text,"Cancel");
         }
     }
 }
