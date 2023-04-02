@@ -55,6 +55,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Refractored.MvvmHelpers">
+      <Version>1.6.2</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.MediaRouter">
       <Version>1.2.0</Version>
     </PackageReference>

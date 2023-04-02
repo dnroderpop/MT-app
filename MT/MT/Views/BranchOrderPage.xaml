@@ -1,12 +1,61 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MT.Views.BranchOrderPage">
+             x:Class="MT.Views.BranchOrderPage"
+             BindingContext="MT.ViewModels.loginpageviewmodel"
+             NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" BackgroundColor="Orange">
+
+
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Margin="24,24,0,0">
+                <Label Text="Order List - Branch" FontSize="Title" HorizontalOptions="StartAndExpand"/>
+                <Button BackgroundColor="Transparent" TextColor="CornflowerBlue" Text="logout" FontSize="Small"/>
+                <Button BackgroundColor="Transparent" TextColor="CornflowerBlue" Text="load" FontSize="Small"/>
+            </StackLayout>
+
+
+            <StackLayout BackgroundColor="GhostWhite" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" VerticalOptions="Start">
+                    <DatePicker HorizontalOptions="CenterAndExpand"/>
+                    <DatePicker HorizontalOptions="CenterAndExpand"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" VerticalOptions="Start">
+                    <Label HorizontalOptions="CenterAndExpand" Text="Start"/>
+                    <Label HorizontalOptions="CenterAndExpand" Text="End"/>
+                </StackLayout>
+
+                <ListView BackgroundColor="Transparent"
+                          HasUnevenRows="True"
+                          SeparatorVisibility="None">
+
+                    <ListView.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>One page</x:String>
+                            <x:String>two page</x:String>
+                            <x:String>trepage</x:String>
+                        </x:Array>
+                    </ListView.ItemsSource>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.ContextActions>
+                                    <MenuItem Text="Edit"/>
+                                    <MenuItem Text="Remove"/>
+                                </ViewCell.ContextActions>
+                                <Grid Padding="5">
+                                    <Frame CornerRadius="10" HasShadow="True">
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
+                                            <Label Text="{Binding .}" HorizontalOptions="StartAndExpand"/>
+                                            <Label Text="{Binding .}" HorizontalOptions="End"/>
+                                        </StackLayout>
+                                    </Frame>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

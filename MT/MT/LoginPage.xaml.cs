@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using MT.ViewModels;
-using Xamarin.Forms.PlatformConfiguration.AndroidSpecific.AppCompat;
+using MT.Views;
 
 namespace MT
 {
@@ -15,21 +15,27 @@ namespace MT
         {
             InitializeComponent();
 
-            loginpage loginpage = new loginpage();
+            loginpageviewmodel loginpage = new loginpageviewmodel();
 
             login_username.BindingContext = loginpage;
-            login_username.SetBinding(ContentProperty, loginpage.username);
-            login_password.SetBinding(ContentProperty, loginpage.password);
+            login_username.SetBinding(ContentProperty, "username");
+            login_password.SetBinding(ContentProperty, "password");
         }
 
         private void Register_tapped(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new RegisterPage(), true);
+            login_newNavigation(new RegisterPage());
         }
 
-        private void login_click(object sender, EventArgs e)
+        private  void login_click(object sender, EventArgs e)
         {
-            DisplayAlert("Username",login_username.Text + " " + login_password.Text,"Cancel");
+           login_newNavigation(new BranchOrderPage());  
+
+        }
+
+        private async void login_newNavigation(Page destination)
+        {
+            await Navigation.PushAsync(destination, true);
         }
     }
 }
