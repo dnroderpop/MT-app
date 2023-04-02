@@ -14,12 +14,6 @@ namespace MT
         public LoginPage()
         {
             InitializeComponent();
-
-            loginpageviewmodel loginpage = new loginpageviewmodel();
-
-            login_username.BindingContext = loginpage;
-            login_username.SetBinding(ContentProperty, "username");
-            login_password.SetBinding(ContentProperty, "password");
         }
 
         private void Register_tapped(object sender, EventArgs e)

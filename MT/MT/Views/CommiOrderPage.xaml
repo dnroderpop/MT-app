@@ -5,7 +5,7 @@
              NavigationPage.HasNavigationBar="False">
     
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" BackgroundColor="Chocolate">
+        <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" BackgroundColor="{DynamicResource Accent}" Padding="0,20,0,0">
 
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Padding="6,6,0,6" Margin="12,12,0,0">

@@ -5,20 +5,21 @@
              x:Class="MT.LoginPage"
              NavigationPage.HasNavigationBar="False">
 
+
     <StackLayout Margin="24,0,24,24">
         <ScrollView VerticalOptions="FillAndExpand" >
             <StackLayout VerticalOptions="CenterAndExpand" Margin="32,0,32,0">
                 <!-- Place new controls here -->
                 <Label Text="Mang Tinapay Commi Order
-                       Logo Here" 
-                        FontSize="24" 
-                        Margin="0,32,0,32"
-                        HorizontalTextAlignment="Center"
-                        FontFamily="Roboto,Arial" 
-                        FontAttributes="Bold"
-                        HorizontalOptions="Center"
-                        VerticalOptions="CenterAndExpand"/>
-                
+                           Logo Here" 
+                            FontSize="24" 
+                            Margin="0,32,0,32"
+                            HorizontalTextAlignment="Center"
+                            FontFamily="Roboto,Arial" 
+                            FontAttributes="Bold"
+                            HorizontalOptions="Center"
+                            VerticalOptions="CenterAndExpand"/>
+
                 <Entry x:Name="login_username" Placeholder="Username"/>
                 <Entry x:Name="login_password"  Placeholder="Password" IsPassword="True"/>
                 <Button Text="Login" Background="Transparent" BorderColor="Green" BorderWidth="1" CornerRadius="25" Margin="0,12,0,0" Clicked="login_click"/>
@@ -36,5 +37,4 @@
             </StackLayout>
         </ScrollView>
     </StackLayout>
-
 </ContentPage>

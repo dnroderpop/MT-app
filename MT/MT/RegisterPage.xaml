@@ -1,19 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MT.RegisterPage" Title="Register">
-    
+             x:Class="MT.RegisterPage" NavigationPage.HasNavigationBar="False">
+
+  
     <ContentPage.Content>
         <StackLayout Padding="24,0,24,24">
-            <ScrollView VerticalOptions="CenterAndExpand" >
-                <StackLayout VerticalOptions="CenterAndExpand" Margin="32,0,32,0">
-                    <!-- Place new controls here -->
-                    <Entry x:Name="text_nameregister" Placeholder="Full Name"/>
-                    <Entry x:Name="text_userregister" Placeholder="Username"/>
-                    <Entry x:Name="text_passregister" Placeholder="Password" IsPassword="True"/>
-                    <Button Text="Register" Background="Transparent" BorderColor="Green" BorderWidth="1" CornerRadius="25" Margin="0,12,0,0" Clicked="Register_Clicked"/>
-                </StackLayout>
-            </ScrollView>
+            <StackLayout VerticalOptions="CenterAndExpand" Margin="32,0,32,0">
+                <!-- Place new controls here -->
+                <Entry x:Name="text_nameregister" Placeholder="Full Name"/>
+                <Entry x:Name="text_userregister" Placeholder="Username"/>
+                <Entry x:Name="text_passregister" Placeholder="Password" IsPassword="True"/>
+                <Button Text="Register" Background="Transparent" BorderColor="Green" BorderWidth="1" CornerRadius="25" Margin="0,12,0,0" Clicked="Register_Clicked"/>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

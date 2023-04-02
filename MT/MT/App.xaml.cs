@@ -1,4 +1,5 @@
-﻿using Android.Views;
+﻿using Android.Content.Res;
+using Android.Views;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
