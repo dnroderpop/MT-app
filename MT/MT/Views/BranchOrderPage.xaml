@@ -8,15 +8,15 @@
         <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" BackgroundColor="Orange">
 
 
-            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Margin="24,24,0,0">
-                <Label Text="Order List - Branch" FontSize="Title" HorizontalOptions="StartAndExpand"/>
-                <Button BackgroundColor="Transparent" TextColor="CornflowerBlue" Text="logout" FontSize="Small"/>
-                <Button BackgroundColor="Transparent" TextColor="CornflowerBlue" Text="load" FontSize="Small"/>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Padding="6,6,0,6" Margin="12,12,0,0">
+                <Label Text="Order List - Branch" FontSize="Title" HorizontalOptions="FillAndExpand" VerticalOptions="Center" FontAttributes="Bold" TextColor="White"/>
+                <Button BackgroundColor="Transparent" TextColor="CornflowerBlue" Text="logout" FontSize="Caption" HorizontalOptions="End" WidthRequest="60"/>
+                <Button BackgroundColor="Transparent" TextColor="CornflowerBlue" Text="load" FontSize="Caption" HorizontalOptions="End" WidthRequest="60"/>
             </StackLayout>
 
 
-            <StackLayout BackgroundColor="GhostWhite" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" VerticalOptions="Start">
+            <StackLayout BackgroundColor="GhostWhite" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" VerticalOptions="Start" Margin="0,12,0,0">
                     <DatePicker HorizontalOptions="CenterAndExpand"/>
                     <DatePicker HorizontalOptions="CenterAndExpand"/>
                 </StackLayout>
@@ -27,13 +27,19 @@
 
                 <ListView BackgroundColor="Transparent"
                           HasUnevenRows="True"
-                          SeparatorVisibility="None">
+                          SeparatorVisibility="None"
+                          SelectionMode="None"
+                          Visual="Material">
 
                     <ListView.ItemsSource>
                         <x:Array Type="{x:Type x:String}">
-                            <x:String>One page</x:String>
-                            <x:String>two page</x:String>
-                            <x:String>trepage</x:String>
+                            <x:String>Putik Branch</x:String>
+                            <x:String>Guiwan Branch</x:String>
+                            <x:String>Ayala</x:String>
+                            <x:String>Ayala</x:String>
+                            <x:String>Ayala</x:String>
+                            <x:String>Ayala</x:String>
+                            <x:String>Ayala</x:String>
                         </x:Array>
                     </ListView.ItemsSource>
                     <ListView.ItemTemplate>
@@ -46,8 +52,8 @@
                                 <Grid Padding="5">
                                     <Frame CornerRadius="10" HasShadow="True">
                                         <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
-                                            <Label Text="{Binding .}" HorizontalOptions="StartAndExpand"/>
-                                            <Label Text="{Binding .}" HorizontalOptions="End"/>
+                                            <Label Text="{Binding .}" HorizontalOptions="FillAndExpand" FontSize="Large"/>
+                                            <Label Text="{Binding .}" HorizontalOptions="End" TextColor="LightSlateGray"/>
                                         </StackLayout>
                                     </Frame>
                                 </Grid>
@@ -55,6 +61,10 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+
+                <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal" BackgroundColor="Transparent" Padding="6">
+                    <Button Text="click me" HorizontalOptions="FillAndExpand" HeightRequest="60" BackgroundColor="LightGreen"/>
+                </StackLayout>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>
