@@ -29,13 +29,16 @@ namespace MT
 
         private  void login_click(object sender, EventArgs e)
         {
-           login_newNavigation(new BranchOrderPage(),true);  
+           if(login_username.Text != "")
+                login_newNavigation(new BranchOrderPage(),true); 
+           else
+                login_newNavigation(new CommiOrderPage(), false);
 
         }
 
         private async void login_newNavigation(Page destination,bool playanimation)
         {
-            await Navigation.PushAsync(destination, playanimation);
+            await Navigation.PushAsync(destination, false);
         }
     }
 }

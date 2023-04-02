@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MT.Views.BranchOrderPage"
-             BindingContext="MT.ViewModels.loginpageviewmodel"
+             x:Class="MT.Views.CommiOrderPage"
              NavigationPage.HasNavigationBar="False">
+    
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" BackgroundColor="Orange">
+        <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" BackgroundColor="Chocolate">
 
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Padding="6,6,0,6" Margin="12,12,0,0">
-                <Label Text="Order List - Branch" FontSize="Title" HorizontalOptions="FillAndExpand" VerticalOptions="Center" FontAttributes="Bold" TextColor="White"/>
+                <Label Text="Product List - Branch" FontSize="Title" HorizontalOptions="FillAndExpand" VerticalOptions="Center" FontAttributes="Bold" TextColor="White"/>
                 <Button BackgroundColor="Transparent" TextColor="CornflowerBlue" Text="logout" FontSize="Caption" HorizontalOptions="End" WidthRequest="60"/>
                 <Button BackgroundColor="Transparent" TextColor="CornflowerBlue" Text="load" FontSize="Caption" HorizontalOptions="End" WidthRequest="60"/>
             </StackLayout>
@@ -33,13 +33,13 @@
 
                     <ListView.ItemsSource>
                         <x:Array Type="{x:Type x:String}">
-                            <x:String>Putik Branch</x:String>
-                            <x:String>Guiwan Branch</x:String>
-                            <x:String>Ayala</x:String>
-                            <x:String>Ayala</x:String>
-                            <x:String>Ayala</x:String>
-                            <x:String>Ayala</x:String>
-                            <x:String>Ayala</x:String>
+                            <x:String>Siopao</x:String>
+                            <x:String>Patty</x:String>
+                            <x:String>burgerbun</x:String>
+                            <x:String>slice bread at 30</x:String>
+                            <x:String>adobong sanghai with chicharon bulalak</x:String>
+                            <x:String>buko panda</x:String>
+                            <x:String>siakoy</x:String>
                         </x:Array>
                     </ListView.ItemsSource>
                     <ListView.ItemTemplate>
