@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Android.Views;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -10,7 +11,6 @@ namespace MT
         public App()
         {
             InitializeComponent();
-
             MainPage = new NavigationPage(new LoginPage());
         }
 

@@ -4,7 +4,7 @@
              x:Class="MT.App">
     <Application.Resources>
         <ResourceDictionary>
-            <Color x:Key="Primary">Orange</Color>
+            <Color x:Key="Primary">navajowhite</Color>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
