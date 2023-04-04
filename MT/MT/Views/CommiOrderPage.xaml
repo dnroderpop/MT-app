@@ -15,21 +15,14 @@
             </StackLayout>
 
 
-            <StackLayout BackgroundColor="GhostWhite" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" VerticalOptions="Start" Margin="0,12,0,0">
-                    <DatePicker HorizontalOptions="CenterAndExpand" Format="dd/MMM/yyyy"/>
-                    <DatePicker HorizontalOptions="CenterAndExpand" Format="dd/MMM/yyyy"/>
-                </StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" VerticalOptions="Start">
-                    <Label HorizontalOptions="CenterAndExpand" Text="Start"/>
-                    <Label HorizontalOptions="CenterAndExpand" Text="End"/>
-                </StackLayout>
+            <StackLayout BackgroundColor="{DynamicResource Background}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
 
                 <ListView BackgroundColor="Transparent"
                           HasUnevenRows="True"
                           SeparatorVisibility="None"
                           SelectionMode="None"
-                          Visual="Material">
+                          Visual="Material"
+                          >
 
                     <ListView.ItemsSource>
                         <x:Array Type="{x:Type x:String}">
@@ -60,7 +53,17 @@
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
-                </ListView>
+
+                        <ListView.Header>
+                            <StackLayout Orientation="Horizontal" Padding="12">
+
+                                <Label FontSize="Title" Text="Products" VerticalOptions="Center" HorizontalOptions="StartAndExpand"/>
+                                <Label FontSize="Large" Text="Date: " VerticalOptions="Center"/>
+                                <DatePicker Format="dd/MMM/yyyy" HorizontalOptions="End"/>
+
+                            </StackLayout>
+                        </ListView.Header>
+                    </ListView>
 
                 <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal" BackgroundColor="Transparent" Padding="6">
                     <Button Text="click me" HorizontalOptions="FillAndExpand" HeightRequest="60" BackgroundColor="LightGreen"/>

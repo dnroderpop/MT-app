@@ -16,11 +16,11 @@ namespace MT.Droid
         {
 
             //this code just to remove status bar and fullscreen the application
-            Window.SetFlags(WindowManagerFlags.LayoutNoLimits, WindowManagerFlags.LayoutNoLimits);
-            Window.ClearFlags(WindowManagerFlags.TranslucentStatus);
-            Window.SetStatusBarColor(Android.Graphics.Color.Black);
-            Window.ClearFlags(WindowManagerFlags.ForceNotFullscreen);
-            Window.AddFlags(WindowManagerFlags.LayoutInScreen);
+            //Window.SetFlags(WindowManagerFlags.LayoutNoLimits, WindowManagerFlags.LayoutNoLimits);
+            //Window.ClearFlags(WindowManagerFlags.TranslucentStatus);
+            //Window.SetStatusBarColor(Android.Graphics.Color.Black);
+            //Window.ClearFlags(WindowManagerFlags.ForceNotFullscreen);
+            //Window.AddFlags(WindowManagerFlags.LayoutInScreen);
 
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using MT.ViewModels;
 using MT.Views;
+using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 
 namespace MT
 {
@@ -14,6 +15,7 @@ namespace MT
         public LoginPage()
         {
             InitializeComponent();
+            Xamarin.Forms.Application.Current.On<Xamarin.Forms.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
         }
 
         private void Register_tapped(object sender, EventArgs e)

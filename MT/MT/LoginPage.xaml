@@ -4,37 +4,48 @@
              xmlns:local="clr-namespace:MT"
              x:Class="MT.LoginPage"
              NavigationPage.HasNavigationBar="False">
-
-    <StackLayout>
+    
+    
+    <ScrollView>
+        <StackLayout Padding="0" Margin="0" Orientation="Vertical" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Spacing="0">
         
-        <!-- upper half -->
-        <StackLayout Padding="24,0,24,24" Orientation="Vertical" VerticalOptions="FillAndExpand"  BackgroundColor="{DynamicResource Primary}">
+            <!-- upper half -->
+            <StackLayout Padding="24,24,24,0" Margin="0" Orientation="Vertical" VerticalOptions="FillAndExpand" BackgroundColor="{DynamicResource Primary}">
             
-            <StackLayout VerticalOptions="CenterAndExpand" Margin="32,0,32,0">
-                <!-- Place new controls here -->
-                <Image Source="truck2x.png"/>
+                <StackLayout VerticalOptions="CenterAndExpand" Margin="32,0,32,0" >
+                    <!-- Place new controls here -->
+                    <Image Source="truck2x.png"/>
+                </StackLayout>
+            
             </StackLayout>
-        </StackLayout>
         
-        <!--middle-->
-        <Image Source="separator2x.png" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Margin="0"/>
+            <!--middle-->
+            <Image Source="separator2x.png" HorizontalOptions="Fill" VerticalOptions="Fill" Margin="0"/>
         
-        <!-- lower half -->
-        <StackLayout Padding="24,0,24,24" Orientation="Vertical" VerticalOptions="FillAndExpand" BackgroundColor="{DynamicResource Background}">
-            <Entry x:Name="login_username" Placeholder="Username"/>
-            <Entry x:Name="login_password"  Placeholder="Password" IsPassword="True"/>
-            <Button Text="Login" Background="Transparent" BorderColor="Green" BorderWidth="1" CornerRadius="25" Margin="0,12,0,0" Clicked="login_click"/>
-            <Label HorizontalTextAlignment="Center">
-                <Label.FormattedText>
-                    <FormattedString>
-                        <Span Text="Dont have account? " TextColor="Gray"/>
-                        <Span Text="Register here" TextColor="Gray" TextDecorations="Underline"/>
-                    </FormattedString>
-                </Label.FormattedText>
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="Register_tapped"/>
-                </Label.GestureRecognizers>
-            </Label>
+            <!-- lower half -->
+            <StackLayout Padding="28,0,24,24" Margin="0" Orientation ="Vertical" VerticalOptions="FillAndExpand" BackgroundColor="{DynamicResource Background}">
+            
+                <Label Text="Login" FontSize="40" TextColor="Black"/>
+            
+                <StackLayout VerticalOptions="Center" HorizontalOptions="FillAndExpand" Margin="32">
+                    <Entry x:Name="login_username" Placeholder="Username"/>
+                    <Entry x:Name="login_password"  Placeholder="Password" IsPassword="True"/>
+                    <Button Text="Login" Background="{DynamicResource Safe}" BorderWidth="1" Margin="0,12,0,0" Clicked="login_click"/>
+                    <Label HorizontalTextAlignment="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Dont have account? " TextColor="Gray"/>
+                                <Span Text="Register here" TextColor="Gray" TextDecorations="Underline"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Register_tapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
+            
+            </StackLayout>
+
         </StackLayout>
-    </StackLayout>
+    </ScrollView>
 </ContentPage>
