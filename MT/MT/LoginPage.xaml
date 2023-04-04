@@ -5,36 +5,36 @@
              x:Class="MT.LoginPage"
              NavigationPage.HasNavigationBar="False">
 
-
-    <StackLayout Margin="24,0,24,24">
-        <ScrollView VerticalOptions="FillAndExpand" >
+    <StackLayout>
+        
+        <!-- upper half -->
+        <StackLayout Padding="24,0,24,24" Orientation="Vertical" VerticalOptions="FillAndExpand"  BackgroundColor="{DynamicResource Primary}">
+            
             <StackLayout VerticalOptions="CenterAndExpand" Margin="32,0,32,0">
                 <!-- Place new controls here -->
-                <Label Text="Mang Tinapay Commi Order
-                           Logo Here" 
-                            FontSize="24" 
-                            Margin="0,32,0,32"
-                            HorizontalTextAlignment="Center"
-                            FontFamily="Roboto,Arial" 
-                            FontAttributes="Bold"
-                            HorizontalOptions="Center"
-                            VerticalOptions="CenterAndExpand"/>
-
-                <Entry x:Name="login_username" Placeholder="Username"/>
-                <Entry x:Name="login_password"  Placeholder="Password" IsPassword="True"/>
-                <Button Text="Login" Background="Transparent" BorderColor="Green" BorderWidth="1" CornerRadius="25" Margin="0,12,0,0" Clicked="login_click"/>
-                <Label HorizontalTextAlignment="Center">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Dont have account? " TextColor="Gray"/>
-                            <Span Text="Register here" TextColor="Gray" TextDecorations="Underline"/>
-                        </FormattedString>
-                    </Label.FormattedText>
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="Register_tapped"/>
-                    </Label.GestureRecognizers>
-                </Label>
+                <Image Source="truck2x.png"/>
             </StackLayout>
-        </ScrollView>
+        </StackLayout>
+        
+        <!--middle-->
+        <Image Source="separator2x.png" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Margin="0"/>
+        
+        <!-- lower half -->
+        <StackLayout Padding="24,0,24,24" Orientation="Vertical" VerticalOptions="FillAndExpand" BackgroundColor="{DynamicResource Background}">
+            <Entry x:Name="login_username" Placeholder="Username"/>
+            <Entry x:Name="login_password"  Placeholder="Password" IsPassword="True"/>
+            <Button Text="Login" Background="Transparent" BorderColor="Green" BorderWidth="1" CornerRadius="25" Margin="0,12,0,0" Clicked="login_click"/>
+            <Label HorizontalTextAlignment="Center">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Dont have account? " TextColor="Gray"/>
+                        <Span Text="Register here" TextColor="Gray" TextDecorations="Underline"/>
+                    </FormattedString>
+                </Label.FormattedText>
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="Register_tapped"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </StackLayout>
     </StackLayout>
 </ContentPage>

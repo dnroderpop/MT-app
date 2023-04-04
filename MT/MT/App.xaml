@@ -10,6 +10,7 @@
             <Color x:Key="Info">#ff008c</Color>
             <Color x:Key="Danger">#ff000c</Color>
             <Color x:Key="Warning">#fff200</Color>
+            <Color x:Key="Background">#eae4db</Color>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
