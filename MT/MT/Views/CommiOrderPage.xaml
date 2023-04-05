@@ -5,13 +5,13 @@
              NavigationPage.HasNavigationBar="False">
     
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" BackgroundColor="{DynamicResource Accent}" Padding="0,20,0,0">
+        <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" BackgroundColor="{DynamicResource Info}" Spacing="0">
 
 
-            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Padding="6,6,0,6" Margin="12,12,0,0">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Padding="6,6,0,6" Margin="12,6,0,6" Spacing="0">
                 <Label Text="Product List - Branch" FontSize="Title" HorizontalOptions="FillAndExpand" VerticalOptions="Center" FontAttributes="Bold" TextColor="White"/>
-                <Button BackgroundColor="Transparent" TextColor="CornflowerBlue" Text="logout" FontSize="Caption" HorizontalOptions="End" WidthRequest="60"/>
-                <Button BackgroundColor="Transparent" TextColor="CornflowerBlue" Text="load" FontSize="Caption" HorizontalOptions="End" WidthRequest="60"/>
+                <Button BackgroundColor="Transparent" TextColor="{DynamicResource Warning}" Text="load" FontSize="Caption" HorizontalOptions="End" WidthRequest="60"/>
+                <Button BackgroundColor="Transparent" TextColor="{DynamicResource Warning}" Text="logout" FontSize="Caption" HorizontalOptions="End" WidthRequest="60"/>
             </StackLayout>
 
 
@@ -42,13 +42,14 @@
                                     <MenuItem Text="Edit"/>
                                     <MenuItem Text="Remove"/>
                                 </ViewCell.ContextActions>
-                                <Grid Padding="5">
-                                    <Frame CornerRadius="10" HasShadow="True">
-                                        <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
+                                <Grid>
+                                    <StackLayout Spacing="0">
+                                        <BoxView WidthRequest="100" HeightRequest="0.5" BackgroundColor="#e3dbcf" />
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="32,18,32,18">
                                             <Label Text="{Binding .}" HorizontalOptions="FillAndExpand" FontSize="Large"/>
-                                            <Label Text="{Binding .}" HorizontalOptions="End" TextColor="LightSlateGray"/>
+                                            <Label Text="12 orders" HorizontalOptions="End" TextColor="LightSlateGray"/>
                                         </StackLayout>
-                                    </Frame>
+                                    </StackLayout>
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>
