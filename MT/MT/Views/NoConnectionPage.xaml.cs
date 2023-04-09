@@ -18,7 +18,6 @@ namespace MT.Views
 	public partial class NoConnectionPage : ContentPage
 	{
         mysqldatabase mysqldatabase;
-        connectionsettings connectionsettings;
 		public NoConnectionPage (App MainApplication)
 		{
 			InitializeComponent ();
@@ -50,15 +49,9 @@ namespace MT.Views
             //connectionsettings.password = settingspassword.Text;
             //connectionsettings.database = settingsdatabase.Text;
 
-            var current = Connectivity.NetworkAccess;
-
-            if (current == NetworkAccess.Internet)
-            {
-                var result = mysqldatabase.tryConnectionAsync(settingsserver.Text, settingsuserid.Text, settingspassword.Text, settingsdatabase.Text, uint.Parse(settingsport.Text)).Result;
-                if (result)
-                    App.Current.MainPage = new NavigationPage(new LoginPage());
-            }else
-                DisplayAlert("No internet", "No connection has been establish", "Okay");
+            var result = mysqldatabase.tryConnectionAsync(settingsserver.Text, settingsuserid.Text, settingspassword.Text, settingsdatabase.Text, uint.Parse(settingsport.Text)).Result;
+            if (result)
+                App.Current.MainPage = new NavigationPage(new LoginPage());
 
         }
     }
