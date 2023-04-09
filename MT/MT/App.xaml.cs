@@ -1,24 +1,27 @@
 ﻿using Android.Content.Res;
 using Android.Views;
+using MT.Views;
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin.Essentials;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace MT
 {
     public partial class App : Application
     {
+        
         public App()
         {
             InitializeComponent();
-            MainPage = new NavigationPage(new LoginPage());
 
         }
 
         protected override void OnStart()
         {
             // Handle when your app starts
+            MainPage = new NavigationPage(new NoConnectionPage(this));
         }
 
         protected override void OnSleep()

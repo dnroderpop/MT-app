@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MT.Views.NoConnectionPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <ContentPage.Content>
+        <StackLayout
+            Padding="36,0,36,0"
+            HorizontalOptions="Fill"
+            VerticalOptions="CenterAndExpand">
+            <Label Text="No Connection!" />
+            <Entry x:Name="settingsserver" Placeholder="Server" />
+            <Entry x:Name="settingsport" Placeholder="Port" />
+            <Entry x:Name="settingsuserid" Placeholder="User id" />
+            <Entry
+                x:Name="settingspassword"
+                IsPassword="True"
+                Placeholder="Password" />
+            <Entry x:Name="settingsdatabase" Placeholder="Database" />
+            <Button
+                BackgroundColor="{DynamicResource Safe}"
+                Clicked="Button_Clicked"
+                Text="Retry" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

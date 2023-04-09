@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MT.LoginPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MT"
+    xmlns:local2="clr-namespace:MT.ViewModels"
+    NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.BindingContext>
+        <local2:loginpageviewmodel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <StackLayout
+            Margin="0"
+            Padding="0"
+            HorizontalOptions="FillAndExpand"
+            Orientation="Vertical"
+            Spacing="0"
+            VerticalOptions="FillAndExpand">
+
+            <!--  upper half  -->
+            <StackLayout
+                Margin="0"
+                Padding="24,24,24,0"
+                BackgroundColor="{DynamicResource Primary}"
+                Orientation="Vertical"
+                VerticalOptions="FillAndExpand">
+
+                <StackLayout Margin="32,0,32,0" VerticalOptions="CenterAndExpand">
+                    <!--  Place new controls here  -->
+                    <Image Source="truck2x.png" />
+                </StackLayout>
+
+            </StackLayout>
+
+            <!--  middle  -->
+            <Image
+                Margin="0"
+                HorizontalOptions="Fill"
+                Source="separator2x.png"
+                VerticalOptions="Fill" />
+
+            <!--  lower half  -->
+            <StackLayout
+                Margin="0"
+                Padding="28,0,24,24"
+                BackgroundColor="{DynamicResource Background}"
+                Orientation="Vertical"
+                VerticalOptions="FillAndExpand">
+
+                <Label
+                    FontSize="40"
+                    Text="Login"
+                    TextColor="Black" />
+
+                <StackLayout
+                    Margin="32"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="Center">
+
+                    <Entry
+                        x:Name="login_username"
+                        Placeholder="Username"
+                        Text="{Binding Username}" />
+
+                    <Entry
+                        x:Name="login_password"
+                        IsPassword="True"
+                        Placeholder="Password"
+                        Text="{Binding Password}" />
+
+                    <Button
+                        Margin="0,12,0,0"
+                        Background="{DynamicResource Safe}"
+                        BorderWidth="1"
+                        Command="{Binding LoginButtonCommand}"
+                        Text="Login" />
+
+                    <Label HorizontalTextAlignment="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Dont have account? " TextColor="Gray" />
+                                <Span
+                                    Text="Register here"
+                                    TextColor="Gray"
+                                    TextDecorations="Underline" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Register_tapped" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
+
+            </StackLayout>
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
