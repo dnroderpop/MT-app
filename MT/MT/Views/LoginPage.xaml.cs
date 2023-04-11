@@ -7,6 +7,7 @@ using Xamarin.Forms;
 using MT.ViewModels;
 using MT.Views;
 using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
+using Acr.UserDialogs;
 
 namespace MT
 {
@@ -15,6 +16,7 @@ namespace MT
         public LoginPage()
         {
             InitializeComponent();
+            UserDialogs.Instance.HideLoading();
             Xamarin.Forms.Application.Current.On<Xamarin.Forms.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
         }
 
@@ -28,13 +30,13 @@ namespace MT
            if(login_username.Text != "")
                 login_newNavigation(new BranchOrderPage(),true); 
            else
-                login_newNavigation(new CommiOrderPage(), false);
+                login_newNavigation(new CommiOrderPage(), true);
 
         }
 
         private async void login_newNavigation(Page destination,bool playanimation)
         {
-            await Navigation.PushAsync(destination, false);
+             Navigation.PushAsync(destination, false);
         }
     }
 }

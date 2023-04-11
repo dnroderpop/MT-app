@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
 using Android.OS;
-using MySqlConnector;
 using System.Threading.Tasks;
 using MT.Models;
 using Acr.UserDialogs;
 using Xamarin.Essentials;
+using Xamarin.Forms;
+using MySqlConnector;
+using System.Threading;
 
 namespace MT.Services
 {
@@ -19,51 +21,64 @@ namespace MT.Services
 
         public mysqldatabase()
         {
-            MySqlCommand = new MySqlCommand();
-            builder = new MySqlConnectionStringBuilder();
         }
 
-        public async Task<bool> tryConnectionAsync(string server, string userid, string password, string database, uint port)
+        public async Task tryConnectionAsync(string server, string userid, string password, string database, uint port)
         {
-            var current = Connectivity.NetworkAccess;
+            var result = false;
+            MySqlCommand = new MySqlCommand();
+            MySqlConnection = new MySqlConnection();
 
-            //check for internet
-            if (current == NetworkAccess.Internet)
+            //build connection
+            builder = new MySqlConnectionStringBuilder
             {
-                //build connection
-                builder = new MySqlConnectionStringBuilder
-                {
-                    Server = server,
-                    UserID = userid,
-                    Database = database,
-                    Password = password,
-                    ConnectionTimeout = 30,
-                };
+                Server = server,
+                UserID = userid,
+                Database = database,
+                Password = password,
+                ConnectionTimeout = 30,
 
-                MySqlConnection = new MySqlConnection(builder.ConnectionString);
-                try
-                {
-                    //Try Simple Connection
-                    UserDialogs.Instance.ShowLoading("Connecting to database...");
-                    _ = MySqlConnection.OpenAsync();
-                    MySqlConnection.Close();
-                }
-                catch (Exception ex)
-                {
-                    UserDialogs.Instance.HideLoading();
-                    _ = App.Current.MainPage.DisplayAlert(ex.Source, ex.Message, "Okay");
-                    return await Task.FromResult(false);
-                }
-                UserDialogs.Instance.HideLoading();
-                return await Task.FromResult(true);
+            };
 
-            }
-            else
+            result = await sampleconnection();
+
+            if (result)
+                App.Current.MainPage = new NavigationPage(new LoginPage());
+        }
+
+        async Task<bool> sampleconnection()
+        {
+            var result = false;
+            MySqlConnection.ConnectionString = builder.ConnectionString;
+
+            try
             {
-                _ = App.Current.MainPage.DisplayAlert("No internet", "No connection has been establish", "Okay");
-                return await Task.FromResult(false);
+                //Try Simple Connection
+                MySqlConnection.Open();
+                result = true;
+
+                // create a DB command and set the SQL statement with parameters
+                var command = MySqlConnection.CreateCommand();
+
+                command.CommandText = @"SELECT * FROM trans_sts WHERE id = @OrderId;";
+                command.Parameters.AddWithValue("@OrderId", 65536);
+
+                // execute the command and read the results
+                var reader = await command.ExecuteReaderAsync();
+                while (reader.Read())
+                { var id = reader.GetInt32("id");
+                    await App.Current.MainPage.DisplayAlert("ID", id.ToString(), "close");
+                }
+                MySqlConnection.Close();
+            }
+            catch (Exception ex)
+            {
+                MySqlConnection.Close();
+                await App.Current.MainPage.DisplayAlert(ex.Source, ex.Message, "Okay");
+                result = false;
             }
 
+            return result;
         }
     }
 }

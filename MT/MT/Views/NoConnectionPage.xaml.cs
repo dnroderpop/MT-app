@@ -11,6 +11,7 @@ using MT.Models;
 using static System.Net.Mime.MediaTypeNames;
 using Acr.UserDialogs;
 using Java.Lang.Annotation;
+using System.Threading;
 
 namespace MT.Views
 {
@@ -40,7 +41,7 @@ namespace MT.Views
         {
             TryConnection();
         }
-        public void TryConnection()
+        public async void TryConnection()
         {
             //save the settings strings
             //connectionsettings.database = settingsdatabase.Text;
@@ -49,10 +50,10 @@ namespace MT.Views
             //connectionsettings.password = settingspassword.Text;
             //connectionsettings.database = settingsdatabase.Text;
 
-            var result = mysqldatabase.tryConnectionAsync(settingsserver.Text, settingsuserid.Text, settingspassword.Text, settingsdatabase.Text, uint.Parse(settingsport.Text)).Result;
-            if (result)
-                App.Current.MainPage = new NavigationPage(new LoginPage());
-
+            UserDialogs.Instance.Loading("Connecting to database...");
+            UserDialogs.Instance.ShowLoading();
+            await mysqldatabase.tryConnectionAsync(settingsserver.Text, settingsuserid.Text, settingspassword.Text, settingsdatabase.Text, uint.Parse(settingsport.Text));
+            UserDialogs.Instance.HideLoading();
         }
     }
 }
