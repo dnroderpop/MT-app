@@ -34,7 +34,7 @@ namespace MT.Views
         {
             base.OnAppearing();
 
-            TryConnection();
+            //TryConnection();
         }
 
         private void Button_Clicked(object sender, EventArgs e)
@@ -43,15 +43,7 @@ namespace MT.Views
         }
         public async void TryConnection()
         {
-            //save the settings strings
-            //connectionsettings.database = settingsdatabase.Text;
-            //connectionsettings.port =settingsport.Text ;
-            //connectionsettings.userid = settingsuserid.Text;
-            //connectionsettings.password = settingspassword.Text;
-            //connectionsettings.database = settingsdatabase.Text;
-
-            UserDialogs.Instance.Loading("Connecting to database...");
-            UserDialogs.Instance.ShowLoading();
+            UserDialogs.Instance.ShowLoading("Connecting to database...");
             await mysqldatabase.tryConnectionAsync(settingsserver.Text, settingsuserid.Text, settingspassword.Text, settingsdatabase.Text, uint.Parse(settingsport.Text));
             UserDialogs.Instance.HideLoading();
         }

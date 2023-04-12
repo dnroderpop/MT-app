@@ -22,7 +22,7 @@
             <Button
                 BackgroundColor="{DynamicResource Safe}"
                 Clicked="Button_Clicked"
-                Text="Retry" />
+                Text="Try Connection" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
