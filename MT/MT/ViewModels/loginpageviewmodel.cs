@@ -1,5 +1,4 @@
-﻿using Android.Content.Res;
-using MT.Views;
+﻿using MT.Views;
 using MvvmHelpers;
 using System;
 using System.Collections.Generic;

@@ -10,7 +10,7 @@
             Padding="36,0,36,0"
             HorizontalOptions="Fill"
             VerticalOptions="CenterAndExpand">
-            <Label Text="No Connection!" />
+            <Label FontSize="Title" Text="Connection Settings" />
             <Entry x:Name="settingsserver" Placeholder="Server" />
             <Entry x:Name="settingsport" Placeholder="Port" />
             <Entry x:Name="settingsuserid" Placeholder="User id" />

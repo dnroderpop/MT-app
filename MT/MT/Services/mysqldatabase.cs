@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics;
-using Android.OS;
 using System.Threading.Tasks;
 using MT.Models;
 using Acr.UserDialogs;
@@ -76,7 +75,6 @@ namespace MT.Services
 
             if (result) { 
                 App.Current.MainPage = new NavigationPage(new LoginPage());
-                LoginPage.
             }
             else
                 await App.Current.MainPage.DisplayAlert("Error", errormessage, "Okay");

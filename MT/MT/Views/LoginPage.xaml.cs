@@ -23,21 +23,21 @@ namespace MT
 
         private void Register_tapped(object sender, EventArgs e)
         {
-            login_newNavigation(new RegisterPage(),false);
+            login_newNavigation(new RegisterPage());
         }
 
         private  void login_click(object sender, EventArgs e)
         {
            if(login_username.Text != "")
-                login_newNavigation(new BranchOrderPage(),true); 
+                login_newNavigation(new BranchOrderPage()); 
            else
-                login_newNavigation(new CommiOrderPage(), true);
+                login_newNavigation(new CommiOrderPage());
 
         }
 
-        private async void login_newNavigation(Page destination,bool playanimation)
+        private void login_newNavigation(Page destination)
         {
-             Navigation.PushAsync(destination, false);
+             App.Current.MainPage = destination;
         }
     }
 }
