@@ -65,7 +65,7 @@ namespace MT.Views
 
 
             UserDialogs.Instance.ShowLoading("Connecting to database...",maskType:MaskType.Black);
-            await mysqldatabase.tryConnectionAsync(settingsserver.Text, settingsuserid.Text, settingspassword.Text, settingsdatabase.Text, uint.Parse(settingsport.Text));
+            await mysqldatabase.tryConnectionAsync(settingsserver.Text, settingsuserid.Text, settingspassword.Text, settingsdatabase.Text, uint.Parse(settingsport.Text)).ConfigureAwait(true);
             UserDialogs.Instance.HideLoading();
         }
     }

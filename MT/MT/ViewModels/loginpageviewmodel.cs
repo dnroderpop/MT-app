@@ -1,5 +1,6 @@
-﻿using MT.Views;
-using MvvmHelpers;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using MT.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,44 +11,32 @@ using Xamarin.Forms;
 
 namespace MT.ViewModels
 {
-    public class loginpageviewmodel : INotifyPropertyChanged
+    public partial class loginpageviewmodel : ObservableObject
     {
-        string username = "", password = "";
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public string Username
+        public loginpageviewmodel()
         {
-            get => username;
-            set
-            {
-                username = value;
-                OnpropertyChanged();
-            }
         }
 
-        public string Password
+        [ObservableProperty]
+        string username;
+
+        [ObservableProperty]
+        string password;
+
+        [RelayCommand]
+        void register()
         {
-            get => password;
-            set
-            {
-                password = value;
-                OnpropertyChanged();
-            }
+            App.Current.MainPage.Navigation.PushAsync(new RegisterPage());
         }
-        ICommand loginButtonCommand;
 
-        public ICommand LoginButtonCommand => loginButtonCommand ?? new Command(submit);
-
+        [RelayCommand]
         void submit()
         {
-            //App.Current.MainPage.DisplayActionSheet(username,password,"Okay");
-
-            if (username == "1")
-                _ = App.Current.MainPage.Navigation.PushAsync(new BranchOrderPage(), true);
+            if (this.Username == "1")
+                App.Current.MainPage = new BranchOrderPage();
             else
-                _ = App.Current.MainPage.Navigation.PushAsync(new CommiOrderPage(), true);
+                App.Current.MainPage = new CommiOrderPage();
         }
 
-        void OnpropertyChanged([CallerMemberName]string propertyName = "")=>PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)); 
     }
 }

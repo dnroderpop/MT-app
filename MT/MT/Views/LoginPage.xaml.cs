@@ -21,23 +21,5 @@ namespace MT
             Xamarin.Forms.Application.Current.On<Xamarin.Forms.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
         }
 
-        private void Register_tapped(object sender, EventArgs e)
-        {
-            login_newNavigation(new RegisterPage());
-        }
-
-        private  void login_click(object sender, EventArgs e)
-        {
-           if(login_username.Text != "")
-                login_newNavigation(new BranchOrderPage()); 
-           else
-                login_newNavigation(new CommiOrderPage());
-
-        }
-
-        private void login_newNavigation(Page destination)
-        {
-             App.Current.MainPage = destination;
-        }
     }
 }

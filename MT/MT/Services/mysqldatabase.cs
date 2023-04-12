@@ -14,9 +14,9 @@ namespace MT.Services
 {
     class mysqldatabase
     {
-        MySqlCommand MySqlCommand;
-        MySqlConnection MySqlConnection;
-        MySqlConnectionStringBuilder builder;
+        public static MySqlCommand MySqlCommand;
+        public static MySqlConnection MySqlConnection;
+        public static MySqlConnectionStringBuilder builder;
 
         public mysqldatabase()
         {
@@ -24,7 +24,7 @@ namespace MT.Services
             MySqlConnection = new MySqlConnection();
         }
 
-        public async Task tryConnectionAsync(string server, string userid, string password, string database, uint port)
+        public static async Task tryConnectionAsync(string server, string userid, string password, string database, uint port)
         {
             var result = false;
             var errormessage = "";
@@ -50,13 +50,13 @@ namespace MT.Services
                     result = true;
 
                     // create a DB command and set the SQL statement with parameters
-                    var command = MySqlConnection.CreateCommand();
+                    MySqlCommand = MySqlConnection.CreateCommand();
 
-                    command.CommandText = @"SELECT * FROM trans_sts WHERE id = @OrderId;";
-                    command.Parameters.AddWithValue("@OrderId", 65536);
+                    MySqlCommand.CommandText = @"SELECT * FROM trans_sts WHERE id = @OrderId;";
+                    MySqlCommand.Parameters.AddWithValue("@OrderId", 65536);
 
                     // execute the command and read the results
-                    var reader = command.ExecuteReader();
+                    var reader = MySqlCommand.ExecuteReader();
                     while (reader.Read())
                     {
                         var id = reader.GetInt32("id");
@@ -71,13 +71,13 @@ namespace MT.Services
                 }
 
 
-            });
+            }).ConfigureAwait(true);
 
             if (result) { 
                 App.Current.MainPage = new NavigationPage(new LoginPage());
             }
             else
-                await App.Current.MainPage.DisplayAlert("Error", errormessage, "Okay");
+                await Application.Current.MainPage.DisplayAlert("Error", errormessage, "Okay").ConfigureAwait(true);
         }
 
     }
