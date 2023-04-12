@@ -21,6 +21,8 @@ namespace MT.Services
 
         public mysqldatabase()
         {
+            MySqlCommand = new MySqlCommand();
+            MySqlConnection = new MySqlConnection();
         }
 
         public async Task tryConnectionAsync(string server, string userid, string password, string database, uint port)
@@ -29,8 +31,6 @@ namespace MT.Services
             var errormessage = "";
             await Task.Run(() =>
             {
-                MySqlCommand = new MySqlCommand();
-                MySqlConnection = new MySqlConnection();
 
                 //build connection
                 builder = new MySqlConnectionStringBuilder
@@ -40,7 +40,6 @@ namespace MT.Services
                     Database = database,
                     Password = password,
                     ConnectionTimeout = 30,
-
                 };
 
                 MySqlConnection.ConnectionString = builder.ConnectionString;
@@ -75,10 +74,13 @@ namespace MT.Services
 
             });
 
-            if (result)
+            if (result) { 
                 App.Current.MainPage = new NavigationPage(new LoginPage());
+                LoginPage.
+            }
             else
                 await App.Current.MainPage.DisplayAlert("Error", errormessage, "Okay");
         }
+
     }
 }
