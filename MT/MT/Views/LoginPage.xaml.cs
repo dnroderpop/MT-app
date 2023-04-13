@@ -8,7 +8,6 @@ using MT.ViewModels;
 using MT.Views;
 using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 using Acr.UserDialogs;
-using MT.Services;
 
 namespace MT
 {

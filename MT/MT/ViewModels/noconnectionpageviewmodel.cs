@@ -1,7 +1,7 @@
 ﻿using Acr.UserDialogs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MT.Services;
+using MT.Models;
 using System.Threading.Tasks;
 
 namespace MT.ViewModels

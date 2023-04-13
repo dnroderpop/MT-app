@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Diagnostics;
 using System.Threading.Tasks;
-using MT.Models;
-using Acr.UserDialogs;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 using MySqlConnector;
-using System.Threading;
 
-namespace MT.Services
+namespace MT.Models
 {
     class mysqldatabase
     {
@@ -73,8 +66,9 @@ namespace MT.Services
 
             }).ConfigureAwait(true);
 
-            if (result) { 
-                App.Current.MainPage = new NavigationPage(new LoginPage());
+            if (result)
+            {
+                Application.Current.MainPage = new NavigationPage(new LoginPage());
             }
             else
                 await Application.Current.MainPage.DisplayAlert("Error", errormessage, "Okay").ConfigureAwait(true);
