@@ -57,7 +57,6 @@ namespace MT.ViewModels
 
             UserDialogs.Instance.ShowLoading("Connecting to database...", maskType: MaskType.Black);
             await Mysqldatabase.tryConnectionAsync(Server, Username, Password, Database, uint.Parse(Port));
-            UserDialogs.Instance.HideLoading();
         }
 
 

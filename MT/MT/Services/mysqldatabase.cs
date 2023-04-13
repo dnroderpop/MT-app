@@ -24,7 +24,7 @@ namespace MT.Services
             MySqlConnection = new MySqlConnection();
         }
 
-        public static async Task tryConnectionAsync(string server, string userid, string password, string database, uint port)
+        public async Task tryConnectionAsync(string server, string userid, string password, string database, uint port)
         {
             var result = false;
             var errormessage = "";
