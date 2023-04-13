@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using MySqlConnector;
 
-namespace MT.Models
+namespace MT.Services
 {
     class mysqldatabase
     {

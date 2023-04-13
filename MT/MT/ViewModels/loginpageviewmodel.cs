@@ -1,5 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Acr.UserDialogs;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MT.Services;
 using MT.Views;
 using System;
 using System.Collections.Generic;
@@ -13,6 +15,12 @@ namespace MT.ViewModels
 {
     public partial class loginpageviewmodel : ObservableObject
     {
+        public loginpageviewmodel()
+        {
+            mysqlget = new mysqlGET();
+        }
+
+        private mysqlGET mysqlget;
 
         [ObservableProperty]
         string username;
@@ -27,12 +35,14 @@ namespace MT.ViewModels
         }
 
         [RelayCommand]
-        void submit()
+        async void submit()
         {
-            if (this.Username == "1")
+            string result = await mysqlget.querySingleStringFromDatabase("user_accounts", "id", "user", "password", Username, Password);
+            if (result != null)
                 App.Current.MainPage = new BranchOrderPage();
             else
-                App.Current.MainPage = new CommiOrderPage();
+                UserDialogs.Instance.Alert("Incorrect Username or Password");
+                //App.Current.MainPage = new CommiOrderPage();
         }
 
     }

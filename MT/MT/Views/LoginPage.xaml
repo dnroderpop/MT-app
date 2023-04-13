@@ -60,13 +60,9 @@
                     HorizontalOptions="FillAndExpand"
                     VerticalOptions="Center">
 
-                    <Entry
-                        x:Name="login_username"
-                        Placeholder="Username"
-                        Text="{Binding Username}" />
+                    <Entry Placeholder="Username" Text="{Binding Username}" />
 
                     <Entry
-                        x:Name="login_password"
                         IsPassword="True"
                         Placeholder="Password"
                         Text="{Binding Password}" />
