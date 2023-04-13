@@ -19,7 +19,7 @@ namespace MT
         protected override void OnStart()
         {
             // Handle when your app starts
-            MainPage = new NavigationPage(new NoConnectionPage(this));
+            MainPage = new NavigationPage(new NoConnectionPage());
         }
 
         protected override void OnSleep()

@@ -13,9 +13,6 @@ namespace MT.ViewModels
 {
     public partial class loginpageviewmodel : ObservableObject
     {
-        public loginpageviewmodel()
-        {
-        }
 
         [ObservableProperty]
         string username;

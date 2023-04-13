@@ -1,27 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
     x:Class="MT.Views.NoConnectionPage"
+    xmlns:x2="clr-namespace:MT.ViewModels"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     BackgroundColor="{DynamicResource Background}"
     NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.BindingContext>
+        <x2:noconnectionpageviewmodel />
+    </ContentPage.BindingContext>
+
     <ContentPage.Content>
         <StackLayout
             Padding="36,0,36,0"
             HorizontalOptions="Fill"
             VerticalOptions="CenterAndExpand">
             <Label FontSize="Title" Text="Connection Settings" />
-            <Entry x:Name="settingsserver" Placeholder="Server" />
-            <Entry x:Name="settingsport" Placeholder="Port" />
-            <Entry x:Name="settingsuserid" Placeholder="User id" />
+            <Entry Placeholder="Server" Text="{Binding Server}"/>
+            <Entry Placeholder="Port" Text="{Binding Port}"/>
+            <Entry Placeholder="User id" Text="{Binding Username}"/>
             <Entry
-                x:Name="settingspassword"
                 IsPassword="True"
-                Placeholder="Password" />
-            <Entry x:Name="settingsdatabase" Placeholder="Database" />
+                Placeholder="Password" 
+                Text="{Binding Password}"/>
+            <Entry x:Name="settingsdatabase" Placeholder="Database" Text="{Binding Database}"/>
             <Button
+                x:Name="buttonPress"
                 BackgroundColor="{DynamicResource Safe}"
-                Clicked="Button_Clicked"
+                Command="{Binding tryConnectionCommand}"
                 Text="Try Connection" />
         </StackLayout>
     </ContentPage.Content>
