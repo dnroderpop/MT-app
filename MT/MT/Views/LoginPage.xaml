@@ -74,7 +74,7 @@
                         Command="{Binding submitCommand}"
                         Text="Login" />
 
-                    <Label HorizontalTextAlignment="Center">
+                    <Label HorizontalTextAlignment="Center" Margin="12">
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="Dont have account? " TextColor="Gray" />

@@ -8,6 +8,7 @@ using MT.ViewModels;
 using MT.Views;
 using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
 using Acr.UserDialogs;
+using MT.Services;
 
 namespace MT
 {
@@ -18,6 +19,15 @@ namespace MT
             InitializeComponent();
             UserDialogs.Instance.HideLoading();
             Xamarin.Forms.Application.Current.On<Xamarin.Forms.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            UserDialogs.Instance.ShowLoading("Retrieving data from commissary");
+            mysqldatabase mysqldatabase = new mysqldatabase();
+            await mysqldatabase.loadbranchandproducts();
         }
 
     }

@@ -60,11 +60,13 @@
                     HorizontalOptions="FillAndExpand"
                     VerticalOptions="Center">
 
-                    <Label Text="Pick Branch" />
                     <Picker
                         Title="Pick a branch you manage"
-                        ItemDisplayBinding="{Binding BranchesItems}"
-                        ItemsSource="{Binding Branch}" />
+                        FontSize="Large"
+                        SelectedItem="{Binding Selectedbranch}"
+                        ItemDisplayBinding="{Binding Name}"
+                        ItemsSource="{Binding BranchesItems}">
+                    </Picker>
                     <Entry Placeholder="Full Name" Text="{Binding Fullname}" />
                     <Entry Placeholder="Username" Text="{Binding Username}" />
                     <Entry

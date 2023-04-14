@@ -3,6 +3,7 @@ using MySqlConnector;
 using System;
 using System.Data;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace MT.Services
@@ -19,11 +20,11 @@ namespace MT.Services
             MySqlCommand = new MySqlCommand();
             MySqlConnection = new MySqlConnection();
 
-            Server = Application.Current.Properties["server"].ToString();
-            Port = Application.Current.Properties["port"].ToString();
-            Username = Application.Current.Properties["userid"].ToString();
-            Password = Application.Current.Properties["password"].ToString();
-            Database = Application.Current.Properties["database"].ToString();
+            Server =   Preferences.Get("server", "122.54.146.208");
+            Port =     Preferences.Get("port", "3306");
+            Username = Preferences.Get("userid", "rodericks");
+            Password = Preferences.Get("password", "mtchoco");
+            Database = Preferences.Get("database", "mangtinapay");
 
             builder = new MySqlConnectionStringBuilder
             {
@@ -78,7 +79,7 @@ namespace MT.Services
             return result;
         }
 
-        public async Task<string> querySingleStringFromDatabase(string datatablename, string targetcolumn, string whereclause,string whereclause2, string parameter,string parameter2)
+        public async Task<string> querySingleStringFromDatabase(string datatablename, string targetcolumn, string whereclause, string whereclause2, string parameter, string parameter2)
         {
             UserDialogs.Instance.ShowLoading("Loading...", maskType: MaskType.Black);
             string result = null;
@@ -92,7 +93,7 @@ namespace MT.Services
 
                     MySqlCommand = MySqlConnection.CreateCommand();
 
-                    MySqlCommand.CommandText = @"SELECT " + targetcolumn + " FROM " + datatablename + " WHERE " + whereclause + " = @param1 and "+ whereclause2 +" = @param2;";
+                    MySqlCommand.CommandText = @"SELECT " + targetcolumn + " FROM " + datatablename + " WHERE " + whereclause + " = @param1 and " + whereclause2 + " = @param2;";
                     MySqlCommand.Parameters.AddWithValue("@param1", parameter);
                     MySqlCommand.Parameters.AddWithValue("@param2", parameter2);
 
@@ -108,7 +109,7 @@ namespace MT.Services
                 catch (Exception ex)
                 {
                     MySqlConnection.Close();
-                    UserDialogs.Instance.Alert(ex.Message,"Error", "Okay");
+                    UserDialogs.Instance.Alert(ex.Message, "Error", "Okay");
 
                 }
 

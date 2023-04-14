@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MT.Services;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace MT.ViewModels
 {
@@ -25,22 +26,11 @@ namespace MT.ViewModels
         {
             Mysqldatabase = new mysqldatabase();
 
-            //check for setting availability
-            if (!Xamarin.Forms.Application.Current.Properties.ContainsKey("server"))
-            {
-                Xamarin.Forms.Application.Current.Properties["server"] = "122.54.146.208";
-                Xamarin.Forms.Application.Current.Properties["port"] = "3306";
-                Xamarin.Forms.Application.Current.Properties["userid"] = "rodericks";
-                Xamarin.Forms.Application.Current.Properties["password"] = "mtchoco";
-                Xamarin.Forms.Application.Current.Properties["database"] = "mangtinapay";
-                Xamarin.Forms.Application.Current.SavePropertiesAsync();
-            }
-
-            Server = Xamarin.Forms.Application.Current.Properties["server"].ToString();
-            Port = Xamarin.Forms.Application.Current.Properties["port"].ToString();
-            Username = Xamarin.Forms.Application.Current.Properties["userid"].ToString();
-            Password = Xamarin.Forms.Application.Current.Properties["password"].ToString();
-            Database = Xamarin.Forms.Application.Current.Properties["database"].ToString();
+            Server = Preferences.Get("server", "122.54.146.208");
+            Port = Preferences.Get("port", "3306");
+            Username = Preferences.Get("userid", "rodericks");
+            Password = Preferences.Get("password", "mtchoco");
+            Database = Preferences.Get("database", "mangtinapay");
 
             tryConnectionAsync();
         }
@@ -48,11 +38,11 @@ namespace MT.ViewModels
         [RelayCommand]
         async void tryConnectionAsync()
         {
-            Xamarin.Forms.Application.Current.Properties["server"] = Server;
-            Xamarin.Forms.Application.Current.Properties["port"] = Port;
-            Xamarin.Forms.Application.Current.Properties["userid"] = Username;
-            Xamarin.Forms.Application.Current.Properties["password"] = Password;
-            Xamarin.Forms.Application.Current.Properties["database"] = Database;
+            Preferences.Set("server", Server);
+            Preferences.Set("port", Port);
+            Preferences.Set("userid", Username);
+            Preferences.Set("password", Password);
+            Preferences.Set("database", Database);
             await Xamarin.Forms.Application.Current.SavePropertiesAsync();
 
             UserDialogs.Instance.ShowLoading("Connecting to database...", maskType: MaskType.Black);

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using MT.Models;
 using CommunityToolkit.Mvvm.Input;
-using Java.Lang.Reflect;
+using Xamarin.Essentials;
 
 namespace MT.Services
 {
@@ -22,11 +22,11 @@ namespace MT.Services
             MySqlCommand = new MySqlCommand();
             MySqlConnection = new MySqlConnection();
 
-            Server = Application.Current.Properties["server"].ToString();
-            Port = Application.Current.Properties["port"].ToString();
-            Username = Application.Current.Properties["userid"].ToString();
-            Password = Application.Current.Properties["password"].ToString();
-            Database = Application.Current.Properties["database"].ToString();
+            Server = Preferences.Get("server", "122.54.146.208");
+            Port = Preferences.Get("port", "3306");
+            Username = Preferences.Get("userid", "rodericks");
+            Password = Preferences.Get("password", "mtchoco");
+            Database = Preferences.Get("database", "mangtinapay");
 
             builder = new MySqlConnectionStringBuilder
             {
@@ -44,14 +44,14 @@ namespace MT.Services
         public async Task Register(userProfileModel userProfile)
         {
             string username, password, fullname;
-            int id = 0, branchid = 0;
+            int id = 0, branchid;
 
             username = userProfile.username;
             password = userProfile.password;
             fullname = userProfile.fullname;
+            branchid = userProfile.branch;
 
             UserDialogs.Instance.ShowLoading("Loading...", maskType: MaskType.Black);
-            string result = null;
 
             await Task.Run(() =>
             {
@@ -70,9 +70,13 @@ namespace MT.Services
                     MySqlCommand.Parameters.AddWithValue("@nickname", fullname);
                     MySqlCommand.Parameters.AddWithValue("@pending", 0);
                     MySqlCommand.Parameters.AddWithValue("@able", 1);
+                    MySqlCommand.ExecuteNonQuery();
+
+                    //reset connection
+                    MySqlConnection.Close();
+                    MySqlConnection.Open();
 
                     // execute the command and read the results
-                    MySqlCommand.ExecuteNonQuery();
 
                     //next is search for the username and password of the new registered account
                     //then add branch
@@ -86,6 +90,16 @@ namespace MT.Services
                         id = reader.GetInt32("id");
                     }
 
+                    //reset connection
+                    MySqlConnection.Close();
+                    MySqlConnection.Open();
+
+                    MySqlCommand.CommandText = @"INSERT INTO `user_branch_app`(`ID`, `Branch`) VALUE (@param3, @param4);";
+                    MySqlCommand.Parameters.AddWithValue("@param3", id);
+                    MySqlCommand.Parameters.AddWithValue("@param4", branchid);
+
+                    UserDialogs.Instance.Toast("Successfully Registered");
+                    MySqlCommand.ExecuteNonQuery();
 
 
                     MySqlConnection.Close();
@@ -101,7 +115,6 @@ namespace MT.Services
             });
 
             UserDialogs.Instance.HideLoading();
-            return result;
 
 
 
