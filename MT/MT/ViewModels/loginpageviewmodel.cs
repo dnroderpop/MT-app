@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MT.Models;
 using MT.Services;
 using MT.Views;
 using System;
@@ -19,7 +20,6 @@ namespace MT.ViewModels
         {
             mysqlget = new mysqlGET();
         }
-
         private mysqlGET mysqlget;
 
         [ObservableProperty]
@@ -39,7 +39,13 @@ namespace MT.ViewModels
         {
             string result = await mysqlget.querySingleStringFromDatabase("user_accounts", "id", "user", "password", Username, Password);
             if (result != null)
-                App.Current.MainPage = new BranchOrderPage();
+            {
+                if(result == "21")
+                    App.Current.MainPage = new CommiOrderPage();
+                else
+                    App.Current.MainPage = new BranchOrderPage();
+
+            }
             else
                 UserDialogs.Instance.Alert("Incorrect Username or Password");
                 //App.Current.MainPage = new CommiOrderPage();

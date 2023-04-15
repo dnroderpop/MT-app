@@ -1,86 +1,150 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MT.Views.BranchOrderPage"
-             BindingContext="MT.ViewModels.loginpageviewmodel"
-             NavigationPage.HasNavigationBar="False">
-    <ContentPage.Content>
-        <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" BackgroundColor="{DynamicResource Primary}" Spacing="0">
+<ContentPage
+    x:Class="MT.Views.BranchOrderPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MT.ViewModels"
+    NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.BindingContext>
+        <local:branchorderpageviewmodel />
+    </ContentPage.BindingContext>
+
+    <StackLayout
+        BackgroundColor="{DynamicResource Primary}"
+        HorizontalOptions="CenterAndExpand"
+        Orientation="Vertical"
+        Spacing="0"
+        VerticalOptions="CenterAndExpand">
 
 
-            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Padding="6,6,0,6" Margin="12,6,0,6" Spacing="0">
-                <Label Text="Order List - Branch" FontSize="Title" HorizontalOptions="FillAndExpand" VerticalOptions="Center" FontAttributes="Bold" TextColor="White"/>
-                <Button BackgroundColor="Transparent" TextColor="{DynamicResource Accent}" Text="logout" FontSize="Caption" HorizontalOptions="End" WidthRequest="60"/>
-                <Button BackgroundColor="Transparent" TextColor="{DynamicResource Info}" Text="load" FontSize="Caption" HorizontalOptions="End" WidthRequest="60"/>
-            </StackLayout>
+        <StackLayout
+            Margin="12,6,0,6"
+            Padding="6,6,0,6"
+            HorizontalOptions="FillAndExpand"
+            Orientation="Horizontal"
+            Spacing="0"
+            VerticalOptions="Center">
+            <Label
+                FontAttributes="Bold"
+                FontSize="Title"
+                HorizontalOptions="FillAndExpand"
+                Text="Order List - Branch"
+                TextColor="White"
+                VerticalOptions="Center" />
+            <Button
+                BackgroundColor="Transparent"
+                FontSize="Caption"
+                HorizontalOptions="End"
+                Text="logout"
+                TextColor="{DynamicResource Accent}"
+                WidthRequest="60" />
+            <Button
+                BackgroundColor="Transparent"
+                FontSize="Caption"
+                HorizontalOptions="End"
+                Text="load"
+                TextColor="{DynamicResource Info}"
+                WidthRequest="60" />
+        </StackLayout>
 
+        <StackLayout Padding="12" Orientation="Horizontal">
 
-            <StackLayout BackgroundColor="{DynamicResource Background}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
-                
-                <ListView BackgroundColor="Transparent"
-                          HasUnevenRows="True"
-                          SeparatorVisibility="None"
-                          SelectionMode="None"
-                          Visual="Material"
-                          >
+            <Label
+                FontSize="Title"
+                HorizontalOptions="StartAndExpand"
+                Text="Branches"
+                VerticalOptions="Center" />
+            <Label
+                FontSize="Large"
+                Text="Date: "
+                VerticalOptions="Center" />
+            <DatePicker Format="dd/MMM/yyyy" HorizontalOptions="End" />
 
-                    <ListView.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>Putik Branch</x:String>
-                            <x:String>Guiwan Branch</x:String>
-                            <x:String>Guiwan Branch</x:String>
-                            <x:String>Guiwan Branch</x:String>
-                            <x:String>Guiwan Branch</x:String>
-                            <x:String>Guiwan Branch</x:String>
-                            <x:String>Guiwan Branch</x:String>
-                            <x:String>Guiwan Branch</x:String>
-                            <x:String>Guiwan Branch</x:String>
-                            <x:String>Guiwan Branch</x:String>
-                            <x:String>Guiwan Branch</x:String>
-                            <x:String>Ayala</x:String>
-                            <x:String>Ayala</x:String>
-                            <x:String>Ayala</x:String>
-                            <x:String>Ayala</x:String>
-                            <x:String>Ayala</x:String>
-                        </x:Array>
-                    </ListView.ItemsSource>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <ViewCell.ContextActions>
-                                    <MenuItem Text="Edit"/>
-                                    <MenuItem Text="Remove"/>
-                                </ViewCell.ContextActions>
-                                <Grid Margin="0" RowSpacing="0">
-                                    <StackLayout Spacing="0">
-                                        <BoxView WidthRequest="100" HeightRequest="0.5" BackgroundColor="#e3dbcf" />
-                                        <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="32,18,32,18">
-                                            <Label Text="{Binding .}" HorizontalOptions="FillAndExpand" FontSize="Large"/>
-                                            <Label Text="12 orders" HorizontalOptions="End" TextColor="LightSlateGray"/>
-                                        </StackLayout>
+        </StackLayout>
+
+        <StackLayout
+            BackgroundColor="{DynamicResource Background}"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand">
+
+            <ListView
+                BackgroundColor="Transparent"
+                CachingStrategy="RecycleElement"
+                HasUnevenRows="True"
+                IsPullToRefreshEnabled="True"
+                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                RefreshCommand="{Binding onPulltoRefreshCommand}"
+                SelectionMode="None"
+                SeparatorVisibility="None"
+                Visual="Material">
+
+                <ListView.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Putik Branch</x:String>
+                        <x:String>Guiwan Branch</x:String>
+                        <x:String>Guiwan Branch</x:String>
+                        <x:String>Guiwan Branch</x:String>
+                        <x:String>Guiwan Branch</x:String>
+                        <x:String>Guiwan Branch</x:String>
+                        <x:String>Guiwan Branch</x:String>
+                        <x:String>Guiwan Branch</x:String>
+                        <x:String>Guiwan Branch</x:String>
+                        <x:String>Guiwan Branch</x:String>
+                        <x:String>Guiwan Branch</x:String>
+                        <x:String>Ayala</x:String>
+                        <x:String>Ayala</x:String>
+                        <x:String>Ayala</x:String>
+                        <x:String>Ayala</x:String>
+                        <x:String>Ayala</x:String>
+                    </x:Array>
+                </ListView.ItemsSource>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.ContextActions>
+                                <MenuItem Text="Edit" />
+                                <MenuItem Text="Remove" />
+                            </ViewCell.ContextActions>
+                            <Grid Margin="0" RowSpacing="0">
+                                <StackLayout Spacing="0">
+                                    <BoxView
+                                        BackgroundColor="#e3dbcf"
+                                        HeightRequest="0.5"
+                                        WidthRequest="100" />
+                                    <StackLayout
+                                        Padding="32,18,32,18"
+                                        HorizontalOptions="Fill"
+                                        Orientation="Horizontal">
+                                        <Label
+                                            FontSize="Large"
+                                            HorizontalOptions="FillAndExpand"
+                                            Text="{Binding .}" />
+                                        <Label
+                                            HorizontalOptions="End"
+                                            Text="12 orders"
+                                            TextColor="LightSlateGray" />
                                     </StackLayout>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                    
-                    <ListView.Header>
-                        <StackLayout Orientation="Horizontal" Padding="12">
-                            
-                            <Label FontSize="Title" Text="Branches" VerticalOptions="Center" HorizontalOptions="StartAndExpand"/>
-                            <Label FontSize="Large" Text="Date: " VerticalOptions="Center"/>
-                            <DatePicker Format="dd/MMM/yyyy" HorizontalOptions="End"/>
-                            
-                        </StackLayout>
-                    </ListView.Header>
-                </ListView>
+                                </StackLayout>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
-                <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal" BackgroundColor="Transparent" Padding="16">
+            <StackLayout
+                Padding="16"
+                BackgroundColor="Transparent"
+                HorizontalOptions="FillAndExpand"
+                Orientation="Horizontal">
 
-                    <Button Text="Add" HorizontalOptions="FillAndExpand" HeightRequest="60" BackgroundColor="LightGreen"/>
-                    
-                </StackLayout>
+                <Button
+                    BackgroundColor="LightGreen"
+                    HeightRequest="60"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Add" />
+
             </StackLayout>
         </StackLayout>
-    </ContentPage.Content>
+    </StackLayout>
 </ContentPage>

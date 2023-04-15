@@ -26,16 +26,28 @@ namespace MT.ViewModels
         [ObservableProperty]
         branchProfileModel selectedbranch;
 
+        private mysqlGET mysqlget;
 
         public registerpageviewmodel()
         {
-            loadBranchItems();
+            mysqlget = new mysqlGET();
+
+
+            loadBranchItemsAsync();
         }
 
-        void loadBranchItems()
+        async void loadBranchItemsAsync()
         {
             mysqldatabase mysqldatabase = new mysqldatabase();
+
+            //get BRANCH TABLE FROM DATABASE TO USE INTERNALLY FOR LOW QUEUE TIMES
+            UserDialogs.Instance.ShowLoading("Retrieving data from commissary");
+            await mysqldatabase.loadbranchandproducts();
+
+            //SAVES THE QUEUED BRANCH DATA FROM DATABASE
             loadedProfileModel loadedProfile = mysqldatabase.getBranchandproducts();
+
+            //LOAD THE BRANCHES SAVED 
             List<branchProfileModel> branches = loadedProfile.BranchProfiles;
             BranchesItems = branches;
         }
@@ -56,7 +68,7 @@ namespace MT.ViewModels
                     password = Password,
                     id = 0
                 };
-                
+
                 mysqlINSERT mysqlINSERT = new mysqlINSERT();
                 await mysqlINSERT.Register(userProfile);
             }

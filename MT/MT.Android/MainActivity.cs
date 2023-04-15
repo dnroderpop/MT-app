@@ -16,13 +16,6 @@ namespace MT.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
 
-            //this code just to remove status bar and fullscreen the application
-            //Window.SetFlags(WindowManagerFlags.LayoutNoLimits, WindowManagerFlags.LayoutNoLimits);
-            //Window.ClearFlags(WindowManagerFlags.TranslucentStatus);
-            //Window.SetStatusBarColor(Android.Graphics.Color.Black);
-            //Window.ClearFlags(WindowManagerFlags.ForceNotFullscreen);
-            //Window.AddFlags(WindowManagerFlags.LayoutInScreen);
-
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
@@ -31,7 +24,15 @@ namespace MT.Droid
             //acr.userdialog initialization
             UserDialogs.Init(this);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            
+
+
+            //this code just to remove status bar and fullscreen the application
+            //Window.SetFlags(WindowManagerFlags.LayoutNoLimits, WindowManagerFlags.LayoutNoLimits);
+            //Window.ClearFlags(WindowManagerFlags.TranslucentStatus);
+            Window.SetStatusBarColor(Android.Graphics.Color.SaddleBrown);
+            //Window.ClearFlags(WindowManagerFlags.ForceNotFullscreen);
+            //Window.AddFlags(WindowManagerFlags.LayoutInScreen);
+
             LoadApplication(new App());
         }
     }
