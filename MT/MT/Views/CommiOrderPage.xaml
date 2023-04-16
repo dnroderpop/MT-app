@@ -1,28 +1,61 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MT.Views.CommiOrderPage"
-             NavigationPage.HasNavigationBar="False">
-    
+<ContentPage
+    x:Class="MT.Views.CommiOrderPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    NavigationPage.HasNavigationBar="False">
+
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" BackgroundColor="{DynamicResource Info}" Spacing="0">
+        <StackLayout
+            BackgroundColor="{DynamicResource Info}"
+            HorizontalOptions="CenterAndExpand"
+            Orientation="Vertical"
+            Spacing="0"
+            VerticalOptions="CenterAndExpand">
 
 
-            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Center" Padding="6,6,0,6" Margin="12,6,0,6" Spacing="0">
-                <Label Text="Product List - Branch" FontSize="Title" HorizontalOptions="FillAndExpand" VerticalOptions="Center" FontAttributes="Bold" TextColor="White"/>
-                <Button BackgroundColor="Transparent" TextColor="{DynamicResource Warning}" Text="load" FontSize="Caption" HorizontalOptions="End" WidthRequest="60"/>
-                <Button BackgroundColor="Transparent" TextColor="{DynamicResource Warning}" Text="logout" FontSize="Caption" HorizontalOptions="End" WidthRequest="60"/>
+            <StackLayout
+                Margin="12,6,0,6"
+                Padding="6,6,0,6"
+                HorizontalOptions="FillAndExpand"
+                Orientation="Horizontal"
+                Spacing="0"
+                VerticalOptions="Center">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="Title"
+                    HorizontalOptions="FillAndExpand"
+                    Text="Product List - Branch"
+                    TextColor="White"
+                    VerticalOptions="Center" />
+                <Button
+                    BackgroundColor="Transparent"
+                    FontSize="Caption"
+                    HorizontalOptions="End"
+                    Text="load"
+                    TextColor="{DynamicResource Warning}"
+                    WidthRequest="60" />
+                <Button
+                    BackgroundColor="Transparent"
+                    FontSize="Caption"
+                    HorizontalOptions="End"
+                    Text="logout"
+                    TextColor="{DynamicResource Warning}"
+                    WidthRequest="60" />
             </StackLayout>
 
 
-            <StackLayout BackgroundColor="{DynamicResource Background}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" >
+            <StackLayout
+                BackgroundColor="{DynamicResource Background}"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand">
 
-                <ListView BackgroundColor="Transparent"
-                          HasUnevenRows="True"
-                          SeparatorVisibility="None"
-                          SelectionMode="None"
-                          Visual="Material"
-                          >
+                <ListView
+                    BackgroundColor="Transparent"
+                    HasUnevenRows="True"
+                    SelectionMode="None"
+                    SeparatorVisibility="None"
+                    Visual="Material">
 
                     <ListView.ItemsSource>
                         <x:Array Type="{x:Type x:String}">
@@ -39,15 +72,27 @@
                         <DataTemplate>
                             <ViewCell>
                                 <ViewCell.ContextActions>
-                                    <MenuItem Text="Edit"/>
-                                    <MenuItem Text="Remove"/>
+                                    <MenuItem Text="Edit" />
+                                    <MenuItem Text="Remove" />
                                 </ViewCell.ContextActions>
                                 <Grid>
                                     <StackLayout Spacing="0">
-                                        <BoxView WidthRequest="100" HeightRequest="0.5" BackgroundColor="#e3dbcf" />
-                                        <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Padding="32,18,32,18">
-                                            <Label Text="{Binding .}" HorizontalOptions="FillAndExpand" FontSize="Large"/>
-                                            <Label Text="12 orders" HorizontalOptions="End" TextColor="LightSlateGray"/>
+                                        <BoxView
+                                            BackgroundColor="#e3dbcf"
+                                            HeightRequest="0.5"
+                                            WidthRequest="100" />
+                                        <StackLayout
+                                            Padding="32,18,32,18"
+                                            HorizontalOptions="Fill"
+                                            Orientation="Horizontal">
+                                            <Label
+                                                FontSize="Large"
+                                                HorizontalOptions="FillAndExpand"
+                                                Text="{Binding .}" />
+                                            <Label
+                                                HorizontalOptions="End"
+                                                Text="12 orders"
+                                                TextColor="LightSlateGray" />
                                         </StackLayout>
                                     </StackLayout>
                                 </Grid>
@@ -55,19 +100,34 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
 
-                        <ListView.Header>
-                            <StackLayout Orientation="Horizontal" Padding="12">
+                    <ListView.Header>
+                        <StackLayout Padding="12" Orientation="Horizontal">
 
-                                <Label FontSize="Title" Text="Products" VerticalOptions="Center" HorizontalOptions="StartAndExpand"/>
-                                <Label FontSize="Large" Text="Date: " VerticalOptions="Center"/>
-                                <DatePicker Format="dd/MMM/yyyy" HorizontalOptions="End"/>
+                            <Label
+                                FontSize="Title"
+                                HorizontalOptions="StartAndExpand"
+                                Text="Products"
+                                VerticalOptions="Center" />
+                            <Label
+                                FontSize="Large"
+                                Text="Date: "
+                                VerticalOptions="Center" />
+                            <DatePicker Format="dd/MMM/yyyy" HorizontalOptions="End" />
 
-                            </StackLayout>
-                        </ListView.Header>
-                    </ListView>
+                        </StackLayout>
+                    </ListView.Header>
+                </ListView>
 
-                <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal" BackgroundColor="Transparent" Padding="6">
-                    <Button Text="click me" HorizontalOptions="FillAndExpand" HeightRequest="60" BackgroundColor="LightGreen"/>
+                <StackLayout
+                    Padding="6"
+                    BackgroundColor="Transparent"
+                    HorizontalOptions="FillAndExpand"
+                    Orientation="Horizontal">
+                    <Button
+                        BackgroundColor="LightGreen"
+                        HeightRequest="60"
+                        HorizontalOptions="FillAndExpand"
+                        Text="click me" />
                 </StackLayout>
             </StackLayout>
         </StackLayout>

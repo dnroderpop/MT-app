@@ -5,6 +5,7 @@ using MySqlConnector;
 using MT.Models;
 using Xamarin.Essentials;
 using Acr.UserDialogs;
+using MT.Views;
 
 namespace MT.Services
 {
@@ -13,43 +14,64 @@ namespace MT.Services
         public static MySqlCommand MySqlCommand;
         public static MySqlConnection MySqlConnection;
         public static MySqlConnectionStringBuilder builder;
-
+        mysqlGET mysqlget;
         public mysqldatabase()
         {
             MySqlCommand = new MySqlCommand();
             MySqlConnection = new MySqlConnection();
+            mysqlget = new mysqlGET();
         }
 
-        public async Task tryConnectionAsync(string server, string userid, string password, string database, uint port)
+        public async Task<bool> tryConnectionAsync()
         {
             var result = false;
             var errormessage = "";
-            await Task.Run(() =>
+
+
+            bool isloggedin = Preferences.Get("islogged", false);
+            int userloggedid = Preferences.Get("userlogged", 0);
+
+            string server, userid, database, password, port;
+            server = Preferences.Get("server", "122.54.146.208");
+            userid = Preferences.Get("database", "mangtinapay");
+            database = Preferences.Get("userid", "rodericks");
+            password = Preferences.Get("password", "mtchoco");
+            port = Preferences.Get("port", "3306");
+
+            if (isloggedin)
             {
-
-                //build connection
-                builder = new MySqlConnectionStringBuilder
-                {
-                    Server = server,
-                    UserID = userid,
-                    Database = database,
-                    Password = password,
-                    ConnectionTimeout = 30,
-                };
-
-                MySqlConnection.ConnectionString = builder.ConnectionString;
-
+                userloginProfileModel userloginProfile = mysqlget.mysqlloadLoggedUserInfo(userloggedid);
+                if (userloginProfile != null) { 
+                    Application.Current.Properties["loggedin"] = userloginProfile;
+                    result = true;
+                }
+                else
+                    result = false;
+                
+            }
+            else
                 try
                 {
+
+                    //build connection
+                    builder = new MySqlConnectionStringBuilder
+                    {
+                        Server = server,
+                        UserID = userid,
+                        Database = database,
+                        Password = password,
+                        Port = uint.Parse(port),
+                        ConnectionTimeout = 30,
+                    };
+
+                    MySqlConnection.ConnectionString = builder.ConnectionString;
                     //Try Simple Connection
                     MySqlConnection.Open();
-                    result = true;
 
                     // create a DB command and set the SQL statement with parameters
                     MySqlCommand = MySqlConnection.CreateCommand();
 
-                    MySqlCommand.CommandText = @"SELECT * FROM trans_sts WHERE id = @OrderId;";
-                    MySqlCommand.Parameters.AddWithValue("@OrderId", 65536);
+                    MySqlCommand.CommandText = @"SELECT * FROM trans_sts WHERE 1 Limit 1;";
 
                     // execute the command and read the results
                     var reader = MySqlCommand.ExecuteReader();
@@ -57,36 +79,32 @@ namespace MT.Services
                     {
                         var id = reader.GetInt32("id");
                     }
+                    result = true;
                     MySqlConnection.Close();
+
                 }
                 catch (Exception ex)
                 {
-                    errormessage = ex.Message;
                     MySqlConnection.Close();
+                    errormessage = ex.Message;
+                    await Application.Current.MainPage.DisplayAlert("Error", errormessage, "Okay").ConfigureAwait(true);
                     result = false;
                 }
 
 
-            }).ConfigureAwait(true);
-
-            if (result)
-                Application.Current.MainPage = new NavigationPage(new LoginPage());
-
-            else
-            {
-                await Application.Current.MainPage.DisplayAlert("Error", errormessage, "Okay").ConfigureAwait(true);
-                UserDialogs.Instance.HideLoading();
-            }
+            return result;
         }
 
         public async Task loadbranchandproducts()
         {
-            await Task.Run(() => {
-                string Server, Username, Password, Database;
+            await Task.Run(() =>
+            {
+                string Server, Username, Password, Database, Port;
                 Server = Preferences.Get("server", "122.54.146.208");
                 Username = Preferences.Get("userid", "rodericks");
                 Password = Preferences.Get("password", "mtchoco");
                 Database = Preferences.Get("database", "mangtinapay");
+                Port = Preferences.Get("port", "3306");
                 loadedProfileModel loadedProfile = new loadedProfileModel();
 
                 //build connection

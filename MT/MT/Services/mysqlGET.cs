@@ -1,4 +1,7 @@
 ﻿using Acr.UserDialogs;
+using Java.Lang.Reflect;
+using Java.Security;
+using MT.Models;
 using MySqlConnector;
 using System;
 using System.Data;
@@ -19,9 +22,14 @@ namespace MT.Services
         {
             MySqlCommand = new MySqlCommand();
             MySqlConnection = new MySqlConnection();
+            refreshQueryString();
+        }
 
-            Server =   Preferences.Get("server", "122.54.146.208");
-            Port =     Preferences.Get("port", "3306");
+        void refreshQueryString()
+        {
+
+            Server = Preferences.Get("server", "122.54.146.208");
+            Port = Preferences.Get("port", "3306");
             Username = Preferences.Get("userid", "rodericks");
             Password = Preferences.Get("password", "mtchoco");
             Database = Preferences.Get("database", "mangtinapay");
@@ -44,6 +52,7 @@ namespace MT.Services
         {
             UserDialogs.Instance.ShowLoading("Loading...", maskType: MaskType.Black);
             string result = null;
+            refreshQueryString();
 
             await Task.Run(() =>
             {
@@ -81,8 +90,8 @@ namespace MT.Services
 
         public async Task<string> querySingleStringFromDatabase(string datatablename, string targetcolumn, string whereclause, string whereclause2, string parameter, string parameter2)
         {
-            UserDialogs.Instance.ShowLoading("Loading...", maskType: MaskType.Black);
             string result = null;
+            refreshQueryString();
 
             await Task.Run(() =>
             {
@@ -120,6 +129,57 @@ namespace MT.Services
         }
         #endregion
 
+        #region login - get user info log
 
+        public userloginProfileModel mysqlloadLoggedUserInfo(int id)
+        {
+            userloginProfileModel returnresult = new userloginProfileModel();
+            refreshQueryString();
+
+
+            try
+            {
+                MySqlConnection.Open();
+
+                MySqlCommand = MySqlConnection.CreateCommand();
+
+                MySqlCommand.CommandText = @"SELECT * FROM `user_app_view` WHERE id = @param;";
+                MySqlCommand.Parameters.AddWithValue("@param", id);
+
+                // execute the command and read the results
+                var reader = MySqlCommand.ExecuteReader();
+                while (reader.Read())
+                {
+                    returnresult.Id = id;
+                    returnresult.Fullname = reader.GetString("fullname");
+                    returnresult.Branchid = reader.GetInt32("branchid");
+                    returnresult.Branchname = reader.GetString("branchname");
+                }
+
+                Application.Current.Properties["loggedin"] = returnresult;
+                Preferences.Set("islogged", true);
+                Preferences.Set("userlogged", id);
+                Application.Current.SavePropertiesAsync();
+
+                MySqlConnection.Close();
+
+            }
+            catch (Exception ex)
+            {
+                MySqlConnection.Close();
+                UserDialogs.Instance.HideLoading();
+                UserDialogs.Instance.Alert(ex.Message, "Error", "Okay");
+                return null;
+            }
+
+            return returnresult;
+        }
+
+        public userloginProfileModel mysqlgetloggedUserInfo()
+        {
+            userloginProfileModel model = (userloginProfileModel)Application.Current.Properties["loggedin"];
+            return model;
+        }
+        #endregion
     }
 }

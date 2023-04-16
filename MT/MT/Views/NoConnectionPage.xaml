@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
     x:Class="MT.Views.NoConnectionPage"
-    xmlns:x2="clr-namespace:MT.ViewModels"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:x2="clr-namespace:MT.ViewModels"
     BackgroundColor="{DynamicResource Background}"
     NavigationPage.HasNavigationBar="False">
 
@@ -15,16 +15,20 @@
         <StackLayout
             Padding="36,0,36,0"
             HorizontalOptions="Fill"
+            IsVisible="{Binding IsShow}"
             VerticalOptions="CenterAndExpand">
             <Label FontSize="Title" Text="Connection Settings" />
-            <Entry Placeholder="Server" Text="{Binding Server}"/>
-            <Entry Placeholder="Port" Text="{Binding Port}"/>
-            <Entry Placeholder="User id" Text="{Binding Username}"/>
+            <Entry Placeholder="Server" Text="{Binding Server}" />
+            <Entry Placeholder="Port" Text="{Binding Port}" />
+            <Entry Placeholder="User id" Text="{Binding Username}" />
             <Entry
                 IsPassword="True"
-                Placeholder="Password" 
-                Text="{Binding Password}"/>
-            <Entry x:Name="settingsdatabase" Placeholder="Database" Text="{Binding Database}"/>
+                Placeholder="Password"
+                Text="{Binding Password}" />
+            <Entry
+                x:Name="settingsdatabase"
+                Placeholder="Database"
+                Text="{Binding Database}" />
             <Button
                 x:Name="buttonPress"
                 BackgroundColor="{DynamicResource Safe}"

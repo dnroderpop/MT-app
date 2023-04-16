@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace MT.ViewModels
 {
@@ -27,6 +29,13 @@ namespace MT.ViewModels
             IsBusy = false;
         }
 
-
+        [RelayCommand]
+        void onLogout()
+        {
+            Preferences.Set("islogged", false);
+            Application.Current.SavePropertiesAsync();
+            App.Current.MainPage = new LoginPage(); 
+        }
+        
     }
 }

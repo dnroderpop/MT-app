@@ -34,17 +34,11 @@
                 VerticalOptions="Center" />
             <Button
                 BackgroundColor="Transparent"
+                Command="{Binding onLogoutCommand}"
                 FontSize="Caption"
                 HorizontalOptions="End"
                 Text="logout"
                 TextColor="{DynamicResource Accent}"
-                WidthRequest="60" />
-            <Button
-                BackgroundColor="Transparent"
-                FontSize="Caption"
-                HorizontalOptions="End"
-                Text="load"
-                TextColor="{DynamicResource Info}"
                 WidthRequest="60" />
         </StackLayout>
 
@@ -82,21 +76,6 @@
                 <ListView.ItemsSource>
                     <x:Array Type="{x:Type x:String}">
                         <x:String>Putik Branch</x:String>
-                        <x:String>Guiwan Branch</x:String>
-                        <x:String>Guiwan Branch</x:String>
-                        <x:String>Guiwan Branch</x:String>
-                        <x:String>Guiwan Branch</x:String>
-                        <x:String>Guiwan Branch</x:String>
-                        <x:String>Guiwan Branch</x:String>
-                        <x:String>Guiwan Branch</x:String>
-                        <x:String>Guiwan Branch</x:String>
-                        <x:String>Guiwan Branch</x:String>
-                        <x:String>Guiwan Branch</x:String>
-                        <x:String>Ayala</x:String>
-                        <x:String>Ayala</x:String>
-                        <x:String>Ayala</x:String>
-                        <x:String>Ayala</x:String>
-                        <x:String>Ayala</x:String>
                     </x:Array>
                 </ListView.ItemsSource>
                 <ListView.ItemTemplate>

@@ -21,6 +21,11 @@ namespace MT.Services
         {
             MySqlCommand = new MySqlCommand();
             MySqlConnection = new MySqlConnection();
+            refreshQueryString();
+        }
+
+        void refreshQueryString()
+        {
 
             Server = Preferences.Get("server", "122.54.146.208");
             Port = Preferences.Get("port", "3306");
@@ -50,6 +55,8 @@ namespace MT.Services
             password = userProfile.password;
             fullname = userProfile.fullname;
             branchid = userProfile.branch;
+
+            refreshQueryString();
 
             UserDialogs.Instance.ShowLoading("Loading...", maskType: MaskType.Black);
 

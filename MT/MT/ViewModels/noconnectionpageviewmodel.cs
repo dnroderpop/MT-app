@@ -1,24 +1,29 @@
 ﻿using Acr.UserDialogs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MT.Models;
 using MT.Services;
+using MT.Views;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace MT.ViewModels
 {
     public partial class noconnectionpageviewmodel : ObservableObject
     {
         [ObservableProperty]
-        public string server;
+        string server;
         [ObservableProperty]
-        public string port;
+        string port;
         [ObservableProperty]
-        public string username;
+        string username;
         [ObservableProperty]
-        public string password;
+        string password;
         [ObservableProperty]
-        public string database;
+        string database;
+        [ObservableProperty]
+        private bool isShow = false;
 
         mysqldatabase Mysqldatabase;
 
@@ -32,21 +37,45 @@ namespace MT.ViewModels
             Password = Preferences.Get("password", "mtchoco");
             Database = Preferences.Get("database", "mangtinapay");
 
-            tryConnectionAsync();
+            _ = tryConnection();
         }
 
         [RelayCommand]
-        async void tryConnectionAsync()
+        async Task tryConnection()
         {
             Preferences.Set("server", Server);
             Preferences.Set("port", Port);
             Preferences.Set("userid", Username);
             Preferences.Set("password", Password);
             Preferences.Set("database", Database);
-            await Xamarin.Forms.Application.Current.SavePropertiesAsync();
-
+            _ = Application.Current.SavePropertiesAsync();
             UserDialogs.Instance.ShowLoading("Connecting to database...", maskType: MaskType.Black);
-            await Mysqldatabase.tryConnectionAsync(Server, Username, Password, Database, uint.Parse(Port));
+
+
+            await Task.Run(async () =>
+            {
+                IsShow = await Mysqldatabase.tryConnectionAsync();
+            });
+
+            if (IsShow)
+            {
+                mysqlGET mysqlGET = new mysqlGET();
+                bool isloggedin = Preferences.Get("islogged", false);
+                userloginProfileModel userloginProfile = mysqlGET.mysqlgetloggedUserInfo();
+
+
+                if (isloggedin)
+                    if (userloginProfile.Branchid == 21)
+                        Application.Current.MainPage = new CommiOrderPage();
+                    else
+                        Application.Current.MainPage = new BranchOrderPage();
+                else
+                    Application.Current.MainPage = new NavigationPage(new LoginPage());
+
+            }
+            else
+                IsShow = !IsShow;
+            UserDialogs.Instance.HideLoading();
         }
 
 
