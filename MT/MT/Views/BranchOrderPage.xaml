@@ -149,7 +149,10 @@
                                 </SwipeView.RightItems>
 
                                 <Grid BackgroundColor="{DynamicResource Background}" RowSpacing="6">
-                                    <Frame Padding="0" BackgroundColor="{DynamicResource Background}">
+                                    <Frame
+                                        Margin="6,3,6,3"
+                                        Padding="0"
+                                        BackgroundColor="{DynamicResource Background}">
                                         <StackLayout HeightRequest="70" Spacing="0">
                                             <StackLayout
                                                 Padding="32,18,32,18"
