@@ -11,119 +11,190 @@
     </ContentPage.BindingContext>
 
     <StackLayout
-        BackgroundColor="{DynamicResource Primary}"
+        BackgroundColor="{DynamicResource Background}"
         HorizontalOptions="CenterAndExpand"
         Orientation="Vertical"
         Spacing="0"
-        VerticalOptions="CenterAndExpand">
+        VerticalOptions="FillAndExpand">
 
 
+        <!--#region Top Navigation-->
         <StackLayout
-            Margin="12,6,0,6"
-            Padding="6,6,0,6"
+            Padding="12,0,0,0"
+            HeightRequest="60"
             HorizontalOptions="FillAndExpand"
             Orientation="Horizontal"
-            Spacing="0"
-            VerticalOptions="Center">
+            VerticalOptions="Start">
             <Label
                 FontAttributes="Bold"
-                FontSize="Title"
-                HorizontalOptions="FillAndExpand"
+                FontSize="30"
+                HorizontalOptions="StartAndExpand"
                 Text="Order List - Branch"
-                TextColor="White"
+                TextColor="{DynamicResource Primary}"
                 VerticalOptions="Center" />
             <Button
+                Padding="0"
                 BackgroundColor="Transparent"
-                Command="{Binding onLogoutCommand}"
-                FontSize="Caption"
+                FontSize="Small"
                 HorizontalOptions="End"
                 Text="logout"
-                TextColor="{DynamicResource Accent}"
-                WidthRequest="60" />
-        </StackLayout>
-
-        <StackLayout Padding="12" Orientation="Horizontal">
-
-            <Label
-                FontSize="Title"
-                HorizontalOptions="StartAndExpand"
-                Text="Branches"
+                TextColor="{DynamicResource Danger}"
                 VerticalOptions="Center" />
-            <Label
-                FontSize="Large"
-                Text="Date: "
-                VerticalOptions="Center" />
-            <DatePicker Format="dd/MMM/yyyy" HorizontalOptions="End" />
-
         </StackLayout>
+        <!--#endregion-->
 
+        <!--#region Tool Bar-->
+        <Frame
+            Padding="-8,12,6,12"
+            BackgroundColor="{DynamicResource Background}"
+            HorizontalOptions="Fill">
+            <StackLayout
+                Padding="0,0,0,0"
+                Orientation="Horizontal"
+                Spacing="0">
+
+                <StackLayout
+                    HorizontalOptions="StartAndExpand"
+                    Orientation="Horizontal"
+                    Spacing="0">
+
+                    <SearchBar
+                        FontSize="Medium"
+                        HeightRequest="40"
+                        HorizontalOptions="StartAndExpand"
+                        Placeholder="Product Name"
+                        VerticalOptions="Center"
+                        WidthRequest="220" />
+                    <Button
+                        Padding="0"
+                        BackgroundColor="{DynamicResource Safe}"
+                        CornerRadius="45"
+                        FontSize="Small"
+                        HeightRequest="40"
+                        HorizontalOptions="End"
+                        Text="Add"
+                        TextColor="ForestGreen"
+                        VerticalOptions="Center"
+                        WidthRequest="50" />
+
+                </StackLayout>
+                <Label
+                    FontSize="Title"
+                    MinimumWidthRequest="20"
+                    Text="  |  "
+                    VerticalOptions="Center" />
+                <StackLayout
+                    HorizontalOptions="EndAndExpand"
+                    Orientation="Horizontal"
+                    Spacing="0">
+                    <Label
+                        FontSize="Large"
+                        HeightRequest="40"
+                        HorizontalOptions="End"
+                        MinimumWidthRequest="40"
+                        Text="Date:"
+                        VerticalOptions="Center"
+                        VerticalTextAlignment="Center" />
+                    <DatePicker
+                        Format="MMM/dd/yyyy"
+                        HeightRequest="40"
+                        HorizontalOptions="EndAndExpand"
+                        MinimumWidthRequest="60"
+                        TextColor="{DynamicResource Info}"
+                        VerticalOptions="Center" />
+                </StackLayout>
+            </StackLayout>
+        </Frame>
+        <!--#endregion-->
+
+
+        <!--#region DataTemplates and list-->
         <StackLayout
             BackgroundColor="{DynamicResource Background}"
             HorizontalOptions="FillAndExpand"
             VerticalOptions="FillAndExpand">
 
-            <ListView
-                BackgroundColor="Transparent"
-                CachingStrategy="RecycleElement"
-                HasUnevenRows="True"
-                IsPullToRefreshEnabled="True"
+            <RefreshView
+                Command="{Binding onPulltoRefreshCommand}"
                 IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-                RefreshCommand="{Binding onPulltoRefreshCommand}"
-                SelectionMode="None"
-                SeparatorVisibility="None"
-                Visual="Material">
+                RefreshColor="{DynamicResource Primary}">
+                <CollectionView
+                    BackgroundColor="Transparent"
+                    IsGrouped="True"
+                    ItemSizingStrategy="MeasureAllItems"
+                    ItemsLayout="VerticalList"
+                    SelectionMode="Single"
+                    Visual="Material">
 
-                <ListView.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>Putik Branch</x:String>
-                    </x:Array>
-                </ListView.ItemsSource>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <ViewCell.ContextActions>
-                                <MenuItem Text="Edit" />
-                                <MenuItem Text="Remove" />
-                            </ViewCell.ContextActions>
-                            <Grid Margin="0" RowSpacing="0">
-                                <StackLayout Spacing="0">
-                                    <BoxView
-                                        BackgroundColor="#e3dbcf"
-                                        HeightRequest="0.5"
-                                        WidthRequest="100" />
-                                    <StackLayout
-                                        Padding="32,18,32,18"
-                                        HorizontalOptions="Fill"
-                                        Orientation="Horizontal">
-                                        <Label
-                                            FontSize="Large"
-                                            HorizontalOptions="FillAndExpand"
-                                            Text="{Binding .}" />
-                                        <Label
-                                            HorizontalOptions="End"
-                                            Text="12 orders"
-                                            TextColor="LightSlateGray" />
-                                    </StackLayout>
-                                </StackLayout>
-                            </Grid>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                    <CollectionView.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Putik Branch</x:String>
+                            <x:String>Putik Branch</x:String>
+                            <x:String>Putik Branch</x:String>
+                        </x:Array>
+                    </CollectionView.ItemsSource>
 
-            <StackLayout
-                Padding="16"
-                BackgroundColor="Transparent"
-                HorizontalOptions="FillAndExpand"
-                Orientation="Horizontal">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem
+                                            BackgroundColor="{DynamicResource Danger}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:branchorderpageviewmodel}}, Path=FavoriteCommand}"
+                                            CommandParameter="{Binding .}"
+                                            Text="Delete" />
+                                        <SwipeItem BackgroundColor="{DynamicResource Warning}" Text="Edit" />
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
 
-                <Button
-                    BackgroundColor="LightGreen"
-                    HeightRequest="60"
-                    HorizontalOptions="FillAndExpand"
-                    Text="Add" />
+                                <Grid BackgroundColor="{DynamicResource Background}" RowSpacing="6">
+                                    <Frame Padding="0" BackgroundColor="{DynamicResource Background}">
+                                        <StackLayout HeightRequest="70" Spacing="0">
+                                            <StackLayout
+                                                Padding="32,18,32,18"
+                                                HorizontalOptions="Fill"
+                                                Orientation="Horizontal"
+                                                VerticalOptions="CenterAndExpand">
+                                                <Label
+                                                    FontSize="Header"
+                                                    HorizontalOptions="FillAndExpand"
+                                                    Text="{Binding .}" />
+                                                <Label
+                                                    HorizontalOptions="End"
+                                                    Text="12 orders"
+                                                    TextColor="LightSlateGray" />
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </Frame>
+                                </Grid>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
 
-            </StackLayout>
+                    <CollectionView.EmptyView>
+                        <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                            <Label Text="No Collection" />
+                        </StackLayout>
+                    </CollectionView.EmptyView>
+
+                    <CollectionView.GroupHeaderTemplate>
+                        <DataTemplate>
+                            <StackLayout>
+                                <Label
+                                    Margin="16,16,0,12"
+                                    FontSize="Large"
+                                    Text="Header"
+                                    TextColor="{DynamicResource Accent}" />
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.GroupHeaderTemplate>
+
+                </CollectionView>
+            </RefreshView>
         </StackLayout>
+        <!--#endregion-->
+
+
     </StackLayout>
 </ContentPage>

@@ -7,6 +7,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using Acr.UserDialogs;
+using Android.Graphics;
 
 namespace MT.Droid
 {
@@ -29,7 +30,7 @@ namespace MT.Droid
             //this code just to remove status bar and fullscreen the application
             //Window.SetFlags(WindowManagerFlags.LayoutNoLimits, WindowManagerFlags.LayoutNoLimits);
             //Window.ClearFlags(WindowManagerFlags.TranslucentStatus);
-            Window.SetStatusBarColor(Android.Graphics.Color.SaddleBrown);
+            Window.SetStatusBarColor(Color.Rgb(255, 115, 0));
             //Window.ClearFlags(WindowManagerFlags.ForceNotFullscreen);
             //Window.AddFlags(WindowManagerFlags.LayoutInScreen);
 
