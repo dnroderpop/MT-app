@@ -22,7 +22,7 @@ namespace MT.Services
             mysqlget = new mysqlGET();
         }
 
-        public async Task<bool> tryConnectionAsync()
+        public bool tryConnectionAsync()
         {
             var result = false;
             var errormessage = "";
@@ -33,8 +33,8 @@ namespace MT.Services
 
             string server, userid, database, password, port;
             server = Preferences.Get("server", "122.54.146.208");
-            userid = Preferences.Get("database", "mangtinapay");
-            database = Preferences.Get("userid", "rodericks");
+            userid = Preferences.Get("userid", "rodericks");
+            database = Preferences.Get("database", "mangtinapay");
             password = Preferences.Get("password", "mtchoco");
             port = Preferences.Get("port", "3306");
 
@@ -79,16 +79,18 @@ namespace MT.Services
                     {
                         var id = reader.GetInt32("id");
                     }
-                    result = true;
+
                     MySqlConnection.Close();
+                    return true;
 
                 }
                 catch (Exception ex)
                 {
                     MySqlConnection.Close();
-                    errormessage = ex.Message;
-                    await Application.Current.MainPage.DisplayAlert("Error", errormessage, "Okay").ConfigureAwait(true);
                     result = false;
+                    errormessage = ex.Message;
+                    UserDialogs.Instance.HideLoading();
+                    UserDialogs.Instance.Toast(errormessage);
                 }
 
 

@@ -1,13 +1,13 @@
 ﻿using Acr.UserDialogs;
-using Java.Lang.Reflect;
-using Java.Security;
 using MT.Models;
 using MySqlConnector;
 using System;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using static Android.Resource;
 
 namespace MT.Services
 {
@@ -181,5 +181,63 @@ namespace MT.Services
             return model;
         }
         #endregion
+
+        public ObservableCollection<productOrderModel> getproductorder(bool isTemp, DateTime date, int branchID)
+        {
+
+            ObservableCollection<productOrderModel> productOrders = new ObservableCollection<productOrderModel>();
+            productOrders.Clear();
+
+            refreshQueryString();
+
+
+            try
+            {
+                MySqlConnection.Open();
+
+                MySqlCommand = MySqlConnection.CreateCommand();
+
+                if (isTemp)
+                    MySqlCommand.CommandText = @"SELECT * FROM `temp_pahabol_view` WHERE branchid = @parambranch and date = @paramdate;";
+                else
+                    MySqlCommand.CommandText = @"SELECT * FROM `temp_pahabol_view` WHERE branchid = @parambranch and date = @paramdate;";
+
+                MySqlCommand.Parameters.AddWithValue("@parambranch", branchID);
+                MySqlCommand.Parameters.AddWithValue("@paramdate", date);
+
+                // execute the command and read the results
+                var reader = MySqlCommand.ExecuteReader();
+                while (reader.Read())
+                {
+                    productOrders.Add(new productOrderModel()
+                    {
+                        Id = reader.GetInt32("id"),
+                        Productid = reader.GetInt32("prodid"),
+                        Branchid = reader.GetInt32("branchid"),
+                        ProductName = reader.GetString("productname"),
+                        ProductCategory = reader.GetString("category"),
+                        Date = reader.GetDateTime("date"),
+                        Qty = reader.GetDouble("qty"),
+                        Price = reader.GetDouble("unitprice"),
+                        Yield = reader.GetDouble("yield"),
+                        Amount = reader.GetDouble("Amt")
+                    }); 
+
+                }
+
+                MySqlConnection.Close();
+
+            }
+            catch (Exception ex)
+            {
+                MySqlConnection.Close();
+                UserDialogs.Instance.HideLoading();
+                UserDialogs.Instance.Toast(ex.Message);
+                productOrders.Clear();
+            }
+
+
+            return productOrders; 
+        }
     }
 }

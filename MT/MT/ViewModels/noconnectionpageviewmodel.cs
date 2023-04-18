@@ -52,29 +52,29 @@ namespace MT.ViewModels
             UserDialogs.Instance.ShowLoading("Connecting to database...", maskType: MaskType.Black);
 
 
-            await Task.Run(async () =>
+            await Task.Run(() =>
             {
-                IsShow = await Mysqldatabase.tryConnectionAsync();
-            });
+                IsShow = Mysqldatabase.tryConnectionAsync();
+            }).ConfigureAwait(true);
 
             if (IsShow)
             {
                 mysqlGET mysqlGET = new mysqlGET();
                 bool isloggedin = Preferences.Get("islogged", false);
-                userloginProfileModel userloginProfile = mysqlGET.mysqlgetloggedUserInfo();
 
 
-                if (isloggedin)
-                    if (userloginProfile.Branchid == 21)
+                if (isloggedin) { 
+                    userloginProfileModel userloginProfile = mysqlGET.mysqlgetloggedUserInfo();
+                if (userloginProfile.Branchid == 21)
                         Application.Current.MainPage = new CommiOrderPage();
                     else
-                        Application.Current.MainPage = new BranchOrderPage();
+                        Application.Current.MainPage = new BranchOrderPage();}
                 else
                     Application.Current.MainPage = new NavigationPage(new LoginPage());
 
             }
             else
-                IsShow = !IsShow;
+                IsShow = true;
             UserDialogs.Instance.HideLoading();
         }
 

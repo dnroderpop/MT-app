@@ -123,16 +123,9 @@
                     IsGrouped="True"
                     ItemSizingStrategy="MeasureAllItems"
                     ItemsLayout="VerticalList"
+                    ItemsSource="{Binding ProductOrderModels}"
                     SelectionMode="Single"
                     Visual="Material">
-
-                    <CollectionView.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>Putik Branch</x:String>
-                            <x:String>Putik Branch</x:String>
-                            <x:String>Putik Branch</x:String>
-                        </x:Array>
-                    </CollectionView.ItemsSource>
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
@@ -141,7 +134,7 @@
                                     <SwipeItems>
                                         <SwipeItem
                                             BackgroundColor="{DynamicResource Danger}"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:branchorderpageviewmodel}}, Path=FavoriteCommand}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:branchorderpageviewmodel}}, Path=ProductOrderModels}"
                                             CommandParameter="{Binding .}"
                                             Text="Delete" />
                                         <SwipeItem BackgroundColor="{DynamicResource Warning}" Text="Edit" />
@@ -162,7 +155,7 @@
                                                 <Label
                                                     FontSize="Header"
                                                     HorizontalOptions="FillAndExpand"
-                                                    Text="{Binding .}" />
+                                                    Text="{Binding ProductName}" />
                                                 <Label
                                                     HorizontalOptions="End"
                                                     Text="12 orders"
@@ -187,7 +180,7 @@
                                 <Label
                                     Margin="16,16,0,12"
                                     FontSize="Large"
-                                    Text="Header"
+                                    Text="{Binding ProductCategory}"
                                     TextColor="{DynamicResource Accent}" />
                             </StackLayout>
                         </DataTemplate>

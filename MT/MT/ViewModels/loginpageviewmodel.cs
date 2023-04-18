@@ -1,5 +1,4 @@
 ﻿using Acr.UserDialogs;
-using Android.Preferences;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MT.Models;

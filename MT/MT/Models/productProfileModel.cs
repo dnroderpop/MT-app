@@ -1,6 +1,8 @@
-﻿namespace MT.Models
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+
+namespace MT.Models
 {
-    public class productProfileModel
+    public class productProfileModel : ObservableObject
     {
         public int Id { get; set; }
         public string Name { get; set; }
