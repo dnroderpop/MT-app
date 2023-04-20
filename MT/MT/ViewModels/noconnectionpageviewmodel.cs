@@ -75,6 +75,7 @@ namespace MT.ViewModels
             }
             else
                 IsShow = true;
+
             UserDialogs.Instance.HideLoading();
         }
 

@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.Collections;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MT.Models;
 using MT.Services;
@@ -25,12 +26,13 @@ namespace MT.ViewModels
         string branchName;
         [ObservableProperty]
         int branchid;
+        [ObservableProperty]
+        double total;
 
-        public ObservableCollection<productOrderModel> productOrderModels { get; set; }
-
+        [ObservableProperty]
+        ObservableGroupedCollection<string, productOrderModel> products = new ObservableGroupedCollection<string, productOrderModel>();
 
         mysqlGET mysqlget = new mysqlGET();
-        mysqldatabase mysqldatabase = new mysqldatabase();
         userloginProfileModel userloginProfile;
 
         public branchorderpageviewmodel()
@@ -38,27 +40,35 @@ namespace MT.ViewModels
             userloginProfile = (userloginProfileModel)Application.Current.Properties["loggedin"];
             Branchid = userloginProfile.Branchid;
             BranchName = userloginProfile.Branchname;
-            productOrderModels = new ObservableCollection<productOrderModel>();
+            _ = onPulltoRefresh();
         }
 
         [RelayCommand]
-        internal async void onPulltoRefresh()
+        internal async Task onPulltoRefresh()
         {
-           
-            if  (IsBusy) return;
+            IsBusy = true;
+
             await Task.Run(() =>
             {
-                IsBusy = true;
-                if (productOrderModels.Count() != 0)
-                    productOrderModels.Clear();
+                Products.Clear();
                 var listprod = mysqlget.getproductorder(false, DateOrder, Branchid).ToList<productOrderModel>();
-                //productOrderModels = new ObservableCollection<productOrderModel>(listprod);
+                Total = 0;
+                string category = "";
                 foreach (productOrderModel model in listprod)
                 {
-                    productOrderModels.Add(model);
+                    if (category == "" || category != model.ProductCategory)
+                    {
+                        category = model.ProductCategory;
+                        Products.AddGroup(category);
+                        Products.AddItem(category,model);
+                    }
+                    else if (category == model.ProductCategory)
+                    {
+                        Products.AddItem(category, model);
+                    }
+                    Total += model.Amount;
                 }
             });
-
 
             IsBusy = false;
         }

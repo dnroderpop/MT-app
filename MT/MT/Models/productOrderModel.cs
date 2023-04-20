@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Java.Sql;
 using System;
+using System.Collections.Generic;
 
 namespace MT.Models
 {
@@ -26,5 +26,6 @@ namespace MT.Models
         double amount;
         [ObservableProperty]
         double yield;
+
     }
 }

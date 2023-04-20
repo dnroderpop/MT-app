@@ -36,6 +36,7 @@
             <Button
                 Padding="0"
                 BackgroundColor="Transparent"
+                Command="{Binding onLogoutCommand}"
                 FontSize="Small"
                 HorizontalOptions="End"
                 Text="logout"
@@ -121,11 +122,12 @@
                 IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                 RefreshColor="{DynamicResource Primary}">
                 <CollectionView
+                    x:Name="CollectionView"
                     BackgroundColor="Transparent"
                     IsGrouped="True"
                     ItemSizingStrategy="MeasureAllItems"
                     ItemsLayout="VerticalList"
-                    ItemsSource="{Binding productOrderModels}"
+                    ItemsSource="{Binding Products}"
                     SelectionMode="Single"
                     Visual="Material">
 
@@ -134,11 +136,7 @@
                             <SwipeView>
                                 <SwipeView.RightItems>
                                     <SwipeItems>
-                                        <SwipeItem
-                                            BackgroundColor="{DynamicResource Danger}"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:branchorderpageviewmodel}}, Path=ProductOrderModels}"
-                                            CommandParameter="{Binding .}"
-                                            Text="Delete" />
+                                        <SwipeItem BackgroundColor="{DynamicResource Danger}" Text="Delete" />
                                         <SwipeItem BackgroundColor="{DynamicResource Warning}" Text="Edit" />
                                     </SwipeItems>
                                 </SwipeView.RightItems>
@@ -148,20 +146,49 @@
                                         Margin="6,3,6,3"
                                         Padding="0"
                                         BackgroundColor="{DynamicResource Background}">
-                                        <StackLayout HeightRequest="70" Spacing="0">
+                                        <StackLayout Spacing="0">
                                             <StackLayout
-                                                Padding="32,18,32,18"
+                                                Padding="24,18,32,18"
                                                 HorizontalOptions="Fill"
                                                 Orientation="Horizontal"
-                                                VerticalOptions="CenterAndExpand">
+                                                VerticalOptions="Center">
+
                                                 <Label
-                                                    FontSize="Header"
+                                                    Margin="0,0,6,0"
+                                                    FontSize="Body"
+                                                    HorizontalOptions="Start"
+                                                    Text="{Binding Qty, StringFormat='{0} p/s'}"
+                                                    VerticalOptions="Center"
+                                                    WidthRequest="40" />
+
+                                                <BoxView
+                                                    Margin="0,0,6,0"
+                                                    BackgroundColor="NavajoWhite"
+                                                    CornerRadius="10"
+                                                    VerticalOptions="Fill"
+                                                    WidthRequest="10"
+                                                    Color="{DynamicResource Info}" />
+
+                                                <StackLayout
+                                                    Padding="6,0,0,0"
                                                     HorizontalOptions="FillAndExpand"
-                                                    Text="{Binding ProductName}" />
+                                                    Orientation="Vertical"
+                                                    Spacing="0">
+                                                    <Label FontSize="Medium" Text="{Binding Productid, StringFormat='Product ID #{0}'}" />
+                                                    <Label
+                                                        FontSize="Large"
+                                                        Text="{Binding ProductName}"
+                                                        TextColor="Black" />
+                                                    <Label FontSize="Default" Text="{Binding Price, StringFormat='Commi price: {0} php'}" />
+                                                </StackLayout>
+
                                                 <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="Large"
                                                     HorizontalOptions="End"
-                                                    Text="{Binding Amount}"
-                                                    TextColor="LightSlateGray" />
+                                                    Text="{Binding Amount, StringFormat='{0} php'}"
+                                                    TextColor="DarkGreen"
+                                                    VerticalOptions="Center" />
                                             </StackLayout>
                                         </StackLayout>
                                     </Frame>
@@ -174,18 +201,19 @@
                         <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
                             <Label
                                 HorizontalOptions="Center"
-                                Text="No Collection"
+                                Text="No Data Collected"
                                 VerticalOptions="Center" />
                         </StackLayout>
                     </CollectionView.EmptyView>
 
                     <CollectionView.GroupHeaderTemplate>
-                        <DataTemplate x:DataType="local2:productOrderModel">
+                        <DataTemplate>
                             <StackLayout>
                                 <Label
-                                    Margin="16,16,0,12"
-                                    FontSize="Large"
-                                    Text="{Binding ProductCategory}"
+                                    Margin="8"
+                                    FontAttributes="Bold"
+                                    FontSize="Title"
+                                    Text="{Binding Key}"
                                     TextColor="{DynamicResource Accent}" />
                             </StackLayout>
                         </DataTemplate>
@@ -193,6 +221,15 @@
 
                 </CollectionView>
             </RefreshView>
+            <StackLayout Padding="16">
+                <Label
+                    FontSize="Title"
+                    HorizontalOptions="FillAndExpand"
+                    HorizontalTextAlignment="End"
+                    Text="{Binding Total, StringFormat='Total = {0:F2}'}"
+                    TextColor="DarkGreen"
+                    VerticalOptions="End" />
+            </StackLayout>
         </StackLayout>
         <!--#endregion-->
 

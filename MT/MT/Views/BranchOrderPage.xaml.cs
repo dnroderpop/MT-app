@@ -16,21 +16,8 @@ namespace MT.Views
         public BranchOrderPage()
         {
             InitializeComponent();
-
         }
 
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
 
-            branchorderpageviewmodel binder = (branchorderpageviewmodel)this.BindingContext;
-
-            binder.onPulltoRefresh();
-        }
-
-        protected void refreshed()
-        {
-            ;
-        }
     }
 }

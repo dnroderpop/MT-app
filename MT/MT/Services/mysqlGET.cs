@@ -202,12 +202,12 @@ namespace MT.Services
                 // just to shorten the code
                 string datepath = date.ToString("yyyy-MM-dd");
 
-                UserDialogs.Instance.Toast(branchID + " = " + datepath);
+                //UserDialogs.Instance.Toast(branchID + " = " + datepath);
 
                 if (isTemp)
-                    commandtext = @"SELECT * FROM `temp_pahabol_view` WHERE branchid = @parambranch and date = @paramdate;";
+                    commandtext = @"SELECT * FROM `temp_pahabol_view` WHERE branchid = @parambranch and date = @paramdate ORDER BY `trans_pahabol_view`.`category` ASC;";
                 else
-                    commandtext = @"SELECT * FROM `trans_pahabol_view` WHERE branchid = @parambranch and date = @paramdate;";
+                    commandtext = @"SELECT * FROM `trans_pahabol_view` WHERE branchid = @parambranch and date = @paramdate ORDER BY `trans_pahabol_view`.`category` ASC;";
 
                 MySqlCommand.CommandText = commandtext;
                 MySqlCommand.Parameters.AddWithValue("@parambranch", branchID);
@@ -229,7 +229,7 @@ namespace MT.Services
                         Price = reader.GetDouble("unitprice"),
                         Yield = reader.GetDouble("yield"),
                         Amount = reader.GetDouble("Amt")
-                    }); 
+                    });
 
                 }
 
@@ -239,13 +239,12 @@ namespace MT.Services
             catch (Exception ex)
             {
                 MySqlConnection.Close();
-                UserDialogs.Instance.HideLoading();
                 UserDialogs.Instance.Toast(ex.Message);
                 productOrders.Clear();
             }
 
 
-            return productOrders; 
+            return productOrders;
         }
     }
 }
