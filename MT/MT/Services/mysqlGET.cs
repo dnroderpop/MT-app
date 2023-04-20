@@ -4,6 +4,7 @@ using MySqlConnector;
 using System;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Globalization;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -196,15 +197,22 @@ namespace MT.Services
                 MySqlConnection.Open();
 
                 MySqlCommand = MySqlConnection.CreateCommand();
+                string commandtext;
+
+                // just to shorten the code
+                string datepath = date.ToString("yyyy-MM-dd");
+
+                UserDialogs.Instance.Toast(branchID + " = " + datepath);
 
                 if (isTemp)
-                    MySqlCommand.CommandText = @"SELECT * FROM `temp_pahabol_view` WHERE branchid = @parambranch and date = @paramdate;";
+                    commandtext = @"SELECT * FROM `temp_pahabol_view` WHERE branchid = @parambranch and date = @paramdate;";
                 else
-                    MySqlCommand.CommandText = @"SELECT * FROM `temp_pahabol_view` WHERE branchid = @parambranch and date = @paramdate;";
+                    commandtext = @"SELECT * FROM `trans_pahabol_view` WHERE branchid = @parambranch and date = @paramdate;";
 
+                MySqlCommand.CommandText = commandtext;
                 MySqlCommand.Parameters.AddWithValue("@parambranch", branchID);
-                MySqlCommand.Parameters.AddWithValue("@paramdate", date);
-
+                MySqlCommand.Parameters.AddWithValue("@paramdate", datepath);
+                var mysqlcommandstring = MySqlCommand.CommandText.ToString();
                 // execute the command and read the results
                 var reader = MySqlCommand.ExecuteReader();
                 while (reader.Read())

@@ -4,6 +4,7 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:MT.ViewModels"
+    xmlns:local2="clr-namespace:MT.Models"
     NavigationPage.HasNavigationBar="False">
 
     <ContentPage.BindingContext>
@@ -29,7 +30,7 @@
                 FontAttributes="Bold"
                 FontSize="30"
                 HorizontalOptions="StartAndExpand"
-                Text="Order List - Branch"
+                Text="{Binding BranchName, StringFormat='{0} - Branch'}"
                 TextColor="{DynamicResource Primary}"
                 VerticalOptions="Center" />
             <Button
@@ -96,6 +97,7 @@
                         VerticalOptions="Center"
                         VerticalTextAlignment="Center" />
                     <DatePicker
+                        Date="{Binding DateOrder, Mode=OneWayToSource}"
                         Format="MMM/dd/yyyy"
                         HeightRequest="40"
                         HorizontalOptions="EndAndExpand"
@@ -123,12 +125,12 @@
                     IsGrouped="True"
                     ItemSizingStrategy="MeasureAllItems"
                     ItemsLayout="VerticalList"
-                    ItemsSource="{Binding ProductOrderModels}"
+                    ItemsSource="{Binding productOrderModels}"
                     SelectionMode="Single"
                     Visual="Material">
 
                     <CollectionView.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate x:DataType="local2:productOrderModel">
                             <SwipeView>
                                 <SwipeView.RightItems>
                                     <SwipeItems>
@@ -158,7 +160,7 @@
                                                     Text="{Binding ProductName}" />
                                                 <Label
                                                     HorizontalOptions="End"
-                                                    Text="12 orders"
+                                                    Text="{Binding Amount}"
                                                     TextColor="LightSlateGray" />
                                             </StackLayout>
                                         </StackLayout>
@@ -169,13 +171,16 @@
                     </CollectionView.ItemTemplate>
 
                     <CollectionView.EmptyView>
-                        <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                            <Label Text="No Collection" />
+                        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                            <Label
+                                HorizontalOptions="Center"
+                                Text="No Collection"
+                                VerticalOptions="Center" />
                         </StackLayout>
                     </CollectionView.EmptyView>
 
                     <CollectionView.GroupHeaderTemplate>
-                        <DataTemplate>
+                        <DataTemplate x:DataType="local2:productOrderModel">
                             <StackLayout>
                                 <Label
                                     Margin="16,16,0,12"
