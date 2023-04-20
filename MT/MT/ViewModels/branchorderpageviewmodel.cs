@@ -41,6 +41,13 @@ namespace MT.ViewModels
             Branchid = userloginProfile.Branchid;
             BranchName = userloginProfile.Branchname;
             _ = onPulltoRefresh();
+
+        }
+
+        partial void OnDateOrderChanged(DateTime value)
+        {
+            throw new NotImplementedException();
+            _ = onPulltoRefresh();
         }
 
         [RelayCommand]
