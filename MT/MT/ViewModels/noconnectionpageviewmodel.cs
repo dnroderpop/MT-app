@@ -63,19 +63,20 @@ namespace MT.ViewModels
                 bool isloggedin = Preferences.Get("islogged", false);
 
 
-                if (isloggedin) { 
+                if (isloggedin)
+                {
                     userloginProfileModel userloginProfile = mysqlGET.mysqlgetloggedUserInfo();
-                if (userloginProfile.Branchid == 21)
+                    if (userloginProfile.Branchid == 21)
                         Application.Current.MainPage = new CommiOrderPage();
                     else
-                        Application.Current.MainPage = new BranchOrderPage();}
+                        Application.Current.MainPage = new BranchOrderPage();
+                }
                 else
                     Application.Current.MainPage = new NavigationPage(new LoginPage());
 
             }
             else
                 IsShow = true;
-
             UserDialogs.Instance.HideLoading();
         }
 

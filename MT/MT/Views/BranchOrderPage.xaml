@@ -99,6 +99,7 @@
                         VerticalTextAlignment="Center" />
                     <DatePicker
                         Date="{Binding DateOrder, Mode=OneWayToSource}"
+                        DateSelected="DatePicker_DateSelected"
                         Format="MMM/dd/yyyy"
                         HeightRequest="40"
                         HorizontalOptions="EndAndExpand"
@@ -119,7 +120,7 @@
 
             <RefreshView
                 Command="{Binding onPulltoRefreshCommand}"
-                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                IsRefreshing="{Binding IsBusy, Mode=Default}"
                 RefreshColor="{DynamicResource Primary}">
                 <CollectionView
                     x:Name="CollectionView"
@@ -167,7 +168,22 @@
                                                     CornerRadius="10"
                                                     VerticalOptions="Fill"
                                                     WidthRequest="10"
-                                                    Color="{DynamicResource Info}" />
+                                                    Color="{DynamicResource Primary}">
+                                                    <BoxView.Triggers>
+                                                        <DataTrigger
+                                                            Binding="{Binding Able}"
+                                                            TargetType="BoxView"
+                                                            Value="0">
+                                                            <Setter Property="Color" Value="{DynamicResource Info}" />
+                                                        </DataTrigger>
+                                                        <DataTrigger
+                                                            Binding="{Binding Able}"
+                                                            TargetType="BoxView"
+                                                            Value="1">
+                                                            <Setter Property="Color" Value="{DynamicResource Safe}" />
+                                                        </DataTrigger>
+                                                    </BoxView.Triggers>
+                                                </BoxView>
 
                                                 <StackLayout
                                                     Padding="6,0,0,0"
@@ -186,7 +202,7 @@
                                                     FontAttributes="Bold"
                                                     FontSize="Large"
                                                     HorizontalOptions="End"
-                                                    Text="{Binding Amount, StringFormat='{0} php'}"
+                                                    Text="{Binding Tamount, StringFormat='{0} php'}"
                                                     TextColor="DarkGreen"
                                                     VerticalOptions="Center" />
                                             </StackLayout>

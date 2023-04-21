@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MT.Services
+﻿namespace MT.Services
 {
     internal class mysqlUPDATE
     {

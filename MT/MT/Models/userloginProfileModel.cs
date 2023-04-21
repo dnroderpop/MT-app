@@ -21,9 +21,9 @@ namespace MT.Models
 
         public userloginProfileModel(int ID, string FULLNAME, int BRANCHID, string BRANCHNAME)
         {
-            Id = ID; 
+            Id = ID;
             Fullname = FULLNAME;
-            Branchid = BRANCHID; 
+            Branchid = BRANCHID;
             Branchname = BRANCHNAME;
         }
     }

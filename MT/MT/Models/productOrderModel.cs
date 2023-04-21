@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
-using System.Collections.Generic;
 
 namespace MT.Models
 {
@@ -23,9 +22,10 @@ namespace MT.Models
         [ObservableProperty]
         double price;
         [ObservableProperty]
-        double amount;
+        double tamount;
         [ObservableProperty]
-        double yield;
-
+        double uyield;
+        [ObservableProperty]
+        int able;
     }
 }

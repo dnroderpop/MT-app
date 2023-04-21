@@ -6,7 +6,8 @@
         public string Name { get; set; }
 
         public branchProfileModel() { }
-        public branchProfileModel(int id, string name) {
+        public branchProfileModel(int id, string name)
+        {
             Id = id;
             Name = name;
         }

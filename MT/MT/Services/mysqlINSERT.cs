@@ -1,11 +1,8 @@
 ﻿using Acr.UserDialogs;
+using MT.Models;
 using MySqlConnector;
 using System;
-using System.Data;
 using System.Threading.Tasks;
-using Xamarin.Forms;
-using MT.Models;
-using CommunityToolkit.Mvvm.Input;
 using Xamarin.Essentials;
 
 namespace MT.Services

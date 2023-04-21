@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Acr.UserDialogs;
 using Xamarin.Forms;
-using MT.ViewModels;
-using MT.Views;
 using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
-using Acr.UserDialogs;
-using MT.Services;
 
 namespace MT
 {

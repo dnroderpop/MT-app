@@ -4,14 +4,6 @@ using CommunityToolkit.Mvvm.Input;
 using MT.Models;
 using MT.Services;
 using MT.Views;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Windows.Input;
-using Xamarin.Essentials;
-using Xamarin.Forms;
 
 namespace MT.ViewModels
 {
@@ -61,6 +53,6 @@ namespace MT.ViewModels
         }
 
 
-        
+
     }
 }

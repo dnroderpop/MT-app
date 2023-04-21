@@ -1,15 +1,13 @@
 ﻿using MT.Views;
-using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using Xamarin.Essentials;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace MT
 {
     public partial class App : Application
     {
-        
+
         public App()
         {
             InitializeComponent();

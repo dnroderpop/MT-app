@@ -4,11 +4,9 @@ using MySqlConnector;
 using System;
 using System.Collections.ObjectModel;
 using System.Data;
-using System.Globalization;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using static Android.Resource;
 
 namespace MT.Services
 {
@@ -140,6 +138,7 @@ namespace MT.Services
 
             try
             {
+                MySqlConnection.Close();
                 MySqlConnection.Open();
 
                 MySqlCommand = MySqlConnection.CreateCommand();
@@ -227,8 +226,9 @@ namespace MT.Services
                         Date = reader.GetDateTime("date"),
                         Qty = reader.GetDouble("qty"),
                         Price = reader.GetDouble("unitprice"),
-                        Yield = reader.GetDouble("yield"),
-                        Amount = reader.GetDouble("Amt")
+                        Uyield = reader.GetDouble("yield"),
+                        Tamount = reader.GetDouble("Amt"),
+                        Able = reader.GetInt16("able")
                     });
 
                 }
@@ -239,6 +239,7 @@ namespace MT.Services
             catch (Exception ex)
             {
                 MySqlConnection.Close();
+                UserDialogs.Instance.HideLoading();
                 UserDialogs.Instance.Toast(ex.Message);
                 productOrders.Clear();
             }

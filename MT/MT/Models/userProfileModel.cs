@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MT.Models
+﻿namespace MT.Models
 {
     public class userProfileModel
     {

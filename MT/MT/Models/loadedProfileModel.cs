@@ -7,7 +7,8 @@ namespace MT.Models
         public List<branchProfileModel> BranchProfiles { get; set; }
         public List<productProfileModel> productProfileModels { get; set; }
 
-        public loadedProfileModel() {
+        public loadedProfileModel()
+        {
             BranchProfiles = new List<branchProfileModel>();
             productProfileModels = new List<productProfileModel>();
         }

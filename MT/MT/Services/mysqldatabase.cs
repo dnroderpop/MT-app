@@ -1,11 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using Xamarin.Forms;
-using MySqlConnector;
+﻿using Acr.UserDialogs;
 using MT.Models;
+using MySqlConnector;
+using System;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
-using Acr.UserDialogs;
-using MT.Views;
+using Xamarin.Forms;
 
 namespace MT.Services
 {
@@ -41,13 +40,14 @@ namespace MT.Services
             if (isloggedin)
             {
                 userloginProfileModel userloginProfile = mysqlget.mysqlloadLoggedUserInfo(userloggedid);
-                if (userloginProfile != null) { 
+                if (userloginProfile != null)
+                {
                     Application.Current.Properties["loggedin"] = userloginProfile;
                     result = true;
                 }
                 else
                     result = false;
-                
+
             }
             else
                 try
