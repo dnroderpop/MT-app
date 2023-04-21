@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Collections;
+﻿using Acr.UserDialogs;
+using CommunityToolkit.Mvvm.Collections;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Java.Lang;
@@ -18,6 +19,8 @@ namespace MT.ViewModels
     {
         [ObservableProperty]
         bool isBusy = false;
+        [ObservableProperty]
+        bool isSearching = false;
 
         [ObservableProperty]
         DateTime dateOrder;
@@ -42,17 +45,49 @@ namespace MT.ViewModels
             BranchName = userloginProfile.Branchname;
 
         }
+
+        [RelayCommand]
+        void onLogout()
+        {
+            Preferences.Set("islogged", false);
+            Application.Current.SavePropertiesAsync();
+            App.Current.MainPage = new LoginPage();
+        }
+
         internal void OnAppearing()
         {
             onPulltoRefresh();
         }
 
         [RelayCommand]
+        void editButton(productOrderModel selected)
+        {
+            UserDialogs.Instance.Toast(selected.Id.ToString());
+            if (selected == null) return;
+
+            double selectedEditNumber = 0;
+
+            UserDialogs.Instance.Prompt(new PromptConfig()
+            {
+                Title = selected.ProductName,
+                Message = "Current Quantity is " + selected.Qty + " pcs",
+                Placeholder = "Decimal number representing your order",
+                InputType = InputType.DecimalNumber,
+                OnAction = (result) =>
+                {
+                    if(result.Ok)
+                    selectedEditNumber = double.Parse(result.Value);
+                }
+            });
+        }
+
+        [RelayCommand]
         internal async void onPulltoRefresh()
         {
             IsBusy = await Task.Run<bool>(() => {
+                Products = new ObservableGroupedCollection<string, productOrderModel>();
                 Products.Clear();
-                var listprod = mysqlget.getproductorder(true, DateOrder, Branchid).ToList<productOrderModel>();
+                var listprod = mysqlget.getproductorder(false, DateOrder, Branchid).ToList<productOrderModel>();
 
                 Total = 0;
                 string category = "";
@@ -77,12 +112,17 @@ namespace MT.ViewModels
 
         }
 
+
         [RelayCommand]
-        void onLogout()
+        void SearchProduct()
         {
-            Preferences.Set("islogged", false);
-            Application.Current.SavePropertiesAsync();
-            App.Current.MainPage = new LoginPage();
+            IsSearching = true;
+        }
+
+        [RelayCommand]
+        void AddProduct()
+        {
+            IsSearching = false;
         }
     }
 }

@@ -50,26 +50,79 @@
             Padding="-8,12,6,12"
             BackgroundColor="{DynamicResource Background}"
             HorizontalOptions="Fill">
-            <StackLayout
-                Padding="0,0,0,0"
-                Orientation="Horizontal"
-                Spacing="0">
-
+            <StackLayout Orientation="Vertical" Spacing="0">
                 <StackLayout
-                    HorizontalOptions="StartAndExpand"
+                    Padding="0,0,0,0"
                     Orientation="Horizontal"
                     Spacing="0">
 
-                    <SearchBar
-                        FontSize="Medium"
-                        HeightRequest="40"
+                    <StackLayout
                         HorizontalOptions="StartAndExpand"
-                        Placeholder="Product Name"
-                        VerticalOptions="Center"
-                        WidthRequest="220" />
+                        Orientation="Horizontal"
+                        Spacing="0">
+
+                        <SearchBar
+                            FontSize="Medium"
+                            HeightRequest="40"
+                            HorizontalOptions="StartAndExpand"
+                            Placeholder="Product Name"
+                            VerticalOptions="Center"
+                            WidthRequest="220" />
+                        <Button
+                            Padding="0"
+                            BackgroundColor="{DynamicResource Safe}"
+                            Command="{Binding SearchProductCommand}"
+                            CornerRadius="45"
+                            FontSize="Small"
+                            HeightRequest="40"
+                            HorizontalOptions="End"
+                            Text="Search"
+                            TextColor="ForestGreen"
+                            VerticalOptions="Center"
+                            WidthRequest="60" />
+
+                    </StackLayout>
+                    <Label
+                        FontSize="Title"
+                        MinimumWidthRequest="20"
+                        Text="  |  "
+                        VerticalOptions="Center" />
+                    <StackLayout
+                        HorizontalOptions="EndAndExpand"
+                        Orientation="Horizontal"
+                        Spacing="0">
+                        <Label
+                            FontSize="Large"
+                            HeightRequest="40"
+                            HorizontalOptions="Start"
+                            MinimumWidthRequest="40"
+                            Text="Date:"
+                            VerticalOptions="Center"
+                            VerticalTextAlignment="Center" />
+                        <DatePicker
+                            Date="{Binding DateOrder, Mode=OneWayToSource}"
+                            DateSelected="DatePicker_DateSelected"
+                            Format="MMM/dd/yyyy"
+                            HeightRequest="40"
+                            HorizontalOptions="EndAndExpand"
+                            MinimumWidthRequest="60"
+                            TextColor="{DynamicResource Info}"
+                            VerticalOptions="Center" />
+                    </StackLayout>
+
+                </StackLayout>
+
+                <StackLayout
+                    Padding="24,0,12,0"
+                    IsVisible="{Binding IsSearching}"
+                    Orientation="Horizontal"
+                    VerticalOptions="Center">
+                    <Label Text="Select Product" VerticalOptions="Center" />
+                    <Picker HorizontalOptions="FillAndExpand" />
                     <Button
                         Padding="0"
                         BackgroundColor="{DynamicResource Safe}"
+                        Command="{Binding AddProductCommand}"
                         CornerRadius="45"
                         FontSize="Small"
                         HeightRequest="40"
@@ -78,35 +131,10 @@
                         TextColor="ForestGreen"
                         VerticalOptions="Center"
                         WidthRequest="50" />
+                </StackLayout>
 
-                </StackLayout>
-                <Label
-                    FontSize="Title"
-                    MinimumWidthRequest="20"
-                    Text="  |  "
-                    VerticalOptions="Center" />
-                <StackLayout
-                    HorizontalOptions="EndAndExpand"
-                    Orientation="Horizontal"
-                    Spacing="0">
-                    <Label
-                        FontSize="Large"
-                        HeightRequest="40"
-                        HorizontalOptions="End"
-                        MinimumWidthRequest="40"
-                        Text="Date:"
-                        VerticalOptions="Center"
-                        VerticalTextAlignment="Center" />
-                    <DatePicker
-                        Date="{Binding DateOrder, Mode=OneWayToSource}"
-                        DateSelected="DatePicker_DateSelected"
-                        Format="MMM/dd/yyyy"
-                        HeightRequest="40"
-                        HorizontalOptions="EndAndExpand"
-                        MinimumWidthRequest="60"
-                        TextColor="{DynamicResource Info}"
-                        VerticalOptions="Center" />
-                </StackLayout>
+                <StackLayout />
+
             </StackLayout>
         </Frame>
         <!--#endregion-->
@@ -138,7 +166,11 @@
                                 <SwipeView.RightItems>
                                     <SwipeItems>
                                         <SwipeItem BackgroundColor="{DynamicResource Danger}" Text="Delete" />
-                                        <SwipeItem BackgroundColor="{DynamicResource Warning}" Text="Edit" />
+                                        <SwipeItem
+                                            BackgroundColor="{DynamicResource Warning}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type local:branchorderpageviewmodel}}, Path=editButtonCommand}"
+                                            CommandParameter="{Binding .}"
+                                            Text="Edit" />
                                     </SwipeItems>
                                 </SwipeView.RightItems>
 
@@ -160,44 +192,49 @@
                                                     HorizontalOptions="Start"
                                                     Text="{Binding Qty, StringFormat='{0} p/s'}"
                                                     VerticalOptions="Center"
-                                                    WidthRequest="40" />
-
-                                                <BoxView
-                                                    Margin="0,0,6,0"
-                                                    BackgroundColor="NavajoWhite"
-                                                    CornerRadius="10"
-                                                    VerticalOptions="Fill"
-                                                    WidthRequest="10"
-                                                    Color="{DynamicResource Primary}">
-                                                    <BoxView.Triggers>
-                                                        <DataTrigger
-                                                            Binding="{Binding Able}"
-                                                            TargetType="BoxView"
-                                                            Value="0">
-                                                            <Setter Property="Color" Value="{DynamicResource Info}" />
-                                                        </DataTrigger>
-                                                        <DataTrigger
-                                                            Binding="{Binding Able}"
-                                                            TargetType="BoxView"
-                                                            Value="1">
-                                                            <Setter Property="Color" Value="{DynamicResource Safe}" />
-                                                        </DataTrigger>
-                                                    </BoxView.Triggers>
-                                                </BoxView>
+                                                    WidthRequest="45" />
 
                                                 <StackLayout
-                                                    Padding="6,0,0,0"
                                                     HorizontalOptions="FillAndExpand"
-                                                    Orientation="Vertical"
-                                                    Spacing="0">
-                                                    <Label FontSize="Medium" Text="{Binding Productid, StringFormat='Product ID #{0}'}" />
-                                                    <Label
-                                                        FontSize="Large"
-                                                        Text="{Binding ProductName}"
-                                                        TextColor="Black" />
-                                                    <Label FontSize="Default" Text="{Binding Price, StringFormat='Commi price: {0} php'}" />
-                                                </StackLayout>
+                                                    Orientation="Horizontal"
+                                                    VerticalOptions="Center">
 
+                                                    <BoxView
+                                                        Margin="0,0,6,0"
+                                                        BackgroundColor="NavajoWhite"
+                                                        CornerRadius="10"
+                                                        VerticalOptions="Fill"
+                                                        WidthRequest="10"
+                                                        Color="{DynamicResource Primary}">
+                                                        <BoxView.Triggers>
+                                                            <DataTrigger
+                                                                Binding="{Binding Able}"
+                                                                TargetType="BoxView"
+                                                                Value="0">
+                                                                <Setter Property="Color" Value="{DynamicResource Info}" />
+                                                            </DataTrigger>
+                                                            <DataTrigger
+                                                                Binding="{Binding Able}"
+                                                                TargetType="BoxView"
+                                                                Value="1">
+                                                                <Setter Property="Color" Value="{DynamicResource Safe}" />
+                                                            </DataTrigger>
+                                                        </BoxView.Triggers>
+                                                    </BoxView>
+
+                                                    <StackLayout
+                                                        Padding="6,0,0,0"
+                                                        HorizontalOptions="FillAndExpand"
+                                                        Orientation="Vertical"
+                                                        Spacing="0">
+                                                        <Label FontSize="Medium" Text="{Binding Productid, StringFormat='Product ID #{0}'}" />
+                                                        <Label
+                                                            FontSize="Large"
+                                                            Text="{Binding ProductName}"
+                                                            TextColor="Black" />
+                                                        <Label FontSize="Default" Text="{Binding Price, StringFormat='Commi price: {0} php'}" />
+                                                    </StackLayout>
+                                                </StackLayout>
                                                 <Label
                                                     FontAttributes="Bold"
                                                     FontSize="Large"

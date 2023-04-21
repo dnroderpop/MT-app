@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using MT.Models;
 using MT.Services;
 using MT.Views;
+using Xamarin.Forms;
 
 namespace MT.ViewModels
 {
@@ -24,7 +25,7 @@ namespace MT.ViewModels
         [RelayCommand]
         void register()
         {
-            App.Current.MainPage.Navigation.PushAsync(new RegisterPage());
+            Application.Current.MainPage.Navigation.PushModalAsync(new RegisterPage());
         }
 
         [RelayCommand]
@@ -40,9 +41,9 @@ namespace MT.ViewModels
 
 
                 if (userloginProfile.Branchid == 21)
-                    App.Current.MainPage = new CommiOrderPage();
+                    Application.Current.MainPage = new CommiOrderPage();
                 else
-                    App.Current.MainPage = new BranchOrderPage();
+                    Application.Current.MainPage = new BranchOrderPage();
 
 
                 UserDialogs.Instance.HideLoading();
