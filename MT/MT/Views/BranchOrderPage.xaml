@@ -66,6 +66,7 @@
                             HeightRequest="40"
                             HorizontalOptions="StartAndExpand"
                             Placeholder="Product Name"
+                            Text="{Binding Productsearchtext}"
                             VerticalOptions="Center"
                             WidthRequest="220" />
                         <Button
@@ -118,7 +119,13 @@
                     Orientation="Horizontal"
                     VerticalOptions="Center">
                     <Label Text="Select Product" VerticalOptions="Center" />
-                    <Picker HorizontalOptions="FillAndExpand" />
+                    <Picker
+                        Title="Product List"
+                        HorizontalOptions="FillAndExpand"
+                        ItemDisplayBinding="{Binding Name}"
+                        ItemsSource="{Binding Showproductlist}"
+                        SelectedItem="{Binding Selectedproduct}"
+                        TitleColor="{DynamicResource Info}" />
                     <Button
                         Padding="0"
                         BackgroundColor="{DynamicResource Safe}"

@@ -2,6 +2,7 @@
 using MT.Models;
 using MySqlConnector;
 using System;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 
@@ -123,5 +124,98 @@ namespace MT.Services
 
 
         }
+
+        public async Task<bool> addProductOrder(bool istemp, DateTime dateTime, int branchid,int qty, int productid)
+        {
+            bool result = false;
+            refreshQueryString();
+            result = await Task<bool>.Run(() =>
+            {
+                var res = false;
+                var ordernumber = getOrderNumber(istemp);
+                try
+                {
+                    MySqlConnection.Open();
+                    MySqlCommand = MySqlConnection.CreateCommand();
+                    string commandtext;
+
+                    // just to shorten the code
+                    string datepath = dateTime.ToString("yyyy-MM-dd");
+
+                    //UserDialogs.Instance.Toast(branchID + " = " + datepath);
+
+                    if (istemp)
+                        commandtext = @"INSERT INTO `temp_pahabol`(`branch`, `prod`, `qty`, `date`, `order_number`, `able`) VALUES ( @branchid , @prodid , @qty , @date, @ordernumber , 1)";
+                    else
+                        commandtext = @"INSERT INTO `trans_pahabol_on`(`branch`, `prod`, `qty`, `date`, `order_number`, `able`) VALUES ( @branchid , @prodid , @qty , @date, @ordernumber , 1)";
+
+                    MySqlCommand.CommandText = commandtext;
+                    MySqlCommand.Parameters.AddWithValue("@branchid", branchid);
+                    MySqlCommand.Parameters.AddWithValue("@prodid", productid);
+                    MySqlCommand.Parameters.AddWithValue("@qty", qty);
+                    MySqlCommand.Parameters.AddWithValue("@date", datepath);
+                    MySqlCommand.Parameters.AddWithValue("@ordernumber",  ordernumber);
+
+                    // execute the command and read the results
+                    MySqlCommand.ExecuteNonQuery();
+
+                    MySqlConnection.Close();
+
+                }
+                catch (Exception ex)
+                {
+                    MySqlConnection.Close();
+                    UserDialogs.Instance.HideLoading();
+                    UserDialogs.Instance.Toast(ex.Message);
+                    return false;
+                }
+                return res;
+
+            });
+            return result;
+        }
+
+        private int getOrderNumber()
+        {
+            int result = 0;
+            refreshQueryString();
+            string updatestring = "pahabolo_num";
+
+            try
+            {
+                MySqlConnection.Open();
+                MySqlCommand = MySqlConnection.CreateCommand();
+                string commandtext = @"SELECT * FROM `settings_trans` WHERE 1";
+
+                MySqlCommand.CommandText = commandtext;
+                // execute the command and read the results
+                var reader = MySqlCommand.ExecuteReader();
+                while (reader.Read())
+                {
+                    result = reader.GetInt32(updatestring);
+                }
+                MySqlConnection.Close();
+
+                MySqlConnection.Open();
+                MySqlCommand = MySqlConnection.CreateCommand();
+                commandtext = @"UPDATE `settings_trans` SET @updatestring = @value where 1";
+                MySqlCommand.CommandText = commandtext;
+                MySqlCommand.Parameters.AddWithValue("@updatestring",updatestring);
+                MySqlCommand.Parameters.AddWithValue("@value",result + 1);
+                MySqlCommand.ExecuteNonQuery();
+
+                MySqlConnection.Close();
+
+            }
+            catch (Exception ex)
+            {
+                MySqlConnection.Close();
+                UserDialogs.Instance.HideLoading();
+                UserDialogs.Instance.Toast(ex.Message);
+            }
+
+            return result;
+        }
+
     }
 }

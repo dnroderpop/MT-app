@@ -7,6 +7,7 @@ using System.Data;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using static Android.Content.ClipData;
 
 namespace MT.Services
 {
@@ -174,15 +175,15 @@ namespace MT.Services
 
             return returnresult;
         }
+        #endregion
 
         public userloginProfileModel mysqlgetloggedUserInfo()
         {
             userloginProfileModel model = (userloginProfileModel)Application.Current.Properties["loggedin"];
             return model;
         }
-        #endregion
 
-        public ObservableCollection<productOrderModel> getproductorder(bool isTemp, DateTime date, int branchID)
+        public async Task<ObservableCollection<productOrderModel>> getproductorder(bool isTemp, DateTime date, int branchID)
         {
 
             ObservableCollection<productOrderModel> productOrders = new ObservableCollection<productOrderModel>();
@@ -190,62 +191,113 @@ namespace MT.Services
 
             refreshQueryString();
 
-
-            try
+            productOrders = await Task<ObservableCollection<productOrderModel>>.Run(() =>
             {
-                MySqlConnection.Open();
-
-                MySqlCommand = MySqlConnection.CreateCommand();
-                string commandtext;
-
-                // just to shorten the code
-                string datepath = date.ToString("yyyy-MM-dd");
-
-                //UserDialogs.Instance.Toast(branchID + " = " + datepath);
-
-                if (isTemp)
-                    commandtext = @"SELECT * FROM `temp_pahabol_view` WHERE branchid = @parambranch and date = @paramdate ORDER BY `trans_pahabol_view`.`category` ASC;";
-                else
-                    commandtext = @"SELECT * FROM `trans_pahabol_view` WHERE branchid = @parambranch and date = @paramdate ORDER BY `trans_pahabol_view`.`category` ASC;";
-
-                MySqlCommand.CommandText = commandtext;
-                MySqlCommand.Parameters.AddWithValue("@parambranch", branchID);
-                MySqlCommand.Parameters.AddWithValue("@paramdate", datepath);
-                var mysqlcommandstring = MySqlCommand.CommandText.ToString();
-                // execute the command and read the results
-                var reader = MySqlCommand.ExecuteReader();
-                while (reader.Read())
+                try
                 {
-                    productOrders.Add(new productOrderModel()
+                    MySqlConnection.Open();
+
+                    MySqlCommand = MySqlConnection.CreateCommand();
+                    string commandtext;
+
+                    // just to shorten the code
+                    string datepath = date.ToString("yyyy-MM-dd");
+
+                    //UserDialogs.Instance.Toast(branchID + " = " + datepath);
+
+                    if (isTemp)
+                        commandtext = @"SELECT * FROM `temp_pahabol_view` WHERE branchid = @parambranch and date = @paramdate ORDER BY `temp_pahabol_view`.`category` ASC;";
+                    else
+                        commandtext = @"SELECT * FROM `trans_pahabol_view` WHERE branchid = @parambranch and date = @paramdate ORDER BY `trans_pahabol_view`.`category` ASC;";
+
+                    MySqlCommand.CommandText = commandtext;
+                    MySqlCommand.Parameters.AddWithValue("@parambranch", branchID);
+                    MySqlCommand.Parameters.AddWithValue("@paramdate", datepath);
+                    // execute the command and read the results
+                    var reader = MySqlCommand.ExecuteReader();
+                    while (reader.Read())
                     {
-                        Id = reader.GetInt32("id"),
-                        Productid = reader.GetInt32("prodid"),
-                        Branchid = reader.GetInt32("branchid"),
-                        ProductName = reader.GetString("productname"),
-                        ProductCategory = reader.GetString("category"),
-                        Date = reader.GetDateTime("date"),
-                        Qty = reader.GetDouble("qty"),
-                        Price = reader.GetDouble("unitprice"),
-                        Uyield = reader.GetDouble("yield"),
-                        Tamount = reader.GetDouble("Amt"),
-                        Able = reader.GetInt16("able")
-                    });
+                        productOrders.Add(new productOrderModel()
+                        {
+                            Id = reader.GetInt32("id"),
+                            Productid = reader.GetInt32("prodid"),
+                            Branchid = reader.GetInt32("branchid"),
+                            ProductName = reader.GetString("productname"),
+                            ProductCategory = reader.GetString("category"),
+                            Date = reader.GetDateTime("date"),
+                            Qty = reader.GetDouble("qty"),
+                            Price = reader.GetDouble("unitprice"),
+                            Uyield = reader.GetDouble("yield"),
+                            Tamount = reader.GetDouble("Amt"),
+                            Able = reader.GetInt16("able")
+                        });
+
+                    }
+
+                    MySqlConnection.Close();
 
                 }
-
-                MySqlConnection.Close();
-
-            }
-            catch (Exception ex)
-            {
-                MySqlConnection.Close();
-                UserDialogs.Instance.HideLoading();
-                UserDialogs.Instance.Toast(ex.Message);
-                productOrders.Clear();
-            }
-
+                catch (Exception ex)
+                {
+                    MySqlConnection.Close();
+                    UserDialogs.Instance.HideLoading();
+                    UserDialogs.Instance.Toast(ex.Message);
+                    productOrders.Clear();
+                }
+                return productOrders;
+            });
 
             return productOrders;
+        }
+
+        public async Task<bool> checkIfDuplicateProduct(bool istemp, DateTime dateTime, int branchid, int productid)
+        {
+            bool result = false;
+            refreshQueryString();
+            result = await Task<bool>.Run(() =>
+            {
+                var res = false;
+                try
+                {
+                    MySqlConnection.Open();
+                    MySqlCommand = MySqlConnection.CreateCommand();
+                    string commandtext;
+
+                    // just to shorten the code
+                    string datepath = dateTime.ToString("yyyy-MM-dd");
+
+                    //UserDialogs.Instance.Toast(branchID + " = " + datepath);
+
+                    if (istemp)
+                        commandtext = @"SELECT * FROM `temp_pahabol` WHERE `branch` = @branchid and `prod` = @prodid and `date` = @date";
+                    else
+                        commandtext = @"SELECT * FROM `trans_pahabol_on` WHERE `branch` = @branchid and `prod` = @prodid and `date` = @date";
+
+                    MySqlCommand.CommandText = commandtext;
+                    MySqlCommand.Parameters.AddWithValue("@branchid", branchid);
+                    MySqlCommand.Parameters.AddWithValue("@prodid", productid);
+                    MySqlCommand.Parameters.AddWithValue("@date", datepath);
+                    // execute the command and read the results
+                    var reader = MySqlCommand.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        res = true;
+                    }
+
+                    MySqlConnection.Close();
+
+                }
+                catch (Exception ex)
+                {
+                    MySqlConnection.Close();
+                    UserDialogs.Instance.HideLoading();
+                    UserDialogs.Instance.Toast(ex.Message);
+                    return false;
+                }
+                return res;
+
+            });
+            return result;
         }
     }
 }

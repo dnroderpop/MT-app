@@ -97,11 +97,9 @@ namespace MT.Services
             return result;
         }
 
-        public async Task loadbranchandproducts()
+        public Task loadbranchandproducts()
         {
-            await Task.Run(() =>
-            {
-                string Server, Username, Password, Database, Port;
+            string Server, Username, Password, Database, Port;
                 Server = Preferences.Get("server", "122.54.146.208");
                 Username = Preferences.Get("userid", "rodericks");
                 Password = Preferences.Get("password", "mtchoco");
@@ -116,6 +114,7 @@ namespace MT.Services
                     UserID = Username,
                     Database = Database,
                     Password = Password,
+                    Port = uint.Parse(Port),
                     ConnectionTimeout = 30,
                 };
 
@@ -174,8 +173,7 @@ namespace MT.Services
                 }
 
                 UserDialogs.Instance.HideLoading();
-                return Task.CompletedTask;
-            });
+            return Task.CompletedTask;
         }
 
         public loadedProfileModel getBranchandproducts()
