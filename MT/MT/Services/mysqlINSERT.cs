@@ -132,7 +132,7 @@ namespace MT.Services
             result = await Task<bool>.Run(() =>
             {
                 var res = false;
-                var ordernumber = getOrderNumber(istemp);
+                var ordernumber = 1;
                 try
                 {
                     MySqlConnection.Open();
@@ -202,7 +202,6 @@ namespace MT.Services
                 MySqlCommand.CommandText = commandtext;
                 MySqlCommand.Parameters.AddWithValue("@updatestring",updatestring);
                 MySqlCommand.Parameters.AddWithValue("@value",result + 1);
-                MySqlCommand.ExecuteNonQuery();
 
                 MySqlConnection.Close();
 

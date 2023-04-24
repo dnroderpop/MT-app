@@ -7,7 +7,6 @@ using System.Data;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using static Android.Content.ClipData;
 
 namespace MT.Services
 {

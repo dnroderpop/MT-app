@@ -74,7 +74,7 @@ namespace MT.ViewModels
         }
 
         [RelayCommand]
-        void editButton(productOrderModel selected)
+        async void editButton(productOrderModel selected)
         {
             UserDialogs.Instance.Toast(selected.Id.ToString());
             if (selected == null) return;
@@ -87,13 +87,41 @@ namespace MT.ViewModels
                 Message = "Current Quantity is " + selected.Qty + " pcs",
                 Placeholder = "Decimal number representing your order",
                 InputType = InputType.DecimalNumber,
-                OnAction = (result) =>
+                OnAction = async (result) =>
                 {
                     if (result.Ok)
+                    {
                         selectedEditNumber = double.Parse(result.Value);
+                        mysqlUPDATE mysqlUPDATE = new mysqlUPDATE();
+                        mysqlUPDATE.updateqtyProductOrder(istemp, selected.Id, selectedEditNumber);
+                        await onPulltoRefresh();
+                    }
                 }
             });
         }
+
+        [RelayCommand]
+        async void deleteButton(productOrderModel selected)
+        {
+            if (selected == null) return;
+
+            var check = await UserDialogs.Instance.ConfirmAsync(new ConfirmConfig()
+            {
+                Message = "Are you sure you want to delete " + selected.ProductName + " ?",
+                Title = "Delete Product",
+                OkText = "Delete",
+                CancelText = "Cancel",
+            });
+
+            //Check if cancel button is press
+            if (!check) return;
+
+            mysqDELETE mysqldel = new mysqDELETE();
+            mysqldel.deleteProductOrder(istemp, selected.Id);
+            await onPulltoRefresh();
+
+        }
+
 
         [RelayCommand]
         internal async Task onPulltoRefresh()
@@ -142,12 +170,15 @@ namespace MT.ViewModels
         {
             if (Selectedproduct == null) return;
 
+            IsBusy = true;
 
             //check if added already
-            if(await mysqlget.checkIfDuplicateProduct(istemp,DateOrder,userloginProfile.Branchid,Selectedproduct.Id)){ 
+            if (await mysqlget.checkIfDuplicateProduct(istemp, DateOrder, userloginProfile.Branchid, Selectedproduct.Id))
+            {
                 UserDialogs.Instance.Toast("Duplicate Product Detected");
+                IsBusy = false;
                 return;
-                }
+            }
 
             var check = await UserDialogs.Instance.ConfirmAsync(new ConfirmConfig()
             {
@@ -157,14 +188,18 @@ namespace MT.ViewModels
                 CancelText = "Cancel"
             });
 
+            IsBusy = false;
             //Check if cancel button is press
             if (!check) return;
-                
+
+            IsBusy = true;
             mysqlINSERT mysqlINSERT = new mysqlINSERT();
-            await mysqlINSERT.addProductOrder(istemp,DateOrder,userloginProfile.Branchid,1,Selectedproduct.Id);
+            await mysqlINSERT.addProductOrder(istemp, DateOrder, userloginProfile.Branchid, 1, Selectedproduct.Id);
 
             Selectedproduct = null;
             IsSearching = false;
+            IsBusy = false;
+            await onPulltoRefresh();
         }
 
         async Task loadProducts()
