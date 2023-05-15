@@ -182,7 +182,7 @@ namespace MT.Services
             return model;
         }
 
-        public async Task<ObservableCollection<productOrderModel>> getproductorder(bool isTemp, DateTime date, int branchID)
+        public ObservableCollection<productOrderModel> getproductorder(bool isTemp, DateTime date, int branchID)
         {
 
             ObservableCollection<productOrderModel> productOrders = new ObservableCollection<productOrderModel>();
@@ -190,8 +190,6 @@ namespace MT.Services
 
             refreshQueryString();
 
-            productOrders = await Task<ObservableCollection<productOrderModel>>.Run(() =>
-            {
                 try
                 {
                     MySqlConnection.Open();
@@ -243,10 +241,8 @@ namespace MT.Services
                     UserDialogs.Instance.Toast(ex.Message);
                     productOrders.Clear();
                 }
-                return productOrders;
-            });
 
-            return productOrders;
+                return productOrders;
         }
 
         public async Task<bool> checkIfDuplicateProduct(bool istemp, DateTime dateTime, int branchid, int productid)

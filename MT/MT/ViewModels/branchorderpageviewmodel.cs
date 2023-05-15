@@ -20,9 +20,9 @@ namespace MT.ViewModels
     public partial class branchorderpageviewmodel : ObservableObject
     {
         [ObservableProperty]
-        bool isBusy = false;
+        bool isBusy;
         [ObservableProperty]
-        bool isSearching = false;
+        bool isSearching;
 
         [ObservableProperty]
         DateTime dateOrder;
@@ -74,7 +74,7 @@ namespace MT.ViewModels
         }
 
         [RelayCommand]
-        async void editButton(productOrderModel selected)
+         void editButton(productOrderModel selected)
         {
             UserDialogs.Instance.Toast(selected.Id.ToString());
             if (selected == null) return;
@@ -126,31 +126,35 @@ namespace MT.ViewModels
         [RelayCommand]
         internal async Task onPulltoRefresh()
         {
-
-            Products = new ObservableGroupedCollection<string, productOrderModel>();
-            Products.Clear();
-            var listprod = (await mysqlget.getproductorder(istemp, DateOrder, Branchid)).ToList<productOrderModel>();
-
-            Total = 0;
-            string category = "";
-            foreach (productOrderModel model in listprod)
+            try
             {
-                if (category == "" || category != model.ProductCategory)
+                Products = new ObservableGroupedCollection<string, productOrderModel>();
+                Products.Clear();
+                await Task.Delay(1000); //delay for 1 second to show responsiveness
+                var listprod = (mysqlget.getproductorder(istemp, DateOrder, Branchid)).ToList<productOrderModel>();
+
+                Total = 0;
+                string category = "";
+                foreach (productOrderModel model in listprod)
                 {
-                    category = model.ProductCategory;
-                    Products.AddGroup(category);
-                    Products.AddItem(category, model);
+                    if (category == "" || category != model.ProductCategory)
+                    {
+                        category = model.ProductCategory;
+                        Products.AddGroup(category);
+                        Products.AddItem(category, model);
+                    }
+                    else if (category == model.ProductCategory)
+                    {
+                        Products.AddItem(category, model);
+                    }
+                    Total += model.Tamount;
                 }
-                else if (category == model.ProductCategory)
-                {
-                    Products.AddItem(category, model);
-                }
-                Total += model.Tamount;
             }
-
-            IsBusy = false;
-
-
+            finally
+            {
+                IsBusy = false;
+            }
+            
 
         }
 
