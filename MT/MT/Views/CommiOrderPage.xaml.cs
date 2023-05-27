@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using MT.ViewModels;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace MT.Views
@@ -9,6 +10,18 @@ namespace MT.Views
         public CommiOrderPage()
         {
             InitializeComponent();
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            (BindingContext as branchorderpageviewmodel)?.OnAppearing();
+        }
+
+        private void DatePicker_DateSelected(object sender, DateChangedEventArgs e)
+        {
+            (BindingContext as branchorderpageviewmodel)?.OnAppearing();
         }
     }
 }

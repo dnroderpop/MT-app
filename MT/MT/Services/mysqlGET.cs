@@ -2,11 +2,14 @@
 using MT.Models;
 using MySqlConnector;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using static Android.Content.ClipData;
 
 namespace MT.Services
 {
@@ -293,6 +296,79 @@ namespace MT.Services
 
             });
             return result;
+        }
+
+        public ObservableCollection<orderProfileModel> getOrders(DateTime date)
+        {
+            ObservableCollection<orderProfileModel> branchOrders = new ObservableCollection<orderProfileModel>();
+            branchOrders.Clear();
+            mysqldatabase mysqldatabase = new mysqldatabase();
+            refreshQueryString();
+
+            try
+            {
+                MySqlConnection.Open();
+
+                MySqlCommand = MySqlConnection.CreateCommand();
+                string commandtext;
+
+                // just to shorten the code
+                string datepath = date.ToString("yyyy-MM-dd");
+
+                //UserDialogs.Instance.Toast(branchID + " = " + datepath);
+
+            
+                commandtext = @"SELECT * FROM `branch_order_view` WHERE date = @paramdate ";
+
+                MySqlCommand.CommandText = commandtext;
+                MySqlCommand.Parameters.AddWithValue("@paramdate", datepath);
+                // execute the command and read the results
+                var reader = MySqlCommand.ExecuteReader();
+                while (reader.Read())
+                {
+                    var Able = 0;
+                    if (reader.GetString("status") == "Pending")
+                        Able = 1;
+
+                    var Branchname = "";
+
+                    //get BRANCH TABLE FROM DATABASE TO USE INTERNALLY FOR LOW QUEUE TIMES
+                    UserDialogs.Instance.ShowLoading("Retrieving data from commissary");
+                    mysqldatabase.loadbranchandproducts();
+
+                    //SAVES THE QUEUED BRANCH DATA FROM DATABASE
+                    loadedProfileModel loadedProfile = mysqldatabase.getBranchandproducts();
+
+                    //LOAD THE BRANCHES SAVED 
+                    List<branchProfileModel> branches = loadedProfile.BranchProfiles;
+                    branchProfileModel resultbranch = (branchProfileModel) branches.Where(x => x.Id == reader.GetInt32("branchid"));
+                    Branchname = resultbranch.Name;
+
+                    branchOrders.Add(new orderProfileModel()
+                    {
+                        items = reader.GetDouble("numofitems"),
+                        status = reader.GetString("status"),
+                        branchid = reader.GetInt32("branchid"),
+                        amount = reader.GetDouble("amount"),
+                        able = Able,
+                        branchname = Branchname
+                    });
+
+                }
+
+                MySqlConnection.Close();
+
+            }
+            catch (Exception ex)
+            {
+                MySqlConnection.Close();
+                UserDialogs.Instance.HideLoading();
+                UserDialogs.Instance.Toast(ex.Message);
+                branchOrders.Clear();
+            }
+
+
+            return branchOrders;
         }
     }
 }

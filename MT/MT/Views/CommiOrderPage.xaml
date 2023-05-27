@@ -3,133 +3,238 @@
     x:Class="MT.Views.CommiOrderPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MT.ViewModels"
+    xmlns:local2="clr-namespace:MT.Models"
     NavigationPage.HasNavigationBar="False">
 
-    <ContentPage.Content>
+    <ContentPage.BindingContext>
+        <local:commiorderpageviewmodel />
+    </ContentPage.BindingContext>
+
+    <StackLayout
+        BackgroundColor="{DynamicResource Background}"
+        HorizontalOptions="CenterAndExpand"
+        Orientation="Vertical"
+        Spacing="0"
+        VerticalOptions="FillAndExpand">
+
+
+        <!--#region Top Navigation-->
         <StackLayout
-            BackgroundColor="{DynamicResource Info}"
-            HorizontalOptions="CenterAndExpand"
-            Orientation="Vertical"
-            Spacing="0"
-            VerticalOptions="CenterAndExpand">
+            Padding="12,0,0,0"
+            HeightRequest="60"
+            HorizontalOptions="FillAndExpand"
+            Orientation="Horizontal"
+            VerticalOptions="Start">
+            <Label
+                FontAttributes="Bold"
+                FontSize="30"
+                HorizontalOptions="StartAndExpand"
+                Text="List of Orders"
+                TextColor="{DynamicResource Accent}"
+                VerticalOptions="Center" />
+            <Button
+                Padding="0"
+                BackgroundColor="Transparent"
+                Command="{Binding onLogoutCommand}"
+                FontSize="Small"
+                HorizontalOptions="End"
+                Text="logout"
+                TextColor="{DynamicResource Danger}"
+                VerticalOptions="Center" />
+        </StackLayout>
+        <!--#endregion-->
 
 
-            <StackLayout
-                Margin="12,6,0,6"
-                Padding="6,6,0,6"
-                HorizontalOptions="FillAndExpand"
-                Orientation="Horizontal"
-                Spacing="0"
-                VerticalOptions="Center">
+        <!--#region Tool Bar-->
+        <Frame
+            Padding="-8,12,6,12"
+            BackgroundColor="{DynamicResource Background}"
+            HorizontalOptions="Fill">
+            <StackLayout Orientation="Vertical" Spacing="0">
+                <StackLayout
+                    Padding="0,0,0,0"
+                    Orientation="Horizontal"
+                    Spacing="0">
+                    <StackLayout
+                        HorizontalOptions="CenterAndExpand"
+                        Orientation="Horizontal"
+                        Spacing="0">
+                        <Label
+                            FontSize="Large"
+                            HeightRequest="40"
+                            HorizontalOptions="Start"
+                            MinimumWidthRequest="40"
+                            Text="Date:"
+                            VerticalOptions="Center"
+                            VerticalTextAlignment="Center" />
+                        <DatePicker
+                            Date="{Binding DateOrder, Mode=OneWayToSource}"
+                            DateSelected="DatePicker_DateSelected"
+                            Format="MMM/dd/yyyy"
+                            HeightRequest="40"
+                            HorizontalOptions="EndAndExpand"
+                            MinimumWidthRequest="60"
+                            TextColor="{DynamicResource Info}"
+                            VerticalOptions="Center" />
+                    </StackLayout>
+
+                </StackLayout>
+
+                <StackLayout />
+
+            </StackLayout>
+        </Frame>
+        <!--#endregion-->
+
+
+        <!--#region DataTemplates and list-->
+        <StackLayout
+            BackgroundColor="{DynamicResource Background}"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand">
+
+            <RefreshView
+                Command="{Binding onPulltoRefreshCommand}"
+                IsRefreshing="{Binding IsBusy}"
+                RefreshColor="{DynamicResource Safe}">
+                <ScrollView>
+                    <CollectionView
+                        x:Name="CollectionView"
+                        BackgroundColor="Transparent"
+                        IsGrouped="True"
+                        ItemSizingStrategy="MeasureAllItems"
+                        ItemsLayout="VerticalList"
+                        ItemsSource="{Binding Orders}"
+                        SelectionMode="Single"
+                        Visual="Material">
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="local2:orderProfileModel">
+                                <SwipeView>
+                                    <SwipeView.RightItems>
+                                        <SwipeItems>
+                                            <SwipeItem
+                                                BackgroundColor="{DynamicResource Warning}"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:commiorderpageviewmodel}}, Path=editButtonCommand}"
+                                                CommandParameter="{Binding .}"
+                                                IsVisible="{Binding able}"
+                                                Text="Edit" />
+                                            <SwipeItem
+                                                BackgroundColor="{DynamicResource Safe}"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:commiorderpageviewmodel}}, Path=approveButtonCommand}"
+                                                CommandParameter="{Binding .}"
+                                                IsVisible="{Binding able}"
+                                                Text="Approve" />
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+
+                                    <Grid BackgroundColor="{DynamicResource Background}" RowSpacing="6">
+                                        <Frame
+                                            Margin="6,3,6,3"
+                                            Padding="0"
+                                            BackgroundColor="{DynamicResource Background}">
+                                            <StackLayout Spacing="0">
+                                                <StackLayout
+                                                    Padding="24,18,32,18"
+                                                    HorizontalOptions="Fill"
+                                                    Orientation="Horizontal"
+                                                    VerticalOptions="Center">
+
+                                                    <Label
+                                                        Margin="0,0,6,0"
+                                                        FontSize="Body"
+                                                        HorizontalOptions="Start"
+                                                        Text="{Binding items, StringFormat='{0} p/s'}"
+                                                        VerticalOptions="Center"
+                                                        WidthRequest="45" />
+
+                                                    <StackLayout
+                                                        HorizontalOptions="FillAndExpand"
+                                                        Orientation="Horizontal"
+                                                        VerticalOptions="Center">
+
+                                                        <BoxView
+                                                            Margin="0,0,6,0"
+                                                            BackgroundColor="NavajoWhite"
+                                                            CornerRadius="10"
+                                                            VerticalOptions="Fill"
+                                                            WidthRequest="10"
+                                                            Color="{DynamicResource Primary}">
+                                                            <BoxView.Triggers>
+                                                                <DataTrigger
+                                                                    Binding="{Binding status}"
+                                                                    TargetType="BoxView"
+                                                                    Value="Pending">
+                                                                    <Setter Property="Color" Value="{DynamicResource Info}" />
+                                                                </DataTrigger>
+                                                                <DataTrigger
+                                                                    Binding="{Binding status}"
+                                                                    TargetType="BoxView"
+                                                                    Value="Approved">
+                                                                    <Setter Property="Color" Value="{DynamicResource Safe}" />
+                                                                </DataTrigger>
+                                                            </BoxView.Triggers>
+                                                        </BoxView>
+
+                                                        <StackLayout
+                                                            Padding="6,0,0,0"
+                                                            HorizontalOptions="FillAndExpand"
+                                                            Orientation="Vertical"
+                                                            Spacing="0">
+                                                            <Label FontSize="Medium" Text="{Binding Productid, StringFormat='Product ID #{0}'}" />
+                                                            <Label
+                                                                FontSize="Large"
+                                                                Text="{Binding branchname}"
+                                                                TextColor="Black" />
+                                                            <Label FontSize="Default" Text="{Binding Price, StringFormat='Commi price: {0} php'}" />
+                                                        </StackLayout>
+                                                    </StackLayout>
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </Frame>
+                                    </Grid>
+                                </SwipeView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+
+                        <CollectionView.EmptyView>
+                            <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                                <Label
+                                    HorizontalOptions="Center"
+                                    Text="No Data Collected"
+                                    VerticalOptions="Center" />
+                            </StackLayout>
+                        </CollectionView.EmptyView>
+
+                        <CollectionView.GroupHeaderTemplate>
+                            <DataTemplate>
+                                <StackLayout>
+                                    <Label
+                                        Margin="8"
+                                        FontAttributes="Bold"
+                                        FontSize="Title"
+                                        Text="{Binding Key}"
+                                        TextColor="{DynamicResource Accent}" />
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.GroupHeaderTemplate>
+
+                    </CollectionView>
+                </ScrollView>
+            </RefreshView>
+            <StackLayout Padding="16">
                 <Label
-                    FontAttributes="Bold"
                     FontSize="Title"
                     HorizontalOptions="FillAndExpand"
-                    Text="Product List - Branch"
-                    TextColor="White"
-                    VerticalOptions="Center" />
-                <Button
-                    BackgroundColor="Transparent"
-                    FontSize="Caption"
-                    HorizontalOptions="End"
-                    Text="load"
-                    TextColor="{DynamicResource Warning}"
-                    WidthRequest="60" />
-                <Button
-                    BackgroundColor="Transparent"
-                    FontSize="Caption"
-                    HorizontalOptions="End"
-                    Text="logout"
-                    TextColor="{DynamicResource Warning}"
-                    WidthRequest="60" />
-            </StackLayout>
-
-
-            <StackLayout
-                BackgroundColor="{DynamicResource Background}"
-                HorizontalOptions="FillAndExpand"
-                VerticalOptions="FillAndExpand">
-
-                <ListView
-                    BackgroundColor="Transparent"
-                    HasUnevenRows="True"
-                    SelectionMode="None"
-                    SeparatorVisibility="None"
-                    Visual="Material">
-
-                    <ListView.ItemsSource>
-                        <x:Array Type="{x:Type x:String}">
-                            <x:String>Siopao</x:String>
-                            <x:String>Patty</x:String>
-                            <x:String>burgerbun</x:String>
-                            <x:String>slice bread at 30</x:String>
-                            <x:String>adobong sanghai with chicharon bulalak</x:String>
-                            <x:String>buko panda</x:String>
-                            <x:String>siakoy</x:String>
-                        </x:Array>
-                    </ListView.ItemsSource>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <ViewCell.ContextActions>
-                                    <MenuItem Text="Edit" />
-                                    <MenuItem Text="Remove" />
-                                </ViewCell.ContextActions>
-                                <Grid>
-                                    <StackLayout Spacing="0">
-                                        <BoxView
-                                            BackgroundColor="#e3dbcf"
-                                            HeightRequest="0.5"
-                                            WidthRequest="100" />
-                                        <StackLayout
-                                            Padding="32,18,32,18"
-                                            HorizontalOptions="Fill"
-                                            Orientation="Horizontal">
-                                            <Label
-                                                FontSize="Large"
-                                                HorizontalOptions="FillAndExpand"
-                                                Text="{Binding .}" />
-                                            <Label
-                                                HorizontalOptions="End"
-                                                Text="12 orders"
-                                                TextColor="LightSlateGray" />
-                                        </StackLayout>
-                                    </StackLayout>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-
-                    <ListView.Header>
-                        <StackLayout Padding="12" Orientation="Horizontal">
-
-                            <Label
-                                FontSize="Title"
-                                HorizontalOptions="StartAndExpand"
-                                Text="Products"
-                                VerticalOptions="Center" />
-                            <Label
-                                FontSize="Large"
-                                Text="Date: "
-                                VerticalOptions="Center" />
-                            <DatePicker Format="dd/MMM/yyyy" HorizontalOptions="End" />
-
-                        </StackLayout>
-                    </ListView.Header>
-                </ListView>
-
-                <StackLayout
-                    Padding="6"
-                    BackgroundColor="Transparent"
-                    HorizontalOptions="FillAndExpand"
-                    Orientation="Horizontal">
-                    <Button
-                        BackgroundColor="LightGreen"
-                        HeightRequest="60"
-                        HorizontalOptions="FillAndExpand"
-                        Text="click me" />
-                </StackLayout>
+                    HorizontalTextAlignment="End"
+                    Text="{Binding Total, StringFormat='Total = {0:F2}'}"
+                    TextColor="DarkGreen"
+                    VerticalOptions="End" />
             </StackLayout>
         </StackLayout>
-    </ContentPage.Content>
+        <!--#endregion-->
+
+
+    </StackLayout>
 </ContentPage>
