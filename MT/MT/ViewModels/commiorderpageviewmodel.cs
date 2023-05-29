@@ -2,16 +2,11 @@
 using CommunityToolkit.Mvvm.Collections;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Java.Lang;
 using MT.Models;
 using MT.Services;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Xamarin.CommunityToolkit.Converters;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -32,12 +27,11 @@ namespace MT.ViewModels
         double total;
 
         [ObservableProperty]
-        ObservableGroupedCollection<string, orderProfileModel> orders = new ObservableGroupedCollection<string, orderProfileModel>();
+        ObservableGroupedCollection<string, orderProfileModel> groupOrder = new ObservableGroupedCollection<string, orderProfileModel>();
 
         mysqldatabase mysqldatabase;
         mysqlGET mysqlget = new mysqlGET();
         userloginProfileModel userloginProfile;
-        bool istemp = true;
 
         public commiorderpageviewmodel()
         {
@@ -64,17 +58,15 @@ namespace MT.ViewModels
             UserDialogs.Instance.HideLoading();
         }
 
-        [RelayCommand]
-         void editButton(orderProfileModel selected)
-        {
-            
-        }
-
-        [RelayCommand]
-        async void approveButton(orderProfileModel selected)
-        {
-
-        }
+        //[RelayCommand]
+        //void editButton(orderProfileModel selected)
+        //{
+        //}
+        //
+        //[RelayCommand]
+        //void approveButton(orderProfileModel selected)
+        //{
+        //}
 
 
         [RelayCommand]
@@ -82,8 +74,8 @@ namespace MT.ViewModels
         {
             try
             {
-                Orders = new ObservableGroupedCollection<string, orderProfileModel>();
-                Orders.Clear();
+                GroupOrder = new ObservableGroupedCollection<string, orderProfileModel>();
+                GroupOrder.Clear();
                 await Task.Delay(1000); //delay for 1 second to show responsiveness
                 var listprod = mysqlget.getOrders(DateOrder).ToList<orderProfileModel>();
 
@@ -91,15 +83,15 @@ namespace MT.ViewModels
                 string status = "";
                 foreach (orderProfileModel model in listprod)
                 {
-                    if (status == "" || status != model.status)
+                    if (status == "" || status != model.Status)
                     {
-                        status = model.status;
-                        Orders.AddGroup(status);
-                        Orders.AddItem(status, model);
+                        status = model.Status;
+                        GroupOrder.AddGroup(status);
+                        GroupOrder.AddItem(status, model);
                     }
-                    else if (status == model.status)
+                    else if (status == model.Status)
                     {
-                        Orders.AddItem(status, model);
+                        GroupOrder.AddItem(status, model);
                     }
                 }
             }
@@ -107,10 +99,10 @@ namespace MT.ViewModels
             {
                 IsBusy = false;
             }
-            
+
 
         }
-       
+
 
     }
 }

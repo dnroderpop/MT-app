@@ -16,12 +16,12 @@ namespace MT.Views
         {
             base.OnAppearing();
 
-            (BindingContext as branchorderpageviewmodel)?.OnAppearing();
+            (BindingContext as commiorderpageviewmodel)?.OnAppearing();
         }
 
         private void DatePicker_DateSelected(object sender, DateChangedEventArgs e)
         {
-            (BindingContext as branchorderpageviewmodel)?.OnAppearing();
+            (BindingContext as commiorderpageviewmodel)?.OnAppearing();
         }
     }
 }

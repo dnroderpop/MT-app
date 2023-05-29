@@ -105,7 +105,7 @@
                         IsGrouped="True"
                         ItemSizingStrategy="MeasureAllItems"
                         ItemsLayout="VerticalList"
-                        ItemsSource="{Binding Orders}"
+                        ItemsSource="{Binding GroupOrder}"
                         SelectionMode="Single"
                         Visual="Material">
 
@@ -182,14 +182,16 @@
                                                             HorizontalOptions="FillAndExpand"
                                                             Orientation="Vertical"
                                                             Spacing="0">
-                                                            <Label FontSize="Medium" Text="{Binding Productid, StringFormat='Product ID #{0}'}" />
-                                                            <Label
-                                                                FontSize="Large"
-                                                                Text="{Binding branchname}"
-                                                                TextColor="Black" />
-                                                            <Label FontSize="Default" Text="{Binding Price, StringFormat='Commi price: {0} php'}" />
+                                                            <Label FontSize="Medium" Text="{Binding branchid, StringFormat='Product ID #{0}'}" />
                                                         </StackLayout>
                                                     </StackLayout>
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="Large"
+                                                        HorizontalOptions="End"
+                                                        Text="{Binding amount, StringFormat='{0} php'}"
+                                                        TextColor="DarkGreen"
+                                                        VerticalOptions="Center" />
                                                 </StackLayout>
                                             </StackLayout>
                                         </Frame>
@@ -223,15 +225,6 @@
                     </CollectionView>
                 </ScrollView>
             </RefreshView>
-            <StackLayout Padding="16">
-                <Label
-                    FontSize="Title"
-                    HorizontalOptions="FillAndExpand"
-                    HorizontalTextAlignment="End"
-                    Text="{Binding Total, StringFormat='Total = {0:F2}'}"
-                    TextColor="DarkGreen"
-                    VerticalOptions="End" />
-            </StackLayout>
         </StackLayout>
         <!--#endregion-->
 

@@ -1,14 +1,21 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 
 namespace MT.Models
 {
-    internal class orderProfileModel
+    internal partial class orderProfileModel : ObservableObject
     {
-        public int branchid { get; set; }
-        public string branchname { get; set; }
-        public double items { get; set; }
-        public string status { get; set; }
-        public int able { get; set; } 
-        public double amount { get; set; }
+        [ObservableProperty]
+        int branchid;
+        [ObservableProperty]
+        string branchname;
+        [ObservableProperty]
+        double items;
+        [ObservableProperty]
+        string status;
+        [ObservableProperty]
+        int able;
+        [ObservableProperty]
+        double amount;
     }
 }
