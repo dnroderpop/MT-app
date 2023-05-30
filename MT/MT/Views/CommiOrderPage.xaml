@@ -113,20 +113,22 @@
                             <DataTemplate x:DataType="local2:orderProfileModel">
                                 <SwipeView>
                                     <SwipeView.RightItems>
+
                                         <SwipeItems>
                                             <SwipeItem
                                                 BackgroundColor="{DynamicResource Warning}"
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type local:commiorderpageviewmodel}}, Path=editButtonCommand}"
                                                 CommandParameter="{Binding .}"
-                                                IsVisible="{Binding able}"
+                                                IsVisible="{Binding Able}"
                                                 Text="Edit" />
                                             <SwipeItem
                                                 BackgroundColor="{DynamicResource Safe}"
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type local:commiorderpageviewmodel}}, Path=approveButtonCommand}"
                                                 CommandParameter="{Binding .}"
-                                                IsVisible="{Binding able}"
+                                                IsVisible="{Binding Able}"
                                                 Text="Approve" />
                                         </SwipeItems>
+
                                     </SwipeView.RightItems>
 
                                     <Grid BackgroundColor="{DynamicResource Background}" RowSpacing="6">
@@ -145,7 +147,7 @@
                                                         Margin="0,0,6,0"
                                                         FontSize="Body"
                                                         HorizontalOptions="Start"
-                                                        Text="{Binding items, StringFormat='{0} p/s'}"
+                                                        Text="{Binding Items, StringFormat='{0} p/s'}"
                                                         VerticalOptions="Center"
                                                         WidthRequest="45" />
 
@@ -163,13 +165,13 @@
                                                             Color="{DynamicResource Primary}">
                                                             <BoxView.Triggers>
                                                                 <DataTrigger
-                                                                    Binding="{Binding status}"
+                                                                    Binding="{Binding Status}"
                                                                     TargetType="BoxView"
                                                                     Value="Pending">
                                                                     <Setter Property="Color" Value="{DynamicResource Info}" />
                                                                 </DataTrigger>
                                                                 <DataTrigger
-                                                                    Binding="{Binding status}"
+                                                                    Binding="{Binding Status}"
                                                                     TargetType="BoxView"
                                                                     Value="Approved">
                                                                     <Setter Property="Color" Value="{DynamicResource Safe}" />
@@ -182,14 +184,18 @@
                                                             HorizontalOptions="FillAndExpand"
                                                             Orientation="Vertical"
                                                             Spacing="0">
-                                                            <Label FontSize="Medium" Text="{Binding branchid, StringFormat='Product ID #{0}'}" />
+                                                            <Label FontSize="Medium" Text="{Binding Branchid, StringFormat='Branch ID #{0}'}" />
+                                                            <Label
+                                                                FontSize="Large"
+                                                                Text="{Binding Branchname}"
+                                                                TextColor="Black" />
                                                         </StackLayout>
                                                     </StackLayout>
                                                     <Label
                                                         FontAttributes="Bold"
                                                         FontSize="Large"
                                                         HorizontalOptions="End"
-                                                        Text="{Binding amount, StringFormat='{0} php'}"
+                                                        Text="{Binding Amount, StringFormat='{0} php'}"
                                                         TextColor="DarkGreen"
                                                         VerticalOptions="Center" />
                                                 </StackLayout>

@@ -5,15 +5,18 @@ using CommunityToolkit.Mvvm.Input;
 using MT.Models;
 using MT.Services;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace MT.ViewModels
 {
-    public partial class commiorderpageviewmodel : ObservableObject
+    internal partial class commiorderpageviewmodel : ObservableObject
     {
+        //initialization variables
         [ObservableProperty]
         bool isBusy;
 
@@ -33,8 +36,8 @@ namespace MT.ViewModels
         mysqlGET mysqlget = new mysqlGET();
         userloginProfileModel userloginProfile;
 
-        public commiorderpageviewmodel()
-        {
+
+        public commiorderpageviewmodel() {
             userloginProfile = (userloginProfileModel)Application.Current.Properties["loggedin"];
             Branchid = userloginProfile.Branchid;
             mysqldatabase = new mysqldatabase();
@@ -102,7 +105,5 @@ namespace MT.ViewModels
 
 
         }
-
-
     }
 }

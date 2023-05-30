@@ -346,12 +346,12 @@ namespace MT.Services
 
                     branchOrders.Add(new orderProfileModel()
                     {
-                        items = reader.GetDouble("numofitems"),
-                        status = reader.GetString("status"),
-                        branchid = reader.GetInt32("branchid"),
-                        amount = reader.GetDouble("amount"),
-                        able = Able,
-                        branchname = Branchname
+                        Items = reader.GetDouble("numofitems"),
+                        Status = reader.GetString("status"),
+                        Branchid = reader.GetInt32("branchid"),
+                        Amount = reader.GetDouble("amount"),
+                        Able = Able,
+                        Branchname = Branchname
                     });
 
                 }

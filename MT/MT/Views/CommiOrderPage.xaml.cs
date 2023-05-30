@@ -11,7 +11,6 @@ namespace MT.Views
         {
             InitializeComponent();
         }
-
         protected override void OnAppearing()
         {
             base.OnAppearing();
