@@ -318,7 +318,7 @@ namespace MT.Services
                 //UserDialogs.Instance.Toast(branchID + " = " + datepath);
 
             
-                commandtext = @"SELECT * FROM `branch_order_view` WHERE date = @paramdate ";
+                commandtext = @"SELECT * FROM `branch_order_view` WHERE `date` = @paramdate ORDER BY `branch_order_view`.`status` DESC ";
 
                 MySqlCommand.CommandText = commandtext;
                 MySqlCommand.Parameters.AddWithValue("@paramdate", datepath);
@@ -326,32 +326,21 @@ namespace MT.Services
                 var reader = MySqlCommand.ExecuteReader();
                 while (reader.Read())
                 {
-                    var Able = 0;
-                    if (reader.GetString("status") == "Pending")
-                        Able = 1;
 
-                    var Branchname = "";
-
-                    //get BRANCH TABLE FROM DATABASE TO USE INTERNALLY FOR LOW QUEUE TIMES
-                    UserDialogs.Instance.ShowLoading("Retrieving data from commissary");
-                    mysqldatabase.loadbranchandproducts();
-
-                    //SAVES THE QUEUED BRANCH DATA FROM DATABASE
-                    loadedProfileModel loadedProfile = mysqldatabase.getBranchandproducts();
-
-                    //LOAD THE BRANCHES SAVED 
-                    List<branchProfileModel> branches = loadedProfile.BranchProfiles;
-                    branchProfileModel resultbranch = (branchProfileModel) branches.Where(x => x.Id == reader.GetInt32("branchid"));
-                    Branchname = resultbranch.Name;
+                    var Branchname = reader.GetString("branchname");
+                    int numberofitems = reader.GetInt16("numofitems");
+                    string status = reader.GetString("status");
+                    double amount = reader.GetFloat("amount");
+                    int branchid = reader.GetInt32("branchid");
 
                     branchOrders.Add(new orderProfileModel()
                     {
-                        Items = reader.GetDouble("numofitems"),
-                        Status = reader.GetString("status"),
-                        Branchid = reader.GetInt32("branchid"),
-                        Amount = reader.GetDouble("amount"),
-                        Able = Able,
-                        Branchname = Branchname
+                        Items = numberofitems,
+                        Status = status,
+                        Branchid = branchid,
+                        Amount = amount,
+                        Branchname = Branchname,
+                        IsAble = reader.GetBoolean("able")
                     });
 
                 }

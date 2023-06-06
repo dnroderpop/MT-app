@@ -3,18 +3,18 @@ using System;
 
 namespace MT.Models
 {
-    internal partial class orderProfileModel : ObservableObject
+    public partial class orderProfileModel : ObservableObject
     {
         [ObservableProperty]
         int branchid;
         [ObservableProperty]
         string branchname;
         [ObservableProperty]
-        double items;
+        int items;
         [ObservableProperty]
         string status;
         [ObservableProperty]
-        int able;
+        bool isAble;
         [ObservableProperty]
         double amount;
     }

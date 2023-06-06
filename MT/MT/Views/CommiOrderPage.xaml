@@ -119,13 +119,13 @@
                                                 BackgroundColor="{DynamicResource Warning}"
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type local:commiorderpageviewmodel}}, Path=editButtonCommand}"
                                                 CommandParameter="{Binding .}"
-                                                IsVisible="{Binding Able}"
+                                                IsVisible="{Binding IsAble}"
                                                 Text="Edit" />
                                             <SwipeItem
                                                 BackgroundColor="{DynamicResource Safe}"
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type local:commiorderpageviewmodel}}, Path=approveButtonCommand}"
                                                 CommandParameter="{Binding .}"
-                                                IsVisible="{Binding Able}"
+                                                IsVisible="{Binding IsAble}"
                                                 Text="Approve" />
                                         </SwipeItems>
 
@@ -189,6 +189,7 @@
                                                                 FontSize="Large"
                                                                 Text="{Binding Branchname}"
                                                                 TextColor="Black" />
+                                                            <Label FontSize="Medium" Text="{Binding IsAble}" />
                                                         </StackLayout>
                                                     </StackLayout>
                                                     <Label
