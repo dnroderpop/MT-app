@@ -6,19 +6,21 @@ using MT.Models;
 using MT.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace MT.ViewModels
 {
     internal partial class commiorderpageviewmodel : ObservableObject
     {
         //initialization variables
-        [ObservableProperty]
-        bool isBusy;
+        public bool IsBusy { get; set; }
 
         [ObservableProperty]
         DateTime dateOrder;
@@ -32,12 +34,16 @@ namespace MT.ViewModels
         [ObservableProperty]
         ObservableGroupedCollection<string, orderProfileModel> groupOrder = new ObservableGroupedCollection<string, orderProfileModel>();
 
+        [ObservableProperty]
+        orderProfileModel selecteditem;
+
         mysqldatabase mysqldatabase;
         mysqlGET mysqlget = new mysqlGET();
         userloginProfileModel userloginProfile;
 
 
-        public commiorderpageviewmodel() {
+        public commiorderpageviewmodel()
+        {
             userloginProfile = (userloginProfileModel)Application.Current.Properties["loggedin"];
             Branchid = userloginProfile.Branchid;
             mysqldatabase = new mysqldatabase();
@@ -71,18 +77,54 @@ namespace MT.ViewModels
         //{
         //}
 
+        partial void OnSelecteditemChanged(orderProfileModel value)
+        {
+            if (value == null) return;
+
+            var orderlistinfo = new ActionSheetConfig();
+
+            orderlistinfo.SetTitle(value.Branchname + " " + value.Date.ToShortDateString());
+            orderlistinfo.SetDestructive("okay");
+            orderlistinfo.Add("Prod namasdasdasdasdasdasdasdasdasdasdasde, qty, amount");
+            orderlistinfo.Add("Prod name, qty, amount");
+            orderlistinfo.Add("Prod name, qty, amount");
+            orderlistinfo.Add("Prod name, qty, amount");
+            orderlistinfo.Add("Prod name, qty, amount");
+            orderlistinfo.Add("Prod name, qty, amount");
+            orderlistinfo.Add("Prod name, qty, amount");
+            orderlistinfo.Add("Prod name, qty, amount");
+            orderlistinfo.Add("Prod name, qty, amount");
+            orderlistinfo.Add("Prod name, qty, amount");
+            orderlistinfo.Add("Prod name, qty, amount");
+            orderlistinfo.Add("Prod name, qty, amount");
+            orderlistinfo.Add("Prod name, qty, amount");
+            orderlistinfo.Add("Prod name, qty, amount");
+            orderlistinfo.Add("Prod name, qty, amount");
+            orderlistinfo.Add("Prod name, qty, amount");
+            orderlistinfo.Add("Prod name, qty, amount");
+            orderlistinfo.Add("Prod name, qty, amount");
+            orderlistinfo.Add("Prod name, qty, amount");
+            orderlistinfo.Add("Prod name, qty, amount");
+            orderlistinfo.Add("Prod name, qty, amount");
+            orderlistinfo.Add("Prod name, qty, amount");
+
+            UserDialogs.Instance.ActionSheet(orderlistinfo);
+
+            Selecteditem = null;
+        }
 
         [RelayCommand]
-        internal async Task onPulltoRefresh()
+        async Task onPulltoRefresh()
         {
+            UserDialogs.Instance.ShowLoading("Fetching Data");
+
             try
             {
                 GroupOrder = new ObservableGroupedCollection<string, orderProfileModel>();
                 GroupOrder.Clear();
-                await Task.Delay(1000); //delay for 1 second to show responsiveness
+                await Task.Delay(500); //delay for 1 second to show responsiveness
                 var listprod = mysqlget.getOrders(DateOrder).ToList<orderProfileModel>();
 
-                Total = 0;
                 string status = "";
                 foreach (orderProfileModel model in listprod)
                 {
@@ -101,6 +143,7 @@ namespace MT.ViewModels
             finally
             {
                 IsBusy = false;
+                UserDialogs.Instance.HideLoading();
             }
 
 

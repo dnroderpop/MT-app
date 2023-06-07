@@ -155,11 +155,10 @@
 
             <RefreshView
                 Command="{Binding onPulltoRefreshCommand}"
-                IsRefreshing="{Binding IsBusy}"
-                RefreshColor="{DynamicResource Safe}">
+                IsRefreshing="{Binding IsBusy, Mode=OneWay}"
+                RefreshColor="{DynamicResource Primary}">
                 <ScrollView>
                     <CollectionView
-                        x:Name="CollectionView"
                         BackgroundColor="Transparent"
                         IsGrouped="True"
                         ItemSizingStrategy="MeasureAllItems"

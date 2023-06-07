@@ -17,5 +17,7 @@ namespace MT.Models
         bool isAble;
         [ObservableProperty]
         double amount;
+        [ObservableProperty]
+        DateTime date;
     }
 }

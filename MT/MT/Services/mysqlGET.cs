@@ -340,7 +340,8 @@ namespace MT.Services
                         Branchid = branchid,
                         Amount = amount,
                         Branchname = Branchname,
-                        IsAble = reader.GetBoolean("able")
+                        IsAble = reader.GetBoolean("able"),
+                        Date = reader.GetDateTime("date"),
                     });
 
                 }

@@ -32,7 +32,7 @@
             <Button
                 x:Name="buttonPress"
                 BackgroundColor="{DynamicResource Safe}"
-                Command="{Binding tryConnectionCommand}"
+                Command="{Binding retryconnectionCommand}"
                 Text="Try Connection" />
         </StackLayout>
     </ContentPage.Content>

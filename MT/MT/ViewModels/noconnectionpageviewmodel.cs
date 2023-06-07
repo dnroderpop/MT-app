@@ -37,47 +37,59 @@ namespace MT.ViewModels
             Password = Preferences.Get("password", "mtchoco");
             Database = Preferences.Get("database", "mangtinapay");
 
+
             _ = tryConnection();
         }
 
         [RelayCommand]
-        async Task tryConnection()
+        void retryconnection()
         {
             Preferences.Set("server", Server);
             Preferences.Set("port", Port);
             Preferences.Set("userid", Username);
             Preferences.Set("password", Password);
             Preferences.Set("database", Database);
-            _ = Application.Current.SavePropertiesAsync();
+            Application.Current.SavePropertiesAsync();
+
+            _ = tryConnection();
+        }
+
+        [RelayCommand]
+        async Task tryConnection()
+        {
+
             UserDialogs.Instance.ShowLoading("Connecting to database...", maskType: MaskType.Black);
-
-
             await Task.Run(() =>
             {
                 IsShow = Mysqldatabase.tryConnectionAsync();
-            }).ConfigureAwait(true);
+            });
+            UserDialogs.Instance.HideLoading();
 
             if (IsShow)
             {
                 mysqlGET mysqlGET = new mysqlGET();
                 bool isloggedin = Preferences.Get("islogged", false);
 
-
                 if (isloggedin)
                 {
                     userloginProfileModel userloginProfile = mysqlGET.mysqlgetloggedUserInfo();
                     if (userloginProfile.Branchid == 21)
+                    {
                         Application.Current.MainPage = new CommiOrderPage();
+                    }
                     else
+                    {
                         Application.Current.MainPage = new BranchOrderPage();
+                    }
                 }
                 else
+                {
                     Application.Current.MainPage = new NavigationPage(new LoginPage());
+                }
 
             }
             else
                 IsShow = true;
-            UserDialogs.Instance.HideLoading();
         }
 
 

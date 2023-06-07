@@ -39,6 +39,8 @@ namespace MT.ViewModels
 
                 userloginProfileModel userloginProfile = mysqlget.mysqlloadLoggedUserInfo(int.Parse(result));
 
+                
+                UserDialogs.Instance.HideLoading();
 
                 if (userloginProfile.Branchid == 21)
                     Application.Current.MainPage = new CommiOrderPage();
@@ -46,7 +48,6 @@ namespace MT.ViewModels
                     Application.Current.MainPage = new BranchOrderPage();
 
 
-                UserDialogs.Instance.HideLoading();
             }
             else
                 UserDialogs.Instance.Alert("Incorrect Username or Password");

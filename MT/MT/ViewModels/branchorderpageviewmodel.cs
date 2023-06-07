@@ -19,8 +19,8 @@ namespace MT.ViewModels
 {
     public partial class branchorderpageviewmodel : ObservableObject
     {
-        [ObservableProperty]
-        bool isBusy;
+        public bool IsBusy { get; set; }
+
         [ObservableProperty]
         bool isSearching;
 
@@ -126,6 +126,7 @@ namespace MT.ViewModels
         [RelayCommand]
         internal async Task onPulltoRefresh()
         {
+            UserDialogs.Instance.ShowLoading("Fetching Data");
             try
             {
                 Products = new ObservableGroupedCollection<string, productOrderModel>();
@@ -153,6 +154,7 @@ namespace MT.ViewModels
             finally
             {
                 IsBusy = false;
+                UserDialogs.Instance.HideLoading();
             }
             
 
@@ -192,11 +194,11 @@ namespace MT.ViewModels
                 CancelText = "Cancel"
             });
 
-            IsBusy = false;
-            //Check if cancel button is press
-            if (!check) return;
 
-            IsBusy = true;
+            //Check if cancel button is press
+            if (!check) { IsBusy = false; return; }
+
+
             mysqlINSERT mysqlINSERT = new mysqlINSERT();
             await mysqlINSERT.addProductOrder(istemp, DateOrder, userloginProfile.Branchid, 1, Selectedproduct.Id);
 

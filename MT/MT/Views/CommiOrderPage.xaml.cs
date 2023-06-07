@@ -1,4 +1,5 @@
-﻿using MT.ViewModels;
+﻿using Acr.UserDialogs;
+using MT.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
