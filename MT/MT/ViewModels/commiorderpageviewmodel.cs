@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MT.Models;
 using MT.Services;
+using MT.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using static Android.Content.ClipData;
+using Application = Xamarin.Forms.Application;
 
 namespace MT.ViewModels
 {
@@ -68,10 +69,12 @@ namespace MT.ViewModels
             UserDialogs.Instance.HideLoading();
         }
 
-        //[RelayCommand]
-        //void editButton(orderProfileModel selected)
-        //{
-        //}
+        [RelayCommand]
+        void editButton(orderProfileModel selected)
+        {
+            Application.Current.Properties["selectedOrder"] = selected;
+            Application.Current.MainPage = new CommiEditOrderPage();
+        }
         //
         //[RelayCommand]
         //void approveButton(orderProfileModel selected)
