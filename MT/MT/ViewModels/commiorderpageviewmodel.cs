@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using static Android.Content.ClipData;
 
 namespace MT.ViewModels
 {
@@ -83,30 +84,18 @@ namespace MT.ViewModels
 
             var orderlistinfo = new ActionSheetConfig();
 
-            orderlistinfo.SetTitle(value.Branchname + " " + value.Date.ToShortDateString());
+            orderlistinfo.SetTitle(value.Branchname + " " + value.Date.ToString("MMM dd, yyyy"));
             orderlistinfo.SetDestructive("okay");
-            orderlistinfo.Add("Prod namasdasdasdasdasdasdasdasdasdasdasde, qty, amount");
-            orderlistinfo.Add("Prod name, qty, amount");
-            orderlistinfo.Add("Prod name, qty, amount");
-            orderlistinfo.Add("Prod name, qty, amount");
-            orderlistinfo.Add("Prod name, qty, amount");
-            orderlistinfo.Add("Prod name, qty, amount");
-            orderlistinfo.Add("Prod name, qty, amount");
-            orderlistinfo.Add("Prod name, qty, amount");
-            orderlistinfo.Add("Prod name, qty, amount");
-            orderlistinfo.Add("Prod name, qty, amount");
-            orderlistinfo.Add("Prod name, qty, amount");
-            orderlistinfo.Add("Prod name, qty, amount");
-            orderlistinfo.Add("Prod name, qty, amount");
-            orderlistinfo.Add("Prod name, qty, amount");
-            orderlistinfo.Add("Prod name, qty, amount");
-            orderlistinfo.Add("Prod name, qty, amount");
-            orderlistinfo.Add("Prod name, qty, amount");
-            orderlistinfo.Add("Prod name, qty, amount");
-            orderlistinfo.Add("Prod name, qty, amount");
-            orderlistinfo.Add("Prod name, qty, amount");
-            orderlistinfo.Add("Prod name, qty, amount");
-            orderlistinfo.Add("Prod name, qty, amount");
+
+            //fetch data
+            var listprod = (mysqlget.getproductorder(true, DateOrder, value.Branchid)).ToList<productOrderModel>();
+
+            Total = 0;
+            foreach (productOrderModel model in listprod)
+            {
+                if (value.IsAble == model.Ablebool)
+                    orderlistinfo.Add(model.ProductName + " (" + model.Qty + "pcs), " + model.Tamount + " php");
+            }
 
             UserDialogs.Instance.ActionSheet(orderlistinfo);
 

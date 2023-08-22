@@ -229,7 +229,8 @@ namespace MT.Services
                             Price = reader.GetDouble("unitprice"),
                             Uyield = reader.GetDouble("yield"),
                             Tamount = reader.GetDouble("Amt"),
-                            Able = reader.GetInt16("able")
+                            Able = reader.GetInt16("able"),
+                            Ablebool = reader.GetBoolean("able")
                         });
 
                     }

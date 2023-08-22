@@ -176,11 +176,13 @@
                                                 BackgroundColor="{DynamicResource Danger}"
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type local:branchorderpageviewmodel}}, Path=deleteButtonCommand}"
                                                 CommandParameter="{Binding .}"
+                                                IsVisible="{Binding Ablebool}"
                                                 Text="Delete" />
                                             <SwipeItem
                                                 BackgroundColor="{DynamicResource Warning}"
                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type local:branchorderpageviewmodel}}, Path=editButtonCommand}"
                                                 CommandParameter="{Binding .}"
+                                                IsVisible="{Binding Ablebool}"
                                                 Text="Edit" />
                                         </SwipeItems>
                                     </SwipeView.RightItems>
@@ -222,13 +224,13 @@
                                                                     Binding="{Binding Able}"
                                                                     TargetType="BoxView"
                                                                     Value="0">
-                                                                    <Setter Property="Color" Value="{DynamicResource Info}" />
+                                                                    <Setter Property="Color" Value="{DynamicResource Safe}" />
                                                                 </DataTrigger>
                                                                 <DataTrigger
                                                                     Binding="{Binding Able}"
                                                                     TargetType="BoxView"
                                                                     Value="1">
-                                                                    <Setter Property="Color" Value="{DynamicResource Safe}" />
+                                                                    <Setter Property="Color" Value="{DynamicResource Info}" />
                                                                 </DataTrigger>
                                                             </BoxView.Triggers>
                                                         </BoxView>

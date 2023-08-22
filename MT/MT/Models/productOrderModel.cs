@@ -27,5 +27,7 @@ namespace MT.Models
         double uyield;
         [ObservableProperty]
         int able;
+        [ObservableProperty]
+        bool ablebool;
     }
 }

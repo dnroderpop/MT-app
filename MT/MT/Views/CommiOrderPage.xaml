@@ -133,23 +133,32 @@
 
                                     <Grid BackgroundColor="{DynamicResource Background}" RowSpacing="6">
                                         <Frame
-                                            Margin="6,3,6,3"
+                                            Margin="0,3,0,3"
                                             Padding="0"
                                             BackgroundColor="{DynamicResource Background}">
                                             <StackLayout Spacing="0">
                                                 <StackLayout
-                                                    Padding="24,18,32,18"
+                                                    Padding="12,18,24,18"
                                                     HorizontalOptions="Fill"
                                                     Orientation="Horizontal"
                                                     VerticalOptions="Center">
 
-                                                    <Label
-                                                        Margin="0,0,6,0"
-                                                        FontSize="Body"
-                                                        HorizontalOptions="Start"
-                                                        Text="{Binding Items, StringFormat='{0} p/s'}"
-                                                        VerticalOptions="Center"
-                                                        WidthRequest="45" />
+                                                    <StackLayout Spacing="0" Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Start">
+                                                        <Label
+                                                            FontSize="Body"
+                                                            HorizontalOptions="Center"
+                                                            Text="{Binding Items, StringFormat='{0}'}"
+                                                            VerticalOptions="Center"
+                                                            VerticalTextAlignment="Center"
+                                                            HorizontalTextAlignment="Center"
+                                                            WidthRequest="45" />
+
+                                                        <Label 
+                                                            FontSize="Caption" Text="item/s" 
+                                                            VerticalTextAlignment="Center"
+                                                            HorizontalTextAlignment="Center"
+                                                            WidthRequest="45"/>
+                                                    </StackLayout>
 
                                                     <StackLayout
                                                         HorizontalOptions="FillAndExpand"
@@ -189,7 +198,6 @@
                                                                 FontSize="Large"
                                                                 Text="{Binding Branchname}"
                                                                 TextColor="Black" />
-                                                            <Label FontSize="Medium" Text="{Binding IsAble}" />
                                                         </StackLayout>
                                                     </StackLayout>
                                                     <Label
