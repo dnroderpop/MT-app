@@ -1,4 +1,5 @@
-﻿using MT.ViewModels;
+﻿using Android.Widget;
+using MT.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace MT.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CommiEditOrderPage : ContentPage
     {
+
         public CommiEditOrderPage()
         {
             InitializeComponent();
@@ -24,7 +26,6 @@ namespace MT.Views
 
             (BindingContext as commieditorderviewmodel)?.OnAppearing();
         }
-
 
     }
 }

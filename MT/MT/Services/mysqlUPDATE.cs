@@ -67,6 +67,67 @@ namespace MT.Services
                 UserDialogs.Instance.Toast(ex.Message);
             }
         }
+
+        public void updateorderapproval(int idnumber)
+        {
+            refreshQueryString();
+            //var ordernumber = 0;
+            try
+            {
+                ////get for settings_trans current number
+                //MySqlConnection.Open();
+                //MySqlCommand = MySqlConnection.CreateCommand();
+                //var commandtext = @"Select pahabolo_num from settings_trans";
+                //MySqlCommand.CommandText = commandtext;
+                //var reader = MySqlCommand.ExecuteReader();
+                //while (reader.Read())
+                //{
+                //    ordernumber = reader.GetInt32(0);
+                //}
+                //MySqlConnection.Close();
+
+                //MySqlConnection.Open();
+                //MySqlCommand = MySqlConnection.CreateCommand();
+                //commandtext = @"UPDATE `temp_pahabol` SET `order_number`=@ordernumber WHERE id = @idnumber;";
+                //MySqlCommand.CommandText = commandtext;
+                //MySqlCommand.Parameters.AddWithValue("@idnumber", idnumber);
+                //MySqlCommand.Parameters.AddWithValue("@ordernumber", ordernumber);
+                //MySqlCommand.ExecuteNonQuery();
+
+                //MySqlConnection.Close();
+
+                MySqlConnection.Open();
+                MySqlCommand = MySqlConnection.CreateCommand();
+                var commandtext = @"INSERT INTO trans_pahabol_on 
+                        (`trans_pahabol_on`.`branch`, `trans_pahabol_on`.`prod`, `trans_pahabol_on`.`qty`, `trans_pahabol_on`.`date`, `trans_pahabol_on`.`order_number`,`trans_pahabol_on`.`able`)
+                        SELECT `temp_pahabol`.`branch`, `temp_pahabol`.`prod`, `temp_pahabol`.`qty`, `temp_pahabol`.`date`, `temp_pahabol`.`order_number`, `temp_pahabol`.`able`
+                        from temp_pahabol WHERE id = @idnumber";
+                MySqlCommand.CommandText = commandtext;
+                MySqlCommand.Parameters.AddWithValue("@idnumber", idnumber);
+                MySqlCommand.Parameters.AddWithValue("@able", 0);
+                MySqlCommand.ExecuteNonQuery();
+                MySqlConnection.Close();
+
+
+                MySqlConnection.Open();
+                MySqlCommand = MySqlConnection.CreateCommand();
+                commandtext = @"UPDATE `temp_pahabol` SET `able`=@able WHERE id = @idnumber;";
+                MySqlCommand.CommandText = commandtext;
+                MySqlCommand.Parameters.AddWithValue("@idnumber", idnumber);
+                MySqlCommand.Parameters.AddWithValue("@able", 0);
+                MySqlCommand.ExecuteNonQuery();
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                MySqlConnection.Close();
+                UserDialogs.Instance.HideLoading();
+                UserDialogs.Instance.Toast(ex.Message);
+            }
+        }
     }
 }
 

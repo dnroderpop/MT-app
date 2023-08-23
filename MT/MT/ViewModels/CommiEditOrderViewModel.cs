@@ -59,7 +59,7 @@ namespace MT.ViewModels
         [RelayCommand]
         void onBack()
         {
-            App.Current.MainPage = new CommiOrderPage();
+            Application.Current.MainPage.Navigation.PopModalAsync();
         }
 
         internal async Task OnAppearing()

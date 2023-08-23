@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using static Android.Content.ClipData;
 using Application = Xamarin.Forms.Application;
 
 namespace MT.ViewModels
@@ -41,6 +42,7 @@ namespace MT.ViewModels
 
         mysqldatabase mysqldatabase;
         mysqlGET mysqlget = new mysqlGET();
+        mysqlUPDATE mysqlupdate = new mysqlUPDATE();
         userloginProfileModel userloginProfile;
 
 
@@ -73,13 +75,41 @@ namespace MT.ViewModels
         void editButton(orderProfileModel selected)
         {
             Application.Current.Properties["selectedOrder"] = selected;
-            Application.Current.MainPage = new CommiEditOrderPage();
+            Application.Current.MainPage.Navigation.PushModalAsync(new CommiEditOrderPage());
         }
-        //
-        //[RelayCommand]
-        //void approveButton(orderProfileModel selected)
-        //{
-        //}
+        
+        [RelayCommand]
+        void approveButton(orderProfileModel selected)
+        {
+            UserDialogs.Instance.Confirm(new ConfirmConfig()
+            {
+                Title = "Confirming",
+                OkText = "Approve",
+                CancelText = "Not yet",
+                Message = "Are you sure you want to Approve this " + selected.Items + "items order of " + selected.Branchname + "?",
+                OnAction = (result) => {
+                    if (result == true)
+                    {
+                        var listprod = (mysqlget.getproductorder(true, selected.Date, selected.Branchid)).ToList<productOrderModel>();
+                        foreach (productOrderModel model  in listprod)
+                        {
+                            if (model.Ablebool != selected.IsAble) { }
+                            else
+                            {
+                                mysqlupdate.updateorderapproval(model.Id);
+                            }
+                        }
+
+                        _ = onPulltoRefresh();
+
+                    }
+                    else
+                    {
+
+                    }
+                }
+            });
+        }
 
         partial void OnSelecteditemChanged(orderProfileModel value)
         {
