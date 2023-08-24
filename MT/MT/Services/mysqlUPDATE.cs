@@ -98,26 +98,26 @@ namespace MT.Services
 
                 MySqlConnection.Open();
                 MySqlCommand = MySqlConnection.CreateCommand();
-                var commandtext = @"INSERT INTO trans_pahabol_on 
-                        (`trans_pahabol_on`.`branch`, `trans_pahabol_on`.`prod`, `trans_pahabol_on`.`qty`, `trans_pahabol_on`.`date`, `trans_pahabol_on`.`order_number`,`trans_pahabol_on`.`able`)
-                        SELECT `temp_pahabol`.`branch`, `temp_pahabol`.`prod`, `temp_pahabol`.`qty`, `temp_pahabol`.`date`, `temp_pahabol`.`order_number`, `temp_pahabol`.`able`
-                        from temp_pahabol WHERE id = @idnumber";
-                MySqlCommand.CommandText = commandtext;
-                MySqlCommand.Parameters.AddWithValue("@idnumber", idnumber);
-                MySqlCommand.Parameters.AddWithValue("@able", 1);
-                MySqlCommand.ExecuteNonQuery();
-                MySqlConnection.Close();
-
-
-                MySqlConnection.Open();
-                MySqlCommand = MySqlConnection.CreateCommand();
-                commandtext = @"UPDATE `temp_pahabol` SET `able`=@able WHERE id = @idnumber;";
+                var commandtext = @"UPDATE `temp_pahabol` SET `able`=@able WHERE id = @idnumber;";
                 MySqlCommand.CommandText = commandtext;
                 MySqlCommand.Parameters.AddWithValue("@idnumber", idnumber);
                 MySqlCommand.Parameters.AddWithValue("@able", 0);
                 MySqlCommand.ExecuteNonQuery();
 
                 MySqlConnection.Close();
+
+                MySqlConnection.Open();
+                MySqlCommand = MySqlConnection.CreateCommand();
+                commandtext = @"INSERT INTO trans_pahabol_on 
+                        (`trans_pahabol_on`.`branch`, `trans_pahabol_on`.`prod`, `trans_pahabol_on`.`qty`, `trans_pahabol_on`.`date`, `trans_pahabol_on`.`order_number`,`trans_pahabol_on`.`able`)
+                        SELECT `temp_pahabol`.`branch`, `temp_pahabol`.`prod`, `temp_pahabol`.`qty`, `temp_pahabol`.`date`, `temp_pahabol`.`order_number`, `temp_pahabol`.`able`
+                        from temp_pahabol WHERE id = @idnumber";
+                MySqlCommand.CommandText = commandtext;
+                MySqlCommand.Parameters.AddWithValue("@idnumber", idnumber);
+                MySqlCommand.ExecuteNonQuery();
+                MySqlConnection.Close();
+
+
 
 
 
