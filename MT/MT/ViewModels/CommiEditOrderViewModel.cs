@@ -22,6 +22,8 @@ namespace MT.ViewModels
 
         [ObservableProperty]
         bool isSearching;
+        [ObservableProperty]
+        bool showApproved;
 
         [ObservableProperty]
         DateTime dateOrder;
@@ -51,10 +53,11 @@ namespace MT.ViewModels
         public commieditorderviewmodel()
         {
             orderProfileModel selectedOrder = (orderProfileModel)Application.Current.Properties["selectedOrder"];
-            dateOrder = selectedOrder.Date;
-            branchName = selectedOrder.Branchname;
-            branchid = selectedOrder.Branchid;
-            isAble = selectedOrder.IsAble;
+            DateOrder = selectedOrder.Date;
+            BranchName = selectedOrder.Branchname;
+            Branchid = selectedOrder.Branchid;
+            IsAble = selectedOrder.IsAble;
+            ShowApproved = false;
         }
 
         [RelayCommand]
@@ -90,7 +93,10 @@ namespace MT.ViewModels
                 {
                     if (result.Ok)
                     {
-                        selectedEditNumber = double.Parse(result.Value);
+                        if (result.Value == "" || result.Value == null)
+                            selectedEditNumber = selected.Qty;
+                        else
+                            selectedEditNumber = double.Parse(result.Value);
                         mysqlUPDATE mysqlUPDATE = new mysqlUPDATE();
                         mysqlUPDATE.updateqtyProductOrder(istemp, selected.Id, selectedEditNumber);
                         await onPulltoRefresh();
@@ -121,6 +127,8 @@ namespace MT.ViewModels
 
         }
 
+
+
         [RelayCommand]
         async Task onPulltoRefresh()
         {
@@ -131,7 +139,7 @@ namespace MT.ViewModels
                 Products = new ObservableGroupedCollection<string, productOrderModel>();
                 Products.Clear();
                 await Task.Delay(1000); //delay for 1 second to show responsiveness
-                var listprod = (mysqlget.getproductorder(istemp, DateOrder, Branchid)).ToList<productOrderModel>();
+                var listprod = (mysqlget.getproductorder(istemp, DateOrder, Branchid,ShowApproved)).ToList<productOrderModel>();
 
                 Total = 0;
                 string category = "";
@@ -210,7 +218,10 @@ namespace MT.ViewModels
                 {
                     if (result.Ok)
                     {
-                        selectedEditNumber = double.Parse(result.Value);
+                        if (result.Value == "" || result.Value == null)
+                            selectedEditNumber = 0;
+                        else
+                            selectedEditNumber = double.Parse(result.Value);
                         mysqlUPDATE mysqlUPDATE = new mysqlUPDATE();
                         mysqlUPDATE.updateqtyProductOrder(istemp, Selectedproduct.Id, selectedEditNumber);
 

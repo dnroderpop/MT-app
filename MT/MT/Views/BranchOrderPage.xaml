@@ -288,7 +288,11 @@
                     </CollectionView>
                 </ScrollView>
             </RefreshView>
-            <StackLayout Padding="16">
+            <StackLayout Padding="16" Orientation="Horizontal">
+                <StackLayout Orientation="Horizontal" VerticalOptions="Start">
+                    <Label Text="Show Approved Orders"/>
+                    <Switch IsToggled="{Binding ShowApproved}" Toggled="Switch_Toggled"/>
+                </StackLayout>
                 <Label
                     FontSize="Title"
                     HorizontalOptions="FillAndExpand"

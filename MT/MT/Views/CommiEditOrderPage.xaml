@@ -287,7 +287,7 @@
                     </CollectionView>
                 </ScrollView>
             </RefreshView>
-            <StackLayout Padding="16">
+            <StackLayout Padding="16" Orientation="Horizontal">
                 <Label
                     FontSize="Title"
                     HorizontalOptions="FillAndExpand"

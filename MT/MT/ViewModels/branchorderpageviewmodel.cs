@@ -22,6 +22,8 @@ namespace MT.ViewModels
 
         [ObservableProperty]
         bool isSearching;
+        [ObservableProperty]
+        bool showApproved;
 
         [ObservableProperty]
         DateTime dateOrder;
@@ -52,6 +54,7 @@ namespace MT.ViewModels
             userloginProfile = (userloginProfileModel)Application.Current.Properties["loggedin"];
             Branchid = userloginProfile.Branchid;
             BranchName = userloginProfile.Branchname;
+            ShowApproved = false;
         }
 
         [RelayCommand]
@@ -73,7 +76,7 @@ namespace MT.ViewModels
         }
 
         [RelayCommand]
-         void editButton(productOrderModel selected)
+        void editButton(productOrderModel selected)
         {
             if (selected == null) return;
 
@@ -89,7 +92,10 @@ namespace MT.ViewModels
                 {
                     if (result.Ok)
                     {
-                        selectedEditNumber = double.Parse(result.Value);
+                        if (result.Value == "" || result.Value == null)
+                            selectedEditNumber = selected.Qty;
+                        else
+                            selectedEditNumber = double.Parse(result.Value);
                         mysqlUPDATE mysqlUPDATE = new mysqlUPDATE();
                         mysqlUPDATE.updateqtyProductOrder(istemp, selected.Id, selectedEditNumber);
                         await onPulltoRefresh();
@@ -121,6 +127,8 @@ namespace MT.ViewModels
         }
 
 
+
+
         [RelayCommand]
         internal async Task onPulltoRefresh()
         {
@@ -130,7 +138,7 @@ namespace MT.ViewModels
                 Products = new ObservableGroupedCollection<string, productOrderModel>();
                 Products.Clear();
                 await Task.Delay(1000); //delay for 1 second to show responsiveness
-                var listprod = (mysqlget.getproductorder(istemp, DateOrder, Branchid)).ToList<productOrderModel>();
+                var listprod = (mysqlget.getproductorder(istemp, DateOrder, Branchid, ShowApproved)).ToList<productOrderModel>();
 
                 Total = 0;
                 string category = "";
@@ -154,7 +162,7 @@ namespace MT.ViewModels
                 IsBusy = false;
                 UserDialogs.Instance.HideLoading();
             }
-            
+
 
         }
 
@@ -201,14 +209,18 @@ namespace MT.ViewModels
             UserDialogs.Instance.Prompt(new PromptConfig()
             {
                 Title = Selectedproduct.Name,
-                Message = "Current Quantity is 1 pcs",
+                Message = "Current Quantity is 0 pcs",
                 Placeholder = "Decimal number representing your order",
                 InputType = InputType.DecimalNumber,
                 OnAction = async (result) =>
                 {
                     if (result.Ok)
                     {
-                        selectedEditNumber = double.Parse(result.Value);
+                        if (result.Value == "" || result.Value == null)
+                            selectedEditNumber = 0;
+                        else
+                            selectedEditNumber = double.Parse(result.Value);
+
                         mysqlUPDATE mysqlUPDATE = new mysqlUPDATE();
                         mysqlUPDATE.updateqtyProductOrder(istemp, Selectedproduct.Id, selectedEditNumber);
 
@@ -227,7 +239,7 @@ namespace MT.ViewModels
 
 
 
-            
+
         }
 
         async Task loadProducts()

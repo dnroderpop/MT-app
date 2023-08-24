@@ -26,6 +26,5 @@ namespace MT.Views
 
             (BindingContext as commieditorderviewmodel)?.OnAppearing();
         }
-
     }
 }

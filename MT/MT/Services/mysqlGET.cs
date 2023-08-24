@@ -249,6 +249,72 @@ namespace MT.Services
                 return productOrders;
         }
 
+        public ObservableCollection<productOrderModel> getproductorder(bool isTemp, DateTime date, int branchID, bool showApproved)
+        {
+
+            ObservableCollection<productOrderModel> productOrders = new ObservableCollection<productOrderModel>();
+            productOrders.Clear();
+            showApproved = !showApproved;
+
+            refreshQueryString();
+
+            try
+            {
+                MySqlConnection.Open();
+
+                MySqlCommand = MySqlConnection.CreateCommand();
+                string commandtext;
+
+                // just to shorten the code
+                string datepath = date.ToString("yyyy-MM-dd");
+
+                //UserDialogs.Instance.Toast(branchID + " = " + datepath);
+
+                if (isTemp)
+                    commandtext = @"SELECT * FROM `temp_pahabol_view` WHERE branchid = @parambranch and date = @paramdate and able = @showapproved ORDER BY `temp_pahabol_view`.`category` ASC;";
+                else
+                    commandtext = @"SELECT * FROM `trans_pahabol_view` WHERE branchid = @parambranch and date = @paramdate and able = @showapproved  ORDER BY `trans_pahabol_view`.`category` ASC;";
+
+                MySqlCommand.CommandText = commandtext;
+                MySqlCommand.Parameters.AddWithValue("@parambranch", branchID);
+                MySqlCommand.Parameters.AddWithValue("@paramdate", datepath);
+                MySqlCommand.Parameters.AddWithValue("@showapproved", showApproved);
+                // execute the command and read the results
+                var reader = MySqlCommand.ExecuteReader();
+                while (reader.Read())
+                {
+                    productOrders.Add(new productOrderModel()
+                    {
+                        Id = reader.GetInt32("id"),
+                        Productid = reader.GetInt32("prodid"),
+                        Branchid = reader.GetInt32("branchid"),
+                        ProductName = reader.GetString("productname"),
+                        ProductCategory = reader.GetString("category"),
+                        Date = reader.GetDateTime("date"),
+                        Qty = reader.GetDouble("qty"),
+                        Price = reader.GetDouble("unitprice"),
+                        Uyield = reader.GetDouble("yield"),
+                        Tamount = reader.GetDouble("Amt"),
+                        Able = reader.GetInt16("able"),
+                        Ablebool = reader.GetBoolean("able")
+                    });
+
+                }
+
+                MySqlConnection.Close();
+
+            }
+            catch (Exception ex)
+            {
+                MySqlConnection.Close();
+                UserDialogs.Instance.HideLoading();
+                UserDialogs.Instance.Toast(ex.Message);
+                productOrders.Clear();
+            }
+
+            return productOrders;
+        }
+
         public async Task<bool> checkIfDuplicateProduct(bool istemp, DateTime dateTime, int branchid, int productid)
         {
             bool result = false;
@@ -268,9 +334,9 @@ namespace MT.Services
                     //UserDialogs.Instance.Toast(branchID + " = " + datepath);
 
                     if (istemp)
-                        commandtext = @"SELECT * FROM `temp_pahabol` WHERE `branch` = @branchid and `prod` = @prodid and `date` = @date";
+                        commandtext = @"SELECT * FROM `temp_pahabol` WHERE `branch` = @branchid and `prod` = @prodid and `date` = @date and able = 1";
                     else
-                        commandtext = @"SELECT * FROM `trans_pahabol_on` WHERE `branch` = @branchid and `prod` = @prodid and `date` = @date";
+                        commandtext = @"SELECT * FROM `trans_pahabol_on` WHERE `branch` = @branchid and `prod` = @prodid and `date` = @date and able = 1";
 
                     MySqlCommand.CommandText = commandtext;
                     MySqlCommand.Parameters.AddWithValue("@branchid", branchid);

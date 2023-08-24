@@ -24,5 +24,10 @@ namespace MT.Views
         {
             (BindingContext as branchorderpageviewmodel)?.OnAppearing();
         }
+
+        private void Switch_Toggled(object sender, ToggledEventArgs e)
+        {
+            (BindingContext as branchorderpageviewmodel)?.OnAppearing();
+        }
     }
 }
