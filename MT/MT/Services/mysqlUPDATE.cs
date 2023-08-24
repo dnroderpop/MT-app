@@ -104,7 +104,7 @@ namespace MT.Services
                         from temp_pahabol WHERE id = @idnumber";
                 MySqlCommand.CommandText = commandtext;
                 MySqlCommand.Parameters.AddWithValue("@idnumber", idnumber);
-                MySqlCommand.Parameters.AddWithValue("@able", 0);
+                MySqlCommand.Parameters.AddWithValue("@able", 1);
                 MySqlCommand.ExecuteNonQuery();
                 MySqlConnection.Close();
 
@@ -117,6 +117,7 @@ namespace MT.Services
                 MySqlCommand.Parameters.AddWithValue("@able", 0);
                 MySqlCommand.ExecuteNonQuery();
 
+                MySqlConnection.Close();
 
 
 

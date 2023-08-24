@@ -75,7 +75,6 @@ namespace MT.ViewModels
         [RelayCommand]
          void editButton(productOrderModel selected)
         {
-            UserDialogs.Instance.Toast(selected.Id.ToString());
             if (selected == null) return;
 
             double selectedEditNumber = 0;
@@ -197,14 +196,38 @@ namespace MT.ViewModels
             //Check if cancel button is press
             if (!check) { IsBusy = false; return; }
 
+            double selectedEditNumber = 0;
 
-            mysqlINSERT mysqlINSERT = new mysqlINSERT();
-            await mysqlINSERT.addProductOrder(istemp, DateOrder, userloginProfile.Branchid, 1, Selectedproduct.Id);
+            UserDialogs.Instance.Prompt(new PromptConfig()
+            {
+                Title = Selectedproduct.Name,
+                Message = "Current Quantity is 1 pcs",
+                Placeholder = "Decimal number representing your order",
+                InputType = InputType.DecimalNumber,
+                OnAction = async (result) =>
+                {
+                    if (result.Ok)
+                    {
+                        selectedEditNumber = double.Parse(result.Value);
+                        mysqlUPDATE mysqlUPDATE = new mysqlUPDATE();
+                        mysqlUPDATE.updateqtyProductOrder(istemp, Selectedproduct.Id, selectedEditNumber);
 
-            Selectedproduct = null;
-            IsSearching = false;
-            IsBusy = false;
-            await onPulltoRefresh();
+                        mysqlINSERT mysqlINSERT = new mysqlINSERT();
+                        await mysqlINSERT.addProductOrder(istemp, DateOrder, Branchid, selectedEditNumber, Selectedproduct.Id);
+
+                        Selectedproduct = null;
+                        IsSearching = false;
+                        IsBusy = false;
+                        await onPulltoRefresh();
+                    }
+                    else { IsBusy = false; return; }
+                }
+            });
+
+
+
+
+            
         }
 
         async Task loadProducts()
