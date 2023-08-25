@@ -67,7 +67,27 @@ namespace MT.Services
                 UserDialogs.Instance.Toast(ex.Message);
             }
         }
+        public void updateNOorderapproval(int idnumber)
+        {
+            try
+            {
 
+                MySqlConnection.Open();
+                MySqlCommand = MySqlConnection.CreateCommand();
+                var commandtext = @"DELETE FROM `temp_pahabol` WHERE id = @idnumber;";
+                MySqlCommand.CommandText = commandtext;
+                MySqlCommand.Parameters.AddWithValue("@idnumber", idnumber);
+                MySqlCommand.ExecuteNonQuery();
+
+                MySqlConnection.Close();
+
+            }
+            catch (Exception ex){
+                MySqlConnection.Close();
+                UserDialogs.Instance.HideLoading();
+                UserDialogs.Instance.Toast(ex.Message);
+            }
+        }
         public void updateorderapproval(int idnumber)
         {
             refreshQueryString();

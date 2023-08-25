@@ -94,6 +94,9 @@ namespace MT.ViewModels
                         foreach (productOrderModel model  in listprod)
                         {
                             if (model.Ablebool != selected.IsAble) { }
+                            else if(model.Qty <= 0){
+                                mysqlupdate.updateNOorderapproval(model.Id);
+                            }
                             else
                             {
                                 mysqlupdate.updateorderapproval(model.Id);

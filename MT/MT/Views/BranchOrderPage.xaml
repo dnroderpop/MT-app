@@ -39,9 +39,9 @@
                 Command="{Binding onLogoutCommand}"
                 FontSize="Small"
                 HorizontalOptions="End"
-                Text="logout"
+                Text="menu"
                 TextColor="{DynamicResource Danger}"
-                VerticalOptions="Center" />
+                VerticalOptions="Center"/>
         </StackLayout>
         <!--#endregion-->
 

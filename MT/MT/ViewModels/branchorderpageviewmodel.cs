@@ -45,6 +45,7 @@ namespace MT.ViewModels
 
         mysqldatabase mysqldatabase = new mysqldatabase();
         mysqlGET mysqlget = new mysqlGET();
+        mysqlINSERT mysqlINSERT = new mysqlINSERT();
         userloginProfileModel userloginProfile;
         List<productProfileModel> productProfileModels;
         bool istemp = true;
@@ -60,9 +61,19 @@ namespace MT.ViewModels
         [RelayCommand]
         void onLogout()
         {
-            Preferences.Set("islogged", false);
-            Application.Current.SavePropertiesAsync();
-            App.Current.MainPage = new LoginPage();
+            UserDialogs.Instance.ActionSheet(new ActionSheetConfig() { 
+            Title = "Menu",
+            UseBottomSheet = false,
+            Options = {
+                new ActionSheetOption("Load saved orders", () => {
+                    loadSavedOrders();
+                },null),
+                new ActionSheetOption("Logout", () => {
+                    Preferences.Set("islogged", false);
+                    Application.Current.SavePropertiesAsync();
+                    App.Current.MainPage = new LoginPage();},null)
+                }
+            });
         }
 
         internal async Task OnAppearing()
@@ -126,7 +137,20 @@ namespace MT.ViewModels
 
         }
 
+        [RelayCommand]
+        async void loadSavedOrders()
+        {
+            UserDialogs.Instance.ShowLoading("Loading Saved Orders");
+            List<int> savedorders = mysqlget.getSavedOrders();
 
+            await Task.Delay(500); //delay for 1 second to show responsiveness
+            foreach (int order in savedorders)
+            {
+                await mysqlINSERT.addProductOrder(istemp, DateOrder, Branchid, 0, order);
+            }
+            UserDialogs.Instance.HideLoading();
+            await onPulltoRefresh();
+        }
 
 
         [RelayCommand]
@@ -137,7 +161,7 @@ namespace MT.ViewModels
             {
                 Products = new ObservableGroupedCollection<string, productOrderModel>();
                 Products.Clear();
-                await Task.Delay(1000); //delay for 1 second to show responsiveness
+                await Task.Delay(500); //delay for 1 second to show responsiveness
                 var listprod = (mysqlget.getproductorder(istemp, DateOrder, Branchid, ShowApproved)).ToList<productOrderModel>();
 
                 Total = 0;

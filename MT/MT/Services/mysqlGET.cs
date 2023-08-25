@@ -427,5 +427,48 @@ namespace MT.Services
 
             return branchOrders;
         }
+
+        public List<int> getSavedOrders() {
+            List<int> savedOrders = new List<int>();
+
+            savedOrders.Clear();
+            mysqldatabase mysqldatabase = new mysqldatabase();
+            refreshQueryString();
+
+            try
+            {
+                MySqlConnection.Open();
+
+                MySqlCommand = MySqlConnection.CreateCommand();
+                string commandtext;
+
+                // just to shorten the code
+
+                commandtext = @"SELECT * FROM `temp_save_order`";
+
+                MySqlCommand.CommandText = commandtext;
+                // execute the command and read the results
+                var reader = MySqlCommand.ExecuteReader();
+                while (reader.Read())
+                {
+                    savedOrders.Add(reader.GetInt32(0));
+                }
+
+                MySqlConnection.Close();
+
+
+            }
+            catch (Exception ex)
+            {
+                MySqlConnection.Close();
+                UserDialogs.Instance.HideLoading();
+                UserDialogs.Instance.Toast(ex.Message);
+                savedOrders.Clear();
+            }
+
+
+
+            return savedOrders;
+        }
     }
 }
