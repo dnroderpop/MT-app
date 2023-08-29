@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using MySqlConnector;
 using System;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 
 namespace MT.Services
@@ -54,6 +55,57 @@ namespace MT.Services
                     commandtext = @"DELETE FROM `trans_pahabol_on` WHERE id = @value ";
                 MySqlCommand.CommandText = commandtext;
                 MySqlCommand.Parameters.AddWithValue("@value", idnumber);
+                MySqlCommand.ExecuteNonQuery();
+
+                MySqlConnection.Close();
+
+            }
+            catch (Exception ex)
+            {
+                MySqlConnection.Close();
+                UserDialogs.Instance.HideLoading();
+                UserDialogs.Instance.Toast(ex.Message);
+            }
+        }
+
+        public void deleteSavedOrders(int branchid)
+        {
+            refreshQueryString();
+
+            try
+            {
+                MySqlConnection.Open();
+                MySqlCommand = MySqlConnection.CreateCommand();
+                var commandtext = @"DELETE FROM `temp_save_order` WHERE branchid = @value ";
+                MySqlCommand.CommandText = commandtext;
+                MySqlCommand.Parameters.AddWithValue("@value", branchid);
+                MySqlCommand.ExecuteNonQuery();
+
+                MySqlConnection.Close();
+
+            }
+            catch (Exception ex)
+            {
+                MySqlConnection.Close();
+                UserDialogs.Instance.HideLoading();
+                UserDialogs.Instance.Toast(ex.Message);
+            }
+        }
+
+        public void deleteAllProductOrder(DateTime date, int Branchid)
+        {
+            refreshQueryString();
+
+            // just to shorten the code
+            string datepath = date.ToString("yyyy-MM-dd");
+            try
+            {
+                MySqlConnection.Open();
+                MySqlCommand = MySqlConnection.CreateCommand();
+                var commandtext = @"DELETE FROM `temp_pahabol` WHERE branch = @branchid and date = @date and able = 1";
+                MySqlCommand.CommandText = commandtext;
+                MySqlCommand.Parameters.AddWithValue("@branchid", Branchid);
+                MySqlCommand.Parameters.AddWithValue("@date", date);
                 MySqlCommand.ExecuteNonQuery();
 
                 MySqlConnection.Close();

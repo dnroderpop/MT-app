@@ -28,7 +28,7 @@
             VerticalOptions="Start">
             <Label
                 FontAttributes="Bold"
-                FontSize="30"
+                FontSize="25"
                 HorizontalOptions="StartAndExpand"
                 Text="List of Orders"
                 TextColor="{DynamicResource Accent}"
@@ -37,7 +37,7 @@
                 Padding="0"
                 BackgroundColor="Transparent"
                 Command="{Binding onLogoutCommand}"
-                FontSize="Small"
+                FontSize="13"
                 HorizontalOptions="End"
                 Text="logout"
                 TextColor="{DynamicResource Danger}"
@@ -61,7 +61,7 @@
                         Orientation="Horizontal"
                         Spacing="0">
                         <Label
-                            FontSize="Large"
+                            FontSize="12"
                             HeightRequest="40"
                             HorizontalOptions="Start"
                             MinimumWidthRequest="40"
@@ -73,6 +73,7 @@
                             DateSelected="DatePicker_DateSelected"
                             Format="MMM/dd/yyyy"
                             HeightRequest="40"
+                            FontSize="15"
                             HorizontalOptions="EndAndExpand"
                             MinimumWidthRequest="60"
                             TextColor="{DynamicResource Info}"
@@ -138,14 +139,14 @@
                                             BackgroundColor="{DynamicResource Background}">
                                             <StackLayout Spacing="0">
                                                 <StackLayout
-                                                    Padding="12,18,24,18"
+                                                    Padding="12,18,12,18"
                                                     HorizontalOptions="Fill"
                                                     Orientation="Horizontal"
                                                     VerticalOptions="Center">
 
                                                     <StackLayout Spacing="0" Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Start">
                                                         <Label
-                                                            FontSize="Body"
+                                                            FontSize="18"
                                                             HorizontalOptions="Center"
                                                             Text="{Binding Items, StringFormat='{0}'}"
                                                             VerticalOptions="Center"
@@ -154,7 +155,7 @@
                                                             WidthRequest="45" />
 
                                                         <Label 
-                                                            FontSize="Caption" Text="item/s" 
+                                                            FontSize="12" Text="item/s" 
                                                             VerticalTextAlignment="Center"
                                                             HorizontalTextAlignment="Center"
                                                             WidthRequest="45"/>
@@ -193,16 +194,16 @@
                                                             HorizontalOptions="FillAndExpand"
                                                             Orientation="Vertical"
                                                             Spacing="0">
-                                                            <Label FontSize="Medium" Text="{Binding Branchid, StringFormat='Branch ID #{0}'}" />
+                                                            <Label FontSize="15" Text="{Binding Branchid, StringFormat='Branch ID #{0}'}" />
                                                             <Label
-                                                                FontSize="Large"
+                                                                FontSize="24"
                                                                 Text="{Binding Branchname}"
                                                                 TextColor="Black" />
                                                         </StackLayout>
                                                     </StackLayout>
                                                     <Label
                                                         FontAttributes="Bold"
-                                                        FontSize="Large"
+                                                        FontSize="18"
                                                         HorizontalOptions="End"
                                                         Text="{Binding Amount, StringFormat='{0} php'}"
                                                         TextColor="DarkGreen"
@@ -230,7 +231,7 @@
                                     <Label
                                         Margin="8"
                                         FontAttributes="Bold"
-                                        FontSize="Title"
+                                        FontSize="25"
                                         Text="{Binding Key}"
                                         TextColor="{DynamicResource Accent}" />
                                 </StackLayout>

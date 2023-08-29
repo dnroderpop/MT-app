@@ -9,7 +9,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using static Android.Content.ClipData;
 
 namespace MT.Services
 {
@@ -428,12 +427,12 @@ namespace MT.Services
             return branchOrders;
         }
 
-        public List<int> getSavedOrders() {
-            List<int> savedOrders = new List<int>();
+        public List<savedOrderModel> getSavedOrders(int branchid) {
+            List<savedOrderModel> savedOrders = new List<savedOrderModel>();
 
             savedOrders.Clear();
-            mysqldatabase mysqldatabase = new mysqldatabase();
             refreshQueryString();
+
 
             try
             {
@@ -443,15 +442,60 @@ namespace MT.Services
                 string commandtext;
 
                 // just to shorten the code
+                commandtext = @"SELECT * FROM `temp_save_order` where branchid = @branchid";
+                MySqlCommand.CommandText = commandtext;
+                MySqlCommand.Parameters.AddWithValue("@branchid", branchid);
 
-                commandtext = @"SELECT * FROM `temp_save_order`";
+                // execute the command and read the results
+                var reader = MySqlCommand.ExecuteReader();
+                while (reader.Read())
+                {
+                    savedOrders.Add(new savedOrderModel() { BranchId = branchid, ProductID = reader.GetInt32("prod"), Quantity = reader.GetDouble("qty")});
+                }
+
+                MySqlConnection.Close();
+
+                if(savedOrders.Count <= 0)
+                {
+                    savedOrders = defaultOrders(branchid);
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                MySqlConnection.Close();
+                UserDialogs.Instance.HideLoading();
+                UserDialogs.Instance.Toast(ex.Message);
+                savedOrders.Clear();
+            }
+
+
+            return savedOrders;
+        }
+
+        internal List<savedOrderModel> defaultOrders(int branchid)
+        {
+            List<savedOrderModel> savedOrders = new List<savedOrderModel>();
+
+            savedOrders.Clear();
+            try
+            {
+                MySqlConnection.Open();
+
+                MySqlCommand = MySqlConnection.CreateCommand();
+                string commandtext;
+
+                // just to shorten the code
+
+                commandtext = @"SELECT * FROM `temp_default_order`";
 
                 MySqlCommand.CommandText = commandtext;
                 // execute the command and read the results
                 var reader = MySqlCommand.ExecuteReader();
                 while (reader.Read())
                 {
-                    savedOrders.Add(reader.GetInt32(0));
+                    savedOrders.Add(new savedOrderModel() { BranchId = branchid, ProductID = reader.GetInt32(0), Quantity = 0 });
                 }
 
                 MySqlConnection.Close();
@@ -465,8 +509,6 @@ namespace MT.Services
                 UserDialogs.Instance.Toast(ex.Message);
                 savedOrders.Clear();
             }
-
-
 
             return savedOrders;
         }

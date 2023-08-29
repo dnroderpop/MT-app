@@ -28,7 +28,7 @@
             VerticalOptions="Start">
             <Label
                 FontAttributes="Bold"
-                FontSize="30"
+                FontSize="25"
                 HorizontalOptions="StartAndExpand"
                 Text="{Binding BranchName, StringFormat='{0} - Branch'}"
                 TextColor="{DynamicResource Primary}"
@@ -37,7 +37,8 @@
                 Padding="0"
                 BackgroundColor="Transparent"
                 Command="{Binding onLogoutCommand}"
-                FontSize="Small"
+                FontSize="13"
+                FontAttributes="Bold"
                 HorizontalOptions="End"
                 Text="menu"
                 TextColor="{DynamicResource Danger}"
@@ -62,19 +63,20 @@
                         Spacing="0">
 
                         <SearchBar
-                            FontSize="Medium"
+                            FontSize="12"
                             HeightRequest="40"
                             HorizontalOptions="StartAndExpand"
                             Placeholder="Product Name"
                             Text="{Binding Productsearchtext}"
                             VerticalOptions="Center"
-                            WidthRequest="220" />
+                            WidthRequest="200" />
                         <Button
                             Padding="0"
                             BackgroundColor="{DynamicResource Safe}"
                             Command="{Binding SearchProductCommand}"
                             CornerRadius="45"
-                            FontSize="Small"
+                            FontSize="10"
+                            FontAttributes="Bold"
                             HeightRequest="40"
                             HorizontalOptions="End"
                             Text="Search"
@@ -84,16 +86,16 @@
 
                     </StackLayout>
                     <Label
-                        FontSize="Title"
+                        FontSize="20"
                         MinimumWidthRequest="20"
-                        Text="  |  "
+                        Text=" | "
                         VerticalOptions="Center" />
                     <StackLayout
                         HorizontalOptions="EndAndExpand"
                         Orientation="Horizontal"
                         Spacing="0">
                         <Label
-                            FontSize="Large"
+                            FontSize="12"
                             HeightRequest="40"
                             HorizontalOptions="Start"
                             MinimumWidthRequest="40"
@@ -104,6 +106,7 @@
                             Date="{Binding DateOrder, Mode=OneWayToSource}"
                             DateSelected="DatePicker_DateSelected"
                             Format="MMM/dd/yyyy"
+                            FontSize="15"
                             HeightRequest="40"
                             HorizontalOptions="EndAndExpand"
                             MinimumWidthRequest="60"
@@ -194,16 +197,17 @@
                                             BackgroundColor="{DynamicResource Background}">
                                             <StackLayout Spacing="0">
                                                 <StackLayout
-                                                    Padding="24,18,32,18"
+                                                    Padding="12,18,12,18"
                                                     HorizontalOptions="Fill"
                                                     Orientation="Horizontal"
                                                     VerticalOptions="Center">
 
                                                     <Label
                                                         Margin="0,0,6,0"
-                                                        FontSize="Body"
+                                                        FontSize="15"
                                                         HorizontalOptions="Start"
-                                                        Text="{Binding Qty, StringFormat='{0} p/s'}"
+                                                        Text="{Binding Qty, StringFormat='{0}\&#x0a;qty'}"
+                                                        HorizontalTextAlignment="Center"
                                                         VerticalOptions="Center"
                                                         WidthRequest="45" />
 
@@ -240,17 +244,17 @@
                                                             HorizontalOptions="FillAndExpand"
                                                             Orientation="Vertical"
                                                             Spacing="0">
-                                                            <Label FontSize="Medium" Text="{Binding Productid, StringFormat='Product ID #{0}'}" />
+                                                            <Label FontSize="13" Text="{Binding Productid, StringFormat='Product ID #{0}'}" />
                                                             <Label
-                                                                FontSize="Large"
+                                                                FontSize="18"
                                                                 Text="{Binding ProductName}"
                                                                 TextColor="Black" />
-                                                            <Label FontSize="Default" Text="{Binding Price, StringFormat='Commi price: {0} php'}" />
+                                                            <Label FontSize="13" Text="{Binding Price, StringFormat='Commi price: {0} php'}" />
                                                         </StackLayout>
                                                     </StackLayout>
                                                     <Label
                                                         FontAttributes="Bold"
-                                                        FontSize="Large"
+                                                        FontSize="18"
                                                         HorizontalOptions="End"
                                                         Text="{Binding Tamount, StringFormat='{0} php'}"
                                                         TextColor="DarkGreen"
@@ -278,7 +282,7 @@
                                     <Label
                                         Margin="8"
                                         FontAttributes="Bold"
-                                        FontSize="Title"
+                                        FontSize="20"
                                         Text="{Binding Key}"
                                         TextColor="{DynamicResource Accent}" />
                                 </StackLayout>
@@ -290,11 +294,11 @@
             </RefreshView>
             <StackLayout Padding="16" Orientation="Horizontal">
                 <StackLayout Orientation="Horizontal" VerticalOptions="Start">
-                    <Label Text="Show Approved Orders"/>
+                    <Label Text="Show Approved Orders" FontSize="12" VerticalTextAlignment="Center"/>
                     <Switch IsToggled="{Binding ShowApproved}" Toggled="Switch_Toggled"/>
                 </StackLayout>
                 <Label
-                    FontSize="Title"
+                    FontSize="20"
                     HorizontalOptions="FillAndExpand"
                     HorizontalTextAlignment="End"
                     Text="{Binding Total, StringFormat='Total = {0:F2}'}"

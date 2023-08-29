@@ -125,9 +125,9 @@ namespace MT.Services
 
         }
 
-        
 
-        public async Task<bool> addProductOrder(bool istemp, DateTime dateTime, int branchid,double qty, int productid)
+
+        public async Task<bool> addProductOrder(bool istemp, DateTime dateTime, int branchid, double qty, int productid)
         {
             bool result = false;
             refreshQueryString();
@@ -156,7 +156,7 @@ namespace MT.Services
                     MySqlCommand.Parameters.AddWithValue("@prodid", productid);
                     MySqlCommand.Parameters.AddWithValue("@qty", qty);
                     MySqlCommand.Parameters.AddWithValue("@date", datepath);
-                    MySqlCommand.Parameters.AddWithValue("@ordernumber",  ordernumber);
+                    MySqlCommand.Parameters.AddWithValue("@ordernumber", ordernumber);
 
                     // execute the command and read the results
                     MySqlCommand.ExecuteNonQuery();
@@ -202,8 +202,8 @@ namespace MT.Services
                 MySqlCommand = MySqlConnection.CreateCommand();
                 commandtext = @"UPDATE `settings_trans` SET @updatestring = @value where 1";
                 MySqlCommand.CommandText = commandtext;
-                MySqlCommand.Parameters.AddWithValue("@updatestring",updatestring);
-                MySqlCommand.Parameters.AddWithValue("@value",result + 1);
+                MySqlCommand.Parameters.AddWithValue("@updatestring", updatestring);
+                MySqlCommand.Parameters.AddWithValue("@value", result + 1);
 
                 MySqlConnection.Close();
 
@@ -218,5 +218,32 @@ namespace MT.Services
             return result;
         }
 
+        public void onSaveCurrentOrders(int branchid, DateTime dateTime)
+        {
+            refreshQueryString();
+            // just to shorten the code
+            string datepath = dateTime.ToString("yyyy-MM-dd");
+
+            try
+            {
+                MySqlConnection.Open();
+                MySqlCommand = MySqlConnection.CreateCommand();
+                var commandtext = @"Insert into `temp_save_order`(`prod`, `branchid`, `qty`) SELECT `prod`,`branch`,`qty` FROM `temp_pahabol`  WHERE branch = @value and date = @datetime and able = 1";
+                MySqlCommand.CommandText = commandtext;
+                MySqlCommand.Parameters.AddWithValue("@value", branchid);
+                MySqlCommand.Parameters.AddWithValue("@datetime", datepath);
+                MySqlCommand.ExecuteNonQuery();
+
+                MySqlConnection.Close();
+
+            }
+            catch (Exception ex)
+            {
+                MySqlConnection.Close();
+                UserDialogs.Instance.HideLoading();
+                UserDialogs.Instance.Toast(ex.Message);
+            }
+        }
     }
 }
+

@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Collections;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Java.Nio.Channels;
 using MT.Models;
 using MT.Services;
 using MT.Views;
@@ -88,30 +89,38 @@ namespace MT.ViewModels
                 CancelText = "Not yet",
                 Message = "Are you sure you want to Approve this " + selected.Items + "items order of " + selected.Branchname + "?",
                 OnAction = (result) => {
-                    if (result == true)
+                    ApprovingOrder(result,selected);
+                }
+            });
+        }
+
+        async void ApprovingOrder(bool result, orderProfileModel selected)
+        {
+            UserDialogs.Instance.ShowLoading("Approving the order");
+
+            await Task.Delay(500);//to show responsiveness
+
+            if (result == true)
+            {
+                var listprod = (mysqlget.getproductorder(true, selected.Date, selected.Branchid)).ToList<productOrderModel>();
+                foreach (productOrderModel model in listprod)
+                {
+                    if (model.Ablebool != selected.IsAble) { }
+                    else if (model.Qty <= 0)
                     {
-                        var listprod = (mysqlget.getproductorder(true, selected.Date, selected.Branchid)).ToList<productOrderModel>();
-                        foreach (productOrderModel model  in listprod)
-                        {
-                            if (model.Ablebool != selected.IsAble) { }
-                            else if(model.Qty <= 0){
-                                mysqlupdate.updateNOorderapproval(model.Id);
-                            }
-                            else
-                            {
-                                mysqlupdate.updateorderapproval(model.Id);
-                            }
-                        }
-
-                        _ = onPulltoRefresh();
-
+                        mysqlupdate.updateNOorderapproval(model.Id);
                     }
                     else
                     {
-
+                        mysqlupdate.updateorderapproval(model.Id);
                     }
                 }
-            });
+
+                await onPulltoRefresh();
+
+            }
+
+            UserDialogs.Instance.HideLoading();
         }
 
         partial void OnSelecteditemChanged(orderProfileModel value)

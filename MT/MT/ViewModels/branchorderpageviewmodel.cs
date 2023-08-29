@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Collections;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Java.Nio.Channels;
 using MT.Models;
 using MT.Services;
 using System;
@@ -46,6 +47,7 @@ namespace MT.ViewModels
         mysqldatabase mysqldatabase = new mysqldatabase();
         mysqlGET mysqlget = new mysqlGET();
         mysqlINSERT mysqlINSERT = new mysqlINSERT();
+        mysqDELETE mysqlDelete = new mysqDELETE();
         userloginProfileModel userloginProfile;
         List<productProfileModel> productProfileModels;
         bool istemp = true;
@@ -61,13 +63,23 @@ namespace MT.ViewModels
         [RelayCommand]
         void onLogout()
         {
-            UserDialogs.Instance.ActionSheet(new ActionSheetConfig() { 
-            Title = "Menu",
-            UseBottomSheet = false,
-            Options = {
+            UserDialogs.Instance.ActionSheet(new ActionSheetConfig()
+            {
+                Title = "Menu",
+                Destructive = new ActionSheetOption("Back"),
+                UseBottomSheet = false,
+                Options = {
+                new ActionSheetOption("Saved current orders", () => {
+                    SaveCurrentOrder();
+                },null),
                 new ActionSheetOption("Load saved orders", () => {
                     loadSavedOrders();
                 },null),
+                new ActionSheetOption("Delete All Orders", () =>
+                {
+                    deleteallorders();
+                },null)
+                ,
                 new ActionSheetOption("Logout", () => {
                     Preferences.Set("islogged", false);
                     Application.Current.SavePropertiesAsync();
@@ -137,21 +149,106 @@ namespace MT.ViewModels
 
         }
 
-        [RelayCommand]
+        void SaveCurrentOrder()
+        {
+            UserDialogs.Instance.Confirm(new ConfirmConfig()
+            {
+                Title = "ARE YOU SURE?",
+                Message = "this will replace saved orders if you have any saved orders, are you sure?",
+                OkText = "save Orders",
+                CancelText = "Cancel",
+                OnAction = async (result) =>
+                {
+                    if (result == true)
+                    {
+                        if (Products.Count >= 0)
+                        {
+                            UserDialogs.Instance.ShowLoading("Saving Orders");
+
+                            await Task.Delay(500); //delay for 1 second to show responsiveness
+
+                            mysqlDelete.deleteSavedOrders(Branchid);
+                            mysqlINSERT.onSaveCurrentOrders(Branchid, DateOrder);
+
+                            UserDialogs.Instance.Toast("Saved");
+                            UserDialogs.Instance.HideLoading();
+                            await onPulltoRefresh();
+                        }
+                        else
+                        {
+                            UserDialogs.Instance.Confirm(new ConfirmConfig()
+                            {
+                                Title = "No Items",
+                                Message = "Would you like to clear saved to default?",
+                                OkText = "Default Order",
+                                CancelText = "Cancel",
+                                OnAction = async (result) =>
+                                {
+                                    if (result == true)
+                                    {
+                                        if (Products.Count >= 0)
+                                        {
+                                            UserDialogs.Instance.ShowLoading("Saving Orders");
+
+                                            await Task.Delay(500); //delay for 1 second to show responsiveness
+
+                                            mysqlDelete.deleteSavedOrders(Branchid);
+
+                                            UserDialogs.Instance.Toast("Saved");
+                                            UserDialogs.Instance.HideLoading();
+                                            await onPulltoRefresh();
+                                        }
+                                        else
+                                        {
+                                            UserDialogs.Instance.Toast("No item To save");
+                                        }
+                                    }
+                                }
+                            });
+
+                        }
+                    }
+                }
+
+            });
+        }
+
         async void loadSavedOrders()
         {
             UserDialogs.Instance.ShowLoading("Loading Saved Orders");
-            List<int> savedorders = mysqlget.getSavedOrders();
-
+            List<savedOrderModel> savedorders = mysqlget.getSavedOrders(Branchid);
             await Task.Delay(500); //delay for 1 second to show responsiveness
-            foreach (int order in savedorders)
+            foreach (savedOrderModel order in savedorders)
             {
-                await mysqlINSERT.addProductOrder(istemp, DateOrder, Branchid, 0, order);
+                await mysqlINSERT.addProductOrder(istemp, DateOrder, Branchid, order.Quantity, order.ProductID);
             }
             UserDialogs.Instance.HideLoading();
             await onPulltoRefresh();
         }
 
+        void deleteallorders()
+        {
+            UserDialogs.Instance.Confirm(new ConfirmConfig()
+            {
+                Title = "ARE YOU SURE?",
+                Message = "THIS WILL DELETE ALL NOT APPROVED ORDERS AND IS NOT REVERSABLE! ARE YOU SURE?",
+                OkText = "Delete permanently",
+                CancelText = "Cancel",
+                OnAction = async (result) =>
+                {
+                    if (result == true)
+                    {
+                        UserDialogs.Instance.ShowLoading("Deleting Orders");
+
+                        await Task.Delay(500); //delay for 1 second to show responsiveness
+                        mysqlDelete.deleteAllProductOrder(DateOrder, Branchid);
+                        UserDialogs.Instance.Toast("deleted");
+                        UserDialogs.Instance.HideLoading();
+                        await onPulltoRefresh();
+                    }
+                }
+            });
+        }
 
         [RelayCommand]
         internal async Task onPulltoRefresh()
